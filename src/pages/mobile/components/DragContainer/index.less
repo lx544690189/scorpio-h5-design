@@ -1,0 +1,46 @@
+.h5-canvas {
+
+  &-block {
+    position: relative;
+    outline: 1px dotted #b9b8b8;
+    zoom: 1;
+
+    &:hover {
+      outline: 1px dotted #0464ff;
+    }
+
+    &.isDragging {
+      outline: 1px solid #1861d5;
+    }
+  }
+
+  &-empty-block {
+    height: 0px;
+    padding: 0px;
+    transition: all .15s ease-in-out;
+    
+    &.show{
+      height: 60px;
+      padding: 10px;
+    }
+
+    &.show&::before {
+      content: '组件放置区域';
+      display: block;
+      height: 100%;
+      border: 1px dashed #d9d9d9;
+      box-shadow: 0 2px 0 rgba(0, 0, 0, .015);
+      transition: all .15s cubic-bezier(.645, .045, .355, 1);
+      text-align: center;
+      line-height: 40px;
+      font-size: 12px;
+      color: #acacac;
+      border-radius: 6px;
+    }
+
+    &.over&::before {
+      background-color: #40a9ff;
+      color: #fff;
+    }
+  }
+}

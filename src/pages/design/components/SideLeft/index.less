@@ -1,0 +1,78 @@
+@import '../../index.less';
+.side-left {
+  position: absolute;
+  top: @header-height;
+  left: 0;
+  bottom: 0;
+  width: @side-left-width;
+  border-right: 1px solid #858484;
+  display: flex;
+
+  &-nav {
+    // position: absolute;
+    // top: 0;
+    // bottom: 0;
+    // left: 0;
+    position: relative;
+    flex: 0;
+    min-width: 50px;
+    background: #ececec;
+
+    // border-right: 1px solid #bfbfbf;
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      width: 1px;
+      transform: translateY(0.5);
+      background: #bfbfbf;
+    }
+
+    &-list {
+      li {
+        height: 60px;
+        text-align: center;
+        cursor: pointer;
+        padding: 5px 0;
+        border-bottom: 1px dashed #bfbfbf;
+        transition: all .1s linear;
+
+        &.active{
+          background-color: #1890ff;
+          color: #fff;
+          .title{
+            color: #fff;
+          }
+        }
+
+        .iconfont {
+          display: inline-block;
+          font-size: 20px;
+          line-height: 30px;
+        }
+
+        .title {
+          font-size: 12px;
+          line-height: 20px;
+          color: #5c5b5b;
+        }
+      }
+    }
+  }
+
+  &-content {
+    position: relative;
+    flex: 1;
+    .component-box {
+      width: 300px;
+      height: 50px;
+      border: 1px dashed #b9b9b9;
+      text-align: center;
+      line-height: 50px;
+      margin-top: 20px;
+      cursor: move;
+    }
+  }
+}
