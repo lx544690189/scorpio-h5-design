@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useModel } from 'umi';
 export default function postMessage() {
   const { setDragAction } = useModel('drag');
+  const { setPage } = useModel('page');
 
   useEffect(() => {
     if (location.href.includes('/mobile')) {
@@ -13,6 +14,9 @@ export default function postMessage() {
         const {type, payload} = event.data;
         if(type === EVENT_TYPE.master_drag_component){
           setDragAction(payload);
+        }
+        if(type === EVENT_TYPE.page_change){
+          setPage(payload);
         }
       }, false);
     }else{

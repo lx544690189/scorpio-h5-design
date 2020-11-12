@@ -1,14 +1,14 @@
 import { DRAG_STATUS } from '@/types/drag';
 import { EVENT_TYPE } from '@/types/event';
-import { useEffect, useState } from 'react';
-import { useModel } from 'umi';
+import { postMessageToMobile } from '@/utils';
+import { useState } from 'react';
 
 export default function drag() {
   const [dragAction, setDragAction] = useState<{
     component?: React.Component | any;
     isDraging: boolean;
     status?: DRAG_STATUS;
-    index?:number;
+    index?: number;
   }>({
     /** 当前拖动的组件 */
     component: undefined,
@@ -20,12 +20,6 @@ export default function drag() {
     index: undefined,
   });
 
-  const postMessage = function(message: any) {
-    console.log('message: ', message);
-    // @ts-expect-error
-    document.querySelector('#mobile').contentWindow.postMessage(message, '*');
-  };
-
   // 父页面-拖拽开始
   const onDragStart = function() {
     const payload = {
@@ -34,7 +28,7 @@ export default function drag() {
     };
     setDragAction(payload);
     // 向子页面同步状态
-    postMessage({
+    postMessageToMobile({
       type: EVENT_TYPE.master_drag_component,
       payload,
     });
@@ -48,14 +42,16 @@ export default function drag() {
     };
     setDragAction(payload);
     // 向子页面同步状态
-    postMessage({
+    postMessageToMobile({
       type: EVENT_TYPE.master_drag_component,
       payload,
     });
   };
 
-
-  const onDragEnter = function(e: React.DragEvent<HTMLDivElement>, index:number) {
+  const onDragEnter = function(
+    e: React.DragEvent<HTMLDivElement>,
+    index: number
+  ) {
     console.log('index: ', index);
     console.log(e.target);
     console.log('onDragEnter');
@@ -77,7 +73,10 @@ export default function drag() {
     });
   };
 
-  const onDragLeave = function(e: React.DragEvent<HTMLDivElement>,  index:number) {
+  const onDragLeave = function(
+    e: React.DragEvent<HTMLDivElement>,
+    index: number
+  ) {
     console.log('index: ', index);
     console.log('onDragLeave');
     setDragAction({
@@ -98,6 +97,13 @@ export default function drag() {
     });
   };
 
+  /** 选中组件 */
+  const onSelectComponent = function(item, index) {
+    console.log('index: ', index);
+    console.log('item: ', item);
+    //
+  };
+
   return {
     dragAction,
     setDragAction,
@@ -107,5 +113,6 @@ export default function drag() {
     onDragLeave,
     onDrop,
     onDragEnd,
+    onSelectComponent,
   };
 }

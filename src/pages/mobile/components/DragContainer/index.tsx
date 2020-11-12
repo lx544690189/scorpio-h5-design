@@ -11,14 +11,6 @@ import Coupon1 from '@src/h5/coupon/coupon-1';
 import Coupon2 from '@src/h5/coupon/coupon-2';
 import { useModel } from 'umi';
 
-// fake data generator
-const getItems = (count: any) =>
-  Array.from({ length: count }, (v, k) => k).map((k) => ({
-    id: `item-${k}`,
-    content: `item ${k}`,
-  }));
-
-// a little function to help us with reordering the result
 const reorder = (list: any, startIndex: any, endIndex: any) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
@@ -27,31 +19,7 @@ const reorder = (list: any, startIndex: any, endIndex: any) => {
   return result;
 };
 
-const grid = 8;
-
-const getItemStyle = (isDragging: any, draggableStyle: any) => ({
-  // some basic styles to make the items look a bit nicer
-  userSelect: 'none',
-  padding: grid * 2,
-  margin: `0 0 ${grid}px 0`,
-
-  // change background colour if dragging
-  background: isDragging ? 'lightgreen' : 'grey',
-
-  // styles we need to apply on draggables
-  ...draggableStyle,
-});
-
-const getListStyle = (isDraggingOver: any) => ({
-  background: isDraggingOver ? 'lightblue' : 'lightgrey',
-  padding: grid,
-  width: 250,
-});
-
 export default function() {
-  const [items, setItems] = useState<{ id: string; content: string }[]>(
-    getItems(10)
-  );
   const [components, setComponents] = useState([
     {
       name: 'coupon-style-1',
@@ -65,7 +33,6 @@ export default function() {
 
   const onDragEnd = function(result: DropResult) {
     console.log('result: ', result);
-    // dropped outside the list
     if (!result.destination) {
       return;
     }
@@ -73,7 +40,9 @@ export default function() {
       reorder(components, result.source.index, result.destination.index) as any
     );
   };
-  const { dragAction, onDragEnter, onDragLeave, onDrop } = useModel('drag');
+  const { dragAction, onDragEnter, onDragLeave, onDrop, onSelectComponent } = useModel('drag');
+  const { page: { pageSchema } } = useModel('page');
+  console.log('pageSchema - iframe: ', pageSchema);
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -82,7 +51,6 @@ export default function() {
           <div
             {...provided.droppableProps}
             ref={provided.innerRef}
-          // style={getListStyle(snapshot.isDraggingOver)}
           >
             {components.map((item, index) => (
               <Draggable key={item.name} draggableId={item.name} index={index}>
@@ -103,10 +71,7 @@ export default function() {
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                    // style={getItemStyle(
-                    //   snapshot.isDragging,
-                    //   provided.draggableProps.style
-                    // )}
+                      onClick={()=>{onSelectComponent(item, index);}}
                     >
                       <item.component />
                     </div>
