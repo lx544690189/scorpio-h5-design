@@ -10,7 +10,12 @@
       margin: 20px auto;
       border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.12), 0 5px 12px 4px rgba(0, 0, 0, 0.09);
+      // box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.12), 0 5px 12px 4px rgba(0, 0, 0, 0.09);
+      border: 1px solid #f0f0f0;
+
+      &.select {
+        border: 2px solid #06c;
+      }
 
       .ant-card-cover {
         height: 300px;
@@ -36,16 +41,18 @@
       }
     }
 
-    &-empty{
+    &-empty {
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100%;
-      &-center{
+
+      &-center {
         height: 400px;
         text-align: center;
       }
-      &-new-btn{
+
+      &-new-btn {
         margin-top: 40px;
       }
     }

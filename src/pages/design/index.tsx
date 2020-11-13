@@ -12,9 +12,9 @@ export default function() {
         <i className="iconfont icon-shuxingjiegou" />
       </div>
       <SideLeft />
-      {/* <div className="side-right">
+      <div className="side-right">
         <SideRight />
-      </div> */}
+      </div>
       <div className="center">
         <iframe src="/#/mobile" className="mobile" id="mobile"/>
       </div>

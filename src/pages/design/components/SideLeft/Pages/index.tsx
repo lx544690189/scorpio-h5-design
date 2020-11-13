@@ -3,15 +3,16 @@ import { Skeleton, Switch, Card, Avatar, Empty, Button, Tooltip, Drawer } from '
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import './index.less';
 import CreatePage from './components/CreatePage';
+import PageConfig from './components/PageConfig';
 import { useModel } from 'umi';
+import classnames from 'classnames';
 
 export default function() {
-  const { openCreatePageDrawer, page: { pageSchema } } = useModel('page');
+  const { openCreatePageDrawer, page: { pageSchema, selectPageIndex } } = useModel('page');
   console.log('pageSchema: ', pageSchema);
 
   return (
     <div className="page">
-
       {
         pageSchema.length === 0 ? (
           <>
@@ -21,13 +22,12 @@ export default function() {
                 <Button type="primary" className="page-empty-new-btn" onClick={openCreatePageDrawer}>新增页面</Button>
               </div>
             </div>
-            <CreatePage />
           </>
         ) : (
-          pageSchema.map((item)=>(
+          pageSchema.map((item, index)=>(
             <Card
               key={item.config.path}
-              className="page-card"
+              className={classnames('page-card', {select: selectPageIndex === index})}
               cover={
                 <img
                   alt="example"
@@ -43,12 +43,13 @@ export default function() {
                 </Tooltip>,
               ]}
             >
-              <div className="title">首页</div>
+              <div className="title">{item.config.title}</div>
             </Card>
           ))
-
         )
       }
+      <CreatePage />
+      <PageConfig />
     </div>
   );
 }

@@ -4,39 +4,62 @@ import { useState, useCallback } from 'react';
 export default () => {
 
   const [page, setPage] = useState<{
-    visible: boolean;
+    createModalVisible: boolean;
+    configModalVisible: boolean;
     pageSchema: any[];
+    selectPageIndex: number;
   }>({
-    visible: false,
+    createModalVisible: false,
+    configModalVisible: false,
     pageSchema: [],
+    selectPageIndex: 0,
   });
 
   // 打开页面模板弹窗
   const openCreatePageDrawer = function(){
     setPage({
-      visible: true,
-      pageSchema: page.pageSchema,
+      ...page,
+      createModalVisible: true,
     });
   };
 
   // 关闭页面模板弹窗
   const closeCreatePageDrawer = function(){
     setPage({
-      visible: false,
-      pageSchema: page.pageSchema,
+      ...page,
+      createModalVisible: false,
     });
   };
 
   // 新增页面
   const onCreatePage = function(pageSchema :any){
     const payload = {
-      visible: false,
+      ...page,
+      createModalVisible: false,
+      configModalVisible: false,
       pageSchema: [...page.pageSchema, pageSchema],
+      selectPageIndex: page.pageSchema.length,
     };
     setPage(payload);
     postMessageToMobile({
       type: EVENT_TYPE.page_change,
       payload,
+    });
+  };
+
+  // 打开页面配置弹窗
+  const openConfigPageDrawer = function(){
+    setPage({
+      ...page,
+      configModalVisible: true,
+    });
+  };
+
+  // 关闭页面配置弹窗
+  const closeConfigPageDrawer = function(){
+    setPage({
+      ...page,
+      configModalVisible: false,
     });
   };
 
@@ -46,5 +69,7 @@ export default () => {
     openCreatePageDrawer,
     closeCreatePageDrawer,
     onCreatePage,
+    openConfigPageDrawer,
+    closeConfigPageDrawer,
   };
 };

@@ -41,8 +41,7 @@ export default function() {
     );
   };
   const { dragAction, onDragEnter, onDragLeave, onDrop, onSelectComponent } = useModel('drag');
-  const { page: { pageSchema } } = useModel('page');
-  console.log('pageSchema - iframe: ', pageSchema);
+  const { page: { pageSchema, selectPageIndex }  } = useModel('page');
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -52,7 +51,7 @@ export default function() {
             {...provided.droppableProps}
             ref={provided.innerRef}
           >
-            {components.map((item, index) => (
+            {pageSchema.length > 0 && pageSchema[selectPageIndex].components.map((item:any, index:any) => (
               <Draggable key={item.name} draggableId={item.name} index={index}>
                 {(provided, snapshot) => (
                   <>

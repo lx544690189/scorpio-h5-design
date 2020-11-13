@@ -22,7 +22,7 @@ const pageSchema = {
 };
 
 export default function() {
-  const { page, closeCreatePageDrawer, onCreatePage } = useModel('page');
+  const { page, closeCreatePageDrawer, onCreatePage, openConfigPageDrawer } = useModel('page');
 
   return (
     <Drawer
@@ -30,13 +30,20 @@ export default function() {
       title="新增页面-选择页面模板"
       placement="left"
       onClose={closeCreatePageDrawer}
-      visible={page.visible}
+      visible={page.createModalVisible}
       getContainer={false}
       style={{ position: 'absolute' }}
-      width={430}
+      width={440}
     >
       <Row gutter={16}>
-        <Col className="gutter-row" span={12} onClick={()=>{onCreatePage(pageSchema);}}>
+        <Col
+          className="gutter-row"
+          span={12}
+          onClick={()=>{
+            // onCreatePage(pageSchema);
+            openConfigPageDrawer();
+          }}
+        >
           <Card
             className="page-add-card"
             cover={

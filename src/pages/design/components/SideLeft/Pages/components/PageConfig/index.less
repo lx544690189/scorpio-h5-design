@@ -1,0 +1,59 @@
+.side-left-content {
+  .page {
+    .page-add {
+      &-card{        
+        margin: 10px 0;
+        transition: all .3s ease;
+        .ant-empty{
+          margin-top: 80px;
+        }
+        &:hover{
+          cursor: pointer;
+          box-shadow: 6px 6px 12px #b8b9be,-6px -6px 12px #fff!important;
+          border: 1px solid rgba(243,247,250,.05);
+        }
+        .ant-card-cover{
+          height: 200px;
+          overflow: hidden;
+        }
+        .ant-card-body{
+          z-index: 1;
+          border-top: 1px solid rgba(100, 99, 99, 0.16);
+
+          padding: 10px;
+          .title{
+            text-align: center;
+          }
+        }
+        &-img{
+          width: 100%;
+          &:hover{
+            animation: scrollToBottom 1s linear;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+          }
+        }
+      }
+      &-template-list{
+
+      }
+      &-template-card{
+        width: 200px;
+        height: 300px;
+        box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.12), 0 5px 12px 4px rgba(0, 0, 0, 0.09);
+
+      }
+    }
+  }
+}
+
+@keyframes scrollToBottom{
+  0%{
+    transform: translateY(0);
+    margin-top: 0;
+  }
+  100%{
+    transform: translateY(-100%);
+    margin-top: 200px;
+  }
+}

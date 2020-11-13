@@ -18,6 +18,8 @@
   },
   "dependencies": {
     "@ant-design/pro-layout": "^5.0.12",
+    "@formily/antd": "^2.0.0-beta.1",
+    "@formily/antd-components": "^2.0.0-beta.1",
     "@types/classnames": "^2.2.10",
     "@types/react-beautiful-dnd": "^13.0.0",
     "@umijs/preset-react": "1.x",
