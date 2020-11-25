@@ -42,7 +42,12 @@ export default () => {
     };
     setPage(payload);
     postMessageToMobile({
-      type: EVENT_TYPE.page_change,
+      type: EVENT_TYPE.page_edit,
+      payload,
+    });
+
+    postMessageToMobile({
+      type: EVENT_TYPE.page_edit,
       payload,
     });
   };

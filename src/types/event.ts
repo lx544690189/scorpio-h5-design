@@ -1,8 +1,10 @@
 export enum EVENT_TYPE {
   /** 主页面拖拽组件事件 */
-  master_drag_component,
+  drag_component,
   /** 页面编辑 */
-  page_change,
+  page_edit,
+  /** 切换当前选取的页面 */
+  page_select_change,
 }
 
 export interface IEventBody {

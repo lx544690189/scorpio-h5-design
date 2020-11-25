@@ -20,7 +20,7 @@ const reorder = (list: any, startIndex: any, endIndex: any) => {
 };
 
 export default function() {
-  const [components, setComponents] = useState([
+  const [components1, setComponents] = useState([
     {
       name: 'coupon-style-1',
       component: Coupon1,
@@ -37,11 +37,14 @@ export default function() {
       return;
     }
     setComponents(
-      reorder(components, result.source.index, result.destination.index) as any
+      reorder(components1, result.source.index, result.destination.index) as any
     );
   };
-  const { dragAction, onDragEnter, onDragLeave, onDrop, onSelectComponent } = useModel('drag');
-  const { page: { pageSchema, selectPageIndex }  } = useModel('page');
+  const { isDraging, onDragEnter, onDragLeave, onDrop, onSelectComponent, pageSchema, selectPageIndex, dragingComponentIndex } = useModel('mobile');
+  let components:any[] = [];
+  if (pageSchema.length > 0 && selectPageIndex !== -1) {
+    components = pageSchema[selectPageIndex].components;
+  }
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -51,26 +54,26 @@ export default function() {
             {...provided.droppableProps}
             ref={provided.innerRef}
           >
-            {pageSchema.length > 0 && pageSchema[selectPageIndex].components.map((item:any, index:any) => (
+            {components.length > 0 && components.map((item: any, index: any) => (
               <Draggable key={item.name} draggableId={item.name} index={index}>
                 {(provided, snapshot) => (
                   <>
                     <div
                       className={classnames(
                         'h5-canvas-empty-block',
-                        { show: dragAction.isDraging, over: dragAction.index === index}
+                        { show: isDraging, over: index === index }
                       )}
-                      onDragEnter={(event)=>{onDragEnter(event, index);}}
-                      onDragLeave={(event)=>{onDragLeave(event, index);}}
-                      onDragOver={(event)=>{event.preventDefault();}}
-                      onDrop={onDrop}
+                      onDragEnter={(event) => { onDragEnter(event, index); }}
+                      onDragLeave={(event) => { onDragLeave(event); }}
+                      onDragOver={(event) => { event.preventDefault(); }}
+                      onDrop={(event)=>{onDrop(event, index);}}
                     />
                     <div
                       className={classnames('h5-canvas-block', { 'isDragging': snapshot.isDragging })}
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      onClick={()=>{onSelectComponent(item, index);}}
+                      onClick={() => { onSelectComponent(item, index); }}
                     >
                       <item.component />
                     </div>
@@ -82,12 +85,12 @@ export default function() {
             <div
               className={classnames(
                 'h5-canvas-empty-block',
-                { show: dragAction.isDraging, over: dragAction.index === components.length }
+                { show: isDraging, over: dragingComponentIndex === components.length }
               )}
-              onDragEnter={(event)=>{onDragEnter(event, components.length);}}
-              onDragLeave={(event)=>{onDragLeave(event, components.length);}}
-              onDragOver={(event)=>{event.preventDefault();}}
-              onDrop={onDrop}
+              onDragEnter={(event) => { onDragEnter(event, components.length); }}
+              onDragLeave={(event) => { onDragLeave(event); }}
+              onDragOver={(event) => { event.preventDefault(); }}
+              onDrop={(event)=>{onDrop(event, components.length);}}
             />
           </div>
         )}

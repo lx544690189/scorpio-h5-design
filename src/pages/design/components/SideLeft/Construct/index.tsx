@@ -1,11 +1,25 @@
-import React from 'react';
-import './index.less';
+import React from "react";
 
-export default function() {
+export default class Index extends React.Component {
+  state = {
+    timestemp: new Date().getTime()
+  };
 
-  return (
-    <div className="dashboard">
-      1
-    </div>
-  );
+  componentDidMount(){
+    //@ts-expect-error
+    window.changeN = ()=>{
+      this.setState({
+        timestemp: new Date().getTime(),
+      })
+    }
+  }
+
+  render() {
+    console.log('render,timestemp=',this.state.timestemp);
+    return (
+      <div className="App">
+        <h1>n={this.state.timestemp}</h1>
+      </div>
+    );
+  }
 }

@@ -1,1 +1,3 @@
-console.log('app start');
+export function render(oldRender: any) {
+  oldRender();
+}

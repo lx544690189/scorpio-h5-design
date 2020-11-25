@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './index.less';
 import DynamicForm from '../../components/DynamicForm';
 import SideLeft from './components/SideLeft';

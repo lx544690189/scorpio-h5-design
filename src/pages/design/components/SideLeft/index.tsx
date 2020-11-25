@@ -13,7 +13,6 @@ const { TabPane } = Tabs;
 
 export default function() {
 
-  const { onDragStart, onDragEnd } = useModel('drag');
   const { side, setSide } = useModel('layout');
   console.log('side: ', side);
 
