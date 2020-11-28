@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import React, { useEffect, useState } from 'react';
 import './index.less';
 import DragContainer from './components/DragContainer';
+import DynamicComponent from '@/pages/mobile/components/DynamicComponent';
 import Postmate from 'postmate';
 import { useModel } from 'umi';
 import { EVENT_TYPE } from '@/types/event';
@@ -70,8 +72,9 @@ export default function() {
             setDragComponent(component);
           }
           if (type === EVENT_TYPE.page_edit) {
-            const { pageSchema } = payload;
+            const { pageSchema, selectPageIndex } = payload;
             setPageSchema(pageSchema);
+            setSelectPageIndex(selectPageIndex);
           }
           if (type === EVENT_TYPE.page_select_change) {
             const { selectPageIndex } = payload;
@@ -87,6 +90,7 @@ export default function() {
       className="h5-canvas"
     >
       <DragContainer />
+      {/* <DynamicComponent id="5efb06fb93f74734acf3ef2a"/> */}
     </div>
   );
 }

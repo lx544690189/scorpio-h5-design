@@ -37,6 +37,8 @@ export default function drag() {
   };
 
   const onDrop = function(ev: React.DragEvent<HTMLDivElement>, index: number) {
+    console.log('pageSchema: ', pageSchema);
+    console.log('selectPageIndex: ', selectPageIndex);
     const components: any[] = pageSchema[selectPageIndex].components;
     components.splice(index, 0, dragComponent);
     console.log('components: ', components);

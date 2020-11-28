@@ -10,6 +10,7 @@ import classnames from 'classnames';
 import Coupon1 from '@src/h5/coupon/coupon-1';
 import Coupon2 from '@src/h5/coupon/coupon-2';
 import { useModel } from 'umi';
+import DynamicComponent from '../DynamicComponent';
 
 const reorder = (list: any, startIndex: any, endIndex: any) => {
   const result = Array.from(list);
@@ -45,6 +46,7 @@ export default function() {
   if (pageSchema.length > 0 && selectPageIndex !== -1) {
     components = pageSchema[selectPageIndex].components;
   }
+  console.log('components: ', components);
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -75,7 +77,7 @@ export default function() {
                       {...provided.dragHandleProps}
                       onClick={() => { onSelectComponent(item, index); }}
                     >
-                      <item.component />
+                      <DynamicComponent id={item._id}/>
                     </div>
                   </>
                 )}
