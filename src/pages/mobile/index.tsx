@@ -65,17 +65,21 @@ export default function() {
       window.addEventListener('message', (event) => {
         if (event.data && event.data.type !== undefined) {
           const { type, payload } = event.data;
+          /** 放置组件 */
           if (type === EVENT_TYPE.drag_component) {
             setIsDraging(event.data.isDraging);
             const { isDraging, component } = payload;
+            console.log('component: ', component);
             setIsDraging(isDraging);
             setDragComponent(component);
           }
+          /** 页面编辑 */
           if (type === EVENT_TYPE.page_edit) {
             const { pageSchema, selectPageIndex } = payload;
             setPageSchema(pageSchema);
             setSelectPageIndex(selectPageIndex);
           }
+          /** 选中页面 */
           if (type === EVENT_TYPE.page_select_change) {
             const { selectPageIndex } = payload;
             setSelectPageIndex(selectPageIndex);

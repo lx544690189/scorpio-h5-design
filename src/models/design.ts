@@ -1,6 +1,7 @@
 import { DRAG_STATUS } from '@/types/drag';
 import { EVENT_TYPE } from '@/types/event';
 import { postMessageToMobile } from '@/utils';
+import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
 
 export default function drag() {
@@ -13,6 +14,8 @@ export default function drag() {
 
   // 组件拖拽开始
   const onDragStart = function(component:any) {
+    // 组件增加唯一标识
+    component.uuid = uuidv4();
     setIsDraging(true);
     setDragComponent(component);
     postMessageToMobile({

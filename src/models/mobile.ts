@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { DropResult } from 'react-beautiful-dnd';
 
 export default function drag() {
 
@@ -36,16 +37,33 @@ export default function drag() {
     setDragingComponentIndex(-1);
   };
 
+  /** 拖拽-放置 */
   const onDrop = function(ev: React.DragEvent<HTMLDivElement>, index: number) {
-    console.log('pageSchema: ', pageSchema);
-    console.log('selectPageIndex: ', selectPageIndex);
     const components: any[] = pageSchema[selectPageIndex].components;
     components.splice(index, 0, dragComponent);
-    console.log('components: ', components);
     setDragingComponentIndex(-1);
     setDragComponent(undefined);
     setPageSchema(pageSchema);
     ev.preventDefault();
+  };
+
+  const reorder = (components: any, startIndex: number, endIndex: number) => {
+    const result = Array.from(components);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+    return result;
+  };
+
+  /** 排序拖拽-放置 */
+  const onSortEnd = function(result: DropResult, currentPageComponents:any[]) {
+    console.log('currentPageComponents: ', currentPageComponents);
+    if (!result.destination) {
+      return;
+    }
+    const reorderedComponents = reorder(currentPageComponents, result.source.index, result.destination.index);
+    console.log('reorderedComponents: ', reorderedComponents);
+    pageSchema[selectPageIndex].components = reorderedComponents;
+    setPageSchema([...pageSchema]);
   };
 
   return {
@@ -63,5 +81,6 @@ export default function drag() {
     onDragEnter,
     onDragLeave,
     onDrop,
+    onSortEnd,
   };
 }

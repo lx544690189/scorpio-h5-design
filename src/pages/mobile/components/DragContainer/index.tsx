@@ -41,7 +41,7 @@ export default function() {
       reorder(components1, result.source.index, result.destination.index) as any
     );
   };
-  const { isDraging, onDragEnter, onDragLeave, onDrop, onSelectComponent, pageSchema, selectPageIndex, dragingComponentIndex } = useModel('mobile');
+  const { isDraging, onDragEnter, onDragLeave, onDrop, onSelectComponent, pageSchema, selectPageIndex, dragingComponentIndex, onSortEnd } = useModel('mobile');
   let components:any[] = [];
   if (pageSchema.length > 0 && selectPageIndex !== -1) {
     components = pageSchema[selectPageIndex].components;
@@ -49,7 +49,7 @@ export default function() {
   console.log('components: ', components);
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
+    <DragDropContext onDragEnd={(result: DropResult)=>{onSortEnd(result, components);}}>
       <Droppable droppableId="droppable">
         {(provided, snapshot) => (
           <div
@@ -57,13 +57,13 @@ export default function() {
             ref={provided.innerRef}
           >
             {components.length > 0 && components.map((item: any, index: any) => (
-              <Draggable key={item.name} draggableId={item.name} index={index}>
+              <Draggable key={item.uuid} draggableId={item.uuid} index={index}>
                 {(provided, snapshot) => (
                   <>
                     <div
                       className={classnames(
                         'h5-canvas-empty-block',
-                        { show: isDraging, over: index === index }
+                        { show: isDraging, over: dragingComponentIndex === index }
                       )}
                       onDragEnter={(event) => { onDragEnter(event, index); }}
                       onDragLeave={(event) => { onDragLeave(event); }}

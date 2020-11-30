@@ -5,15 +5,6 @@ import Progress from './Progress';
 import './index.scss';
 
 class Button extends React.Component {
-  static defaultProps = {
-    className: '',
-    type: 1,
-    couponType: 1,
-    amount: 5,
-    discount: 3,
-    teamSize: 10,
-    name: '节日出行优惠',
-  };
 
   static propTypes = {
     className: PropTypes.string,
@@ -47,7 +38,15 @@ class Button extends React.Component {
       discount,
       teamSize,
       name,
-    } = this.props;
+    } = {
+      className: '',
+      type: 1,
+      couponType: 1,
+      amount: 5,
+      discount: 3,
+      teamSize: 10,
+      name: '节日出行优惠',
+    };
     return (
       <div className={classnames(className, 'crv2-coupon', `type-${type}`)} id="coupon">
         <div className="crv2-coupon-tag" />
