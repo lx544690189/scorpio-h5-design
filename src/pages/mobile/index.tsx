@@ -64,6 +64,9 @@ export default function() {
       window.addEventListener('message', (event) => {
         if (event.data && event.data.type !== undefined) {
           const { type, payload } = event.data;
+          console.log('------------------');
+          console.log(payload);
+          console.log('------------------');
           /** 放置组件 */
           if (type === EVENT_TYPE.drag_component) {
             setIsDraging(event.data.isDraging);

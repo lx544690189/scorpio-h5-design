@@ -1,4 +1,3 @@
-import { DRAG_STATUS } from '@/types/drag';
 import { EVENT_TYPE } from '@/types/event';
 import { postMessageToMobile } from '@/utils';
 import { v4 as uuidv4 } from 'uuid';
@@ -10,7 +9,9 @@ export default function drag() {
   /** 当前拖拽的组件 */
   const [dragComponent, setDragComponent] = useState(undefined);
   /** 页面结构schema */
-  const [pageSchema, setPageSchema] = useState([]);
+  const [pageSchema, setPageSchema] = useState<any[]>([]);
+  /** 当前选中的页面 */
+  const [selectPageIndex, setSelectPageIndex] = useState(-1);
 
   // 组件拖拽开始
   const onDragStart = function(component:any) {
@@ -78,5 +79,7 @@ export default function drag() {
     onDrop,
     onDragEnd,
     onSelectComponent,
+    selectPageIndex,
+    setSelectPageIndex,
   };
 }

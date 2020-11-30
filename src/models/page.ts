@@ -1,18 +1,16 @@
 import { EVENT_TYPE } from '@/types/event';
 import { postMessageToMobile } from '@/utils';
 import { useState, useCallback } from 'react';
+import { useModel } from 'umi';
 export default () => {
+  const { pageSchema, setPageSchema, selectPageIndex, setSelectPageIndex } = useModel('design');
 
   const [page, setPage] = useState<{
     createModalVisible: boolean;
     configModalVisible: boolean;
-    pageSchema: any[];
-    selectPageIndex: number;
   }>({
     createModalVisible: false,
     configModalVisible: false,
-    pageSchema: [],
-    selectPageIndex: 0,
   });
 
   // 打开页面模板弹窗
@@ -32,23 +30,21 @@ export default () => {
   };
 
   // 新增页面
-  const onCreatePage = function(pageSchema :any){
-    const payload = {
-      ...page,
+  const onCreatePage = function(newPage :any){
+    const newPageSchame = [...pageSchema, newPage];
+    const newSelectPageIndex = selectPageIndex !== -1 ? selectPageIndex : 0;
+    setPage({
       createModalVisible: false,
       configModalVisible: false,
-      pageSchema: [...page.pageSchema, pageSchema],
-      selectPageIndex: page.pageSchema.length,
-    };
-    setPage(payload);
-    postMessageToMobile({
-      type: EVENT_TYPE.page_edit,
-      payload,
     });
-
+    setPageSchema(newPageSchame);
+    setSelectPageIndex(newSelectPageIndex);
     postMessageToMobile({
       type: EVENT_TYPE.page_edit,
-      payload,
+      payload: {
+        pageSchema: newPageSchame,
+        selectPageIndex: newSelectPageIndex,
+      },
     });
   };
 

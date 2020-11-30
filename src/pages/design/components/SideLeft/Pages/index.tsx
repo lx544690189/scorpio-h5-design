@@ -8,7 +8,8 @@ import { useModel } from 'umi';
 import classnames from 'classnames';
 
 export default function() {
-  const { openCreatePageDrawer, page: { pageSchema, selectPageIndex } } = useModel('page');
+  const { openCreatePageDrawer, page: { selectPageIndex } } = useModel('page');
+  const { pageSchema } = useModel('design');
   console.log('pageSchema: ', pageSchema);
 
   return (

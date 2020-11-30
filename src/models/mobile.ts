@@ -13,12 +13,13 @@ export default function drag() {
   const [selectPageIndex, setSelectPageIndex] = useState(-1);
   /** 当前拖拽元素即将插入的位置索引（从0开始，-1为初始值） */
   const [dragingComponentIndex, setDragingComponentIndex] = useState(-1);
+  /** 当前选中的组件 */
+  const [selectComponent, setSelectComponent] = useState<any>(undefined);
 
   /** 选中组件 */
-  const onSelectComponent = function(item: any, index: number) {
-    console.log('index: ', index);
+  const onSelectComponent = function(item: any) {
     console.log('item: ', item);
-    //
+    setSelectComponent(item);
   };
 
   /** 拖拽-进入 */
@@ -82,5 +83,7 @@ export default function drag() {
     onDragLeave,
     onDrop,
     onSortEnd,
+    selectComponent,
+    setSelectComponent,
   };
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './index.less';
 import {
   DragDropContext,
@@ -7,41 +7,12 @@ import {
   DropResult,
 } from 'react-beautiful-dnd';
 import classnames from 'classnames';
-import Coupon1 from '@src/h5/coupon/coupon-1';
-import Coupon2 from '@src/h5/coupon/coupon-2';
 import { useModel } from 'umi';
 import DynamicComponent from '../DynamicComponent';
 
-const reorder = (list: any, startIndex: any, endIndex: any) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-
-  return result;
-};
-
 export default function() {
-  const [components1, setComponents] = useState([
-    {
-      name: 'coupon-style-1',
-      component: Coupon1,
-    },
-    {
-      name: 'coupon-style-2',
-      component: Coupon2,
-    },
-  ]);
-
-  const onDragEnd = function(result: DropResult) {
-    console.log('result: ', result);
-    if (!result.destination) {
-      return;
-    }
-    setComponents(
-      reorder(components1, result.source.index, result.destination.index) as any
-    );
-  };
-  const { isDraging, onDragEnter, onDragLeave, onDrop, onSelectComponent, pageSchema, selectPageIndex, dragingComponentIndex, onSortEnd } = useModel('mobile');
+  const { isDraging, onDragEnter, onDragLeave, onDrop, onSelectComponent, pageSchema,
+    selectPageIndex, dragingComponentIndex, onSortEnd, selectComponent } = useModel('mobile');
   let components:any[] = [];
   if (pageSchema.length > 0 && selectPageIndex !== -1) {
     components = pageSchema[selectPageIndex].components;
@@ -63,7 +34,10 @@ export default function() {
                     <div
                       className={classnames(
                         'h5-canvas-empty-block',
-                        { show: isDraging, over: dragingComponentIndex === index }
+                        {
+                          show: isDraging,
+                          over: dragingComponentIndex === index,
+                        }
                       )}
                       onDragEnter={(event) => { onDragEnter(event, index); }}
                       onDragLeave={(event) => { onDragLeave(event); }}
@@ -71,11 +45,17 @@ export default function() {
                       onDrop={(event)=>{onDrop(event, index);}}
                     />
                     <div
-                      className={classnames('h5-canvas-block', { 'isDragging': snapshot.isDragging })}
+                      className={classnames(
+                        'h5-canvas-block',
+                        {
+                          'isDragging': snapshot.isDragging,
+                          'isSelected': selectComponent && selectComponent.uuid === item.uuid,
+                        }
+                      )}
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      onClick={() => { onSelectComponent(item, index); }}
+                      onClick={() => { onSelectComponent(item); }}
                     >
                       <DynamicComponent id={item._id}/>
                     </div>
@@ -87,7 +67,10 @@ export default function() {
             <div
               className={classnames(
                 'h5-canvas-empty-block',
-                { show: isDraging, over: dragingComponentIndex === components.length }
+                {
+                  show: isDraging,
+                  over: dragingComponentIndex === components.length,
+                }
               )}
               onDragEnter={(event) => { onDragEnter(event, components.length); }}
               onDragLeave={(event) => { onDragLeave(event); }}

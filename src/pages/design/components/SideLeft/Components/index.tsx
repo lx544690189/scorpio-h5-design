@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tabs, Select, Space } from 'antd';
+import { Tabs, Select, notification } from 'antd';
 import './index.less';
 import { useModel } from 'umi';
 
@@ -69,7 +69,20 @@ const dataList = [{
 
 export default function() {
 
-  const { onDragStart, onDragEnd } = useModel('design');
+  const { onDragStart, onDragEnd, pageSchema } = useModel('design');
+  console.log(pageSchema);
+
+  const dragStart = function(item:any){
+    if(pageSchema.length === 0){
+      notification.error({
+        message: '请先创建一个页面',
+        description:
+          '创建页面后再进行组件拖拽操作！',
+      });
+    }else{
+      onDragStart(item);
+    }
+  };
 
   return (
     <div className="components">
@@ -81,7 +94,7 @@ export default function() {
                 key={item._id}
                 className="components-demo"
                 draggable
-                onDragStart={()=>{onDragStart(item);}}
+                onDragStart={()=>{dragStart(item);}}
                 onDragEnd={onDragEnd}
               >
                 <img src={item.cover} />
