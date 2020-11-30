@@ -1,4 +1,3 @@
-import Postmate from 'postmate';
 
 declare module '*.css';
 declare module '*.less';
@@ -10,10 +9,6 @@ declare module '*.svg' {
   const url: string;
   export default url;
 }
-declare global {
-  interface Window {
-    isChild: boolean;
-    postmate_child: Postmate.ParentAPI;
-    postmate_parent: Postmate.ChildAPI;
-  }
+interface Window {
+  isChild: boolean;
 }

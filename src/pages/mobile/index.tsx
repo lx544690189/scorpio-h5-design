@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import './index.less';
 import DragContainer from './components/DragContainer';
 import DynamicComponent from '@/pages/mobile/components/DynamicComponent';
-import Postmate from 'postmate';
 import { useModel } from 'umi';
 import { EVENT_TYPE } from '@/types/event';
 
