@@ -33,7 +33,7 @@ export default function() {
       visible={page.createModalVisible}
       getContainer={false}
       style={{ position: 'absolute' }}
-      width={440}
+      width={430}
     >
       <Row gutter={16}>
         <Col

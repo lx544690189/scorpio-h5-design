@@ -46,7 +46,7 @@ export default function() {
       visible={page.configModalVisible}
       getContainer={false}
       style={{ position: 'absolute' }}
-      width={430}
+      width={420}
       footer={
         <div
           style={{

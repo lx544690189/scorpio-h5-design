@@ -84,8 +84,7 @@ export default function() {
                 onDragStart={()=>{onDragStart(item);}}
                 onDragEnd={onDragEnd}
               >
-                {/* <img src={item.cover} /> */}
-                <div className="component-box">组件2</div>
+                <img src={item.cover} />
                 <div className="components-name">{item.name}</div>
               </div>
             ))
