@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Skeleton, Switch, Card, Avatar, Empty, Button, Tooltip, Drawer } from 'antd';
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+import React from 'react';
+import {  Card, Empty, Button, Tooltip  } from 'antd';
+import { EditOutlined, SettingOutlined } from '@ant-design/icons';
 import './index.less';
 import CreatePage from './components/CreatePage';
 import PageConfig from './components/PageConfig';
@@ -8,9 +8,8 @@ import { useModel } from 'umi';
 import classnames from 'classnames';
 
 export default function() {
-  const { openCreatePageDrawer, page: { selectPageIndex } } = useModel('page');
-  const { pageSchema } = useModel('design');
-  console.log('pageSchema: ', pageSchema);
+  const { openCreatePageDrawer } = useModel('page');
+  const { pageSchema, selectPageIndex } = useModel('design');
 
   return (
     <div className="page">

@@ -13,6 +13,7 @@ export default defineConfig({
       component: '../layouts/index',
       routes: [
         { path: '/', component: '../pages/index' },
+        { path: '/quickStart', component: '../pages/quickStart' },
         { path: '/design', component: '../pages/design' },
         { path: '/mobile', component: '../pages/mobile' },
       ],

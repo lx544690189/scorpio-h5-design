@@ -12,6 +12,8 @@ export default function drag() {
   const [pageSchema, setPageSchema] = useState<any[]>([]);
   /** 当前选中的页面 */
   const [selectPageIndex, setSelectPageIndex] = useState(-1);
+  /** 当前选中的组件 */
+  const [selectComponent, setSelectComponent] = useState<any>(undefined);
 
   // 组件拖拽开始
   const onDragStart = function(component:any) {
@@ -81,5 +83,7 @@ export default function drag() {
     onSelectComponent,
     selectPageIndex,
     setSelectPageIndex,
+    selectComponent,
+    setSelectComponent,
   };
 }

@@ -1,32 +1,36 @@
-@keyframes selected{
-  0%{
-    outline: 1px solid #f9f9fa;
+@keyframes selected {
+  0% {
+    outline: 2px solid #f9f9fa;
   }
-  50%{
-    outline: 1px solid #f87204;
+
+  60% {
+    outline: 2px solid #f87204;
   }
-  100%{
-    outline: 1px solid #f9f9fa;
+
+  100% {
+    outline: 2px solid #f9f9fa;
   }
 }
+
 .h5-canvas {
 
   &-block {
     position: relative;
+    cursor: inherit;
     // outline: 1px dotted #b9b8b8;
     zoom: 1;
 
     &:hover {
-      outline: 1px dotted #b9b8b8;
+      outline: 1px solid #1861d5;
     }
 
     &.isDragging {
       outline: 1px solid #1861d5;
+      filter: blur(1px);
     }
 
-    &.isSelected{
-      outline: 1px solid #1861d5;
-      animation: selected 2s linear;
+    &.isSelected {
+      animation: selected 3s linear;
       animation-iteration-count: infinite;
     }
   }
@@ -35,8 +39,8 @@
     height: 0px;
     padding: 0px;
     transition: all .15s ease-in-out;
-    
-    &.show{
+
+    &.show {
       height: 60px;
       padding: 10px;
     }

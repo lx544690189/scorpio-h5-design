@@ -5,6 +5,8 @@ export enum EVENT_TYPE {
   page_edit,
   /** 切换当前选取的页面 */
   page_select_change,
+  /** 子页面-选中组件 */
+  component_select,
 }
 
 export interface IEventBody {

@@ -1,3 +1,5 @@
+import { EVENT_TYPE } from '@/types/event';
+import { postMessageToParent } from '@/utils';
 import { useState } from 'react';
 import { DropResult } from 'react-beautiful-dnd';
 
@@ -16,11 +18,6 @@ export default function drag() {
   /** 当前选中的组件 */
   const [selectComponent, setSelectComponent] = useState<any>(undefined);
 
-  /** 选中组件 */
-  const onSelectComponent = function(item: any) {
-    console.log('item: ', item);
-    setSelectComponent(item);
-  };
 
   /** 拖拽-进入 */
   const onDragEnter = function(
@@ -48,6 +45,7 @@ export default function drag() {
     ev.preventDefault();
   };
 
+  /** 重排 */
   const reorder = (components: any, startIndex: number, endIndex: number) => {
     const result = Array.from(components);
     const [removed] = result.splice(startIndex, 1);
@@ -65,6 +63,17 @@ export default function drag() {
     console.log('reorderedComponents: ', reorderedComponents);
     pageSchema[selectPageIndex].components = reorderedComponents;
     setPageSchema([...pageSchema]);
+  };
+
+  /** 选中组件 */
+  const onSelectComponent = function(component: any) {
+    setSelectComponent(component);
+    postMessageToParent({
+      type: EVENT_TYPE.component_select,
+      payload: {
+        component,
+      },
+    });
   };
 
   return {
