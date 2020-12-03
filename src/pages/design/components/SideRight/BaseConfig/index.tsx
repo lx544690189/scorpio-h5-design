@@ -1,12 +1,12 @@
 import React from 'react';
 import './index.less';
-import Test from './test';
+import BaseConfig from './components/BaseConfig';
 
 export default function() {
 
   return (
     <div className="dashboard">
-      <Test />
+      <BaseConfig />
     </div>
   );
 }

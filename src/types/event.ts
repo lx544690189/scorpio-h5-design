@@ -7,6 +7,8 @@ export enum EVENT_TYPE {
   page_select_change,
   /** 子页面-选中组件 */
   component_select,
+  /** 子页面-事件通道建立 */
+  children_ready,
 }
 
 export interface IEventBody {

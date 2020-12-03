@@ -5,6 +5,7 @@ import DragContainer from './components/DragContainer';
 import DynamicComponent from '@/pages/mobile/components/DynamicComponent';
 import { useModel } from 'umi';
 import { EVENT_TYPE } from '@/types/event';
+import {postMessageToParent} from '@/utils';
 
 const construct = {
   // 多页面
@@ -59,7 +60,14 @@ export default function() {
   console.log('isDraging: ', isDraging);
 
   useEffect(() => {
-    // postmessage同步状态
+    registerPostmessageEventListener();
+    onReady();
+  }, []);
+
+  /**
+   * 监听父页面message
+   */
+  const registerPostmessageEventListener = function(){
     if (location.href.includes('/mobile')) {
       window.addEventListener('message', (event) => {
         if (event.data && event.data.type !== undefined) {
@@ -89,7 +97,17 @@ export default function() {
         }
       }, false);
     }
-  }, []);
+  };
+
+  /**
+   * 子页面通信建立，通知父页面
+   */
+  const onReady = function(){
+    postMessageToParent({
+      type: EVENT_TYPE.children_ready,
+      payload: {},
+    });
+  };
 
   return (
     <div

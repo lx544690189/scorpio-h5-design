@@ -11,4 +11,6 @@ declare module '*.svg' {
 }
 interface Window {
   isChild: boolean;
+  isChildren_ready: boolean;
+  children_ready_task: any[];
 }

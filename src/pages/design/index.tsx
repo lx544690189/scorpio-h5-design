@@ -5,6 +5,7 @@ import SideLeft from './components/SideLeft';
 import SideRight from './components/SideRight';
 import { EVENT_TYPE } from '@/types/event';
 import { useModel } from 'umi';
+import { doChildrenReady } from '@/utils';
 
 export default function() {
   const { setSelectComponent } = useModel('design');
@@ -21,6 +22,9 @@ export default function() {
           if (type === EVENT_TYPE.component_select) {
             const { component } = payload;
             setSelectComponent(component);
+          }
+          if (type === EVENT_TYPE.children_ready) {
+            doChildrenReady();
           }
         }
       }, false);

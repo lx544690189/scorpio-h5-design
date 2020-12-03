@@ -7,38 +7,7 @@ import { useModel } from 'umi';
 const { TabPane } = Tabs;
 
 export default function() {
-  // const { selectComponent } = useModel('design');
-  const selectComponent = {
-    _id: '5efb06fb93f74734acf3ef2a',
-    name: '优惠券1',
-    cover: 'https://static.ccrgt.com/images/ac954ea1-523d-4448-8e5b-7e30c54ce89c.png',
-    schema: {
-      'x-component-props': {
-        'size': 'medium',
-        'labelAlign': 'left',
-        'wrapperCol': 12,
-        'labelTextAlign': 'right',
-        'labelCol': 7,
-      },
-      'type': 'object',
-      'properties': {
-        'xx': {
-          'type': 'string',
-          'x-component': 'input',
-          'x-component-props': {
-            'addonTextBefore': '',
-            'trim': true,
-            'hasClear': true,
-            'placeholder': '',
-            'addonTextAfter': '',
-          },
-          'title': 'xx',
-          'x-index': 0,
-          'key': 'xx',
-        },
-      },
-    },
-  };
+  const { selectComponent } = useModel('design');
 
   if (!selectComponent) {
     return <Empty description="请选取组件后配置" />;

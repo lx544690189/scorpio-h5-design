@@ -9,3 +9,26 @@ export const postMessageToParent = function(message: any) {
   console.log('message: ', message);
   window.parent.postMessage(message, '*');
 };
+
+export const onChildrenReady = function(callback: () => any) {
+  if (window.isChildren_ready) {
+    callback();
+  } else {
+    if (!window.children_ready_task) {
+      window.children_ready_task = [];
+    }
+    window.children_ready_task.push(callback);
+  }
+};
+
+export const doChildrenReady = function() {
+  window.isChildren_ready = true;
+  if (window.children_ready_task) {
+    window.children_ready_task.map((callback) => callback());
+  }
+};
+
+export const doChildrenDestroy = function(){
+  window.isChildren_ready = false;
+  window.children_ready_task = [];
+};
