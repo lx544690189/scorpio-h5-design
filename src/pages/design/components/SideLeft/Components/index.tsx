@@ -2,6 +2,7 @@ import React from 'react';
 import { Tabs, Select, notification } from 'antd';
 import './index.less';
 import { useModel } from 'umi';
+import { componentSchema_1, componentSchema_2 } from '@/constant';
 
 const { TabPane } = Tabs;
 
@@ -89,7 +90,7 @@ export default function() {
       <Tabs tabPosition="left">
         <TabPane tab="基础组件" key="1">
           {
-            dataList.map((item) => (
+            [componentSchema_1, componentSchema_2].map((item) => (
               <div
                 key={item._id}
                 className="components-demo"

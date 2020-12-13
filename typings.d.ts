@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 
 declare module '*.css';
 declare module '*.less';
@@ -13,4 +14,30 @@ interface Window {
   isChild: boolean;
   isChildren_ready: boolean;
   children_ready_task: any[];
+}
+
+declare module 'form-render/lib/antd' {
+  import React from 'react';
+  export interface FRProps {
+    schema: object;
+    formData: object;
+    onChange(data?: object): void;
+    onMount?(): void;
+    name?: string;
+    column?: number;
+    uiSchema?: object;
+    widgets?: any;
+    FieldUI?: any;
+    fields?: any;
+    mapping?: object;
+    showDescIcon?: boolean;
+    showValidate?: boolean;
+    displayType?: string;
+    onValidate: any;
+    readOnly?: boolean;
+    labelWidth?: number | string;
+    useLogger?: boolean;
+  }
+  class FormRender extends React.Component<FRProps> {}
+  export default FormRender;
 }

@@ -16,7 +16,7 @@ export default function drag() {
   /** 当前拖拽元素即将插入的位置索引（从0开始，-1为初始值） */
   const [dragingComponentIndex, setDragingComponentIndex] = useState(-1);
   /** 当前选中的组件 */
-  const [selectComponent, setSelectComponent] = useState<any>(undefined);
+  const [selectComponentId, setSelectComponentId] = useState<any>(undefined);
 
 
   /** 拖拽-进入 */
@@ -66,12 +66,12 @@ export default function drag() {
   };
 
   /** 选中组件 */
-  const onSelectComponent = function(component: any) {
-    setSelectComponent(component);
+  const onSelectComponent = function(componentId: string) {
+    setSelectComponentId(componentId);
     postMessageToParent({
       type: EVENT_TYPE.component_select,
       payload: {
-        component,
+        componentId,
       },
     });
   };
@@ -92,7 +92,7 @@ export default function drag() {
     onDragLeave,
     onDrop,
     onSortEnd,
-    selectComponent,
-    setSelectComponent,
+    selectComponentId,
+    setSelectComponentId,
   };
 }

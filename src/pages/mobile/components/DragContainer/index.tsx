@@ -12,7 +12,7 @@ import DynamicComponent from '../DynamicComponent';
 
 export default function() {
   const { isDraging, onDragEnter, onDragLeave, onDrop, onSelectComponent, pageSchema,
-    selectPageIndex, dragingComponentIndex, onSortEnd, selectComponent } = useModel('mobile');
+    selectPageIndex, dragingComponentIndex, onSortEnd, selectComponentId } = useModel('mobile');
   let components:any[] = [];
   if (pageSchema.length > 0 && selectPageIndex !== -1) {
     components = pageSchema[selectPageIndex].components;
@@ -49,15 +49,15 @@ export default function() {
                         'h5-canvas-block',
                         {
                           'isDragging': snapshot.isDragging,
-                          'isSelected': selectComponent && selectComponent.uuid === item.uuid,
+                          'isSelected': selectComponentId === item.uuid,
                         }
                       )}
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      onClick={() => { onSelectComponent(item); }}
+                      onClick={() => { onSelectComponent(item.uuid); }}
                     >
-                      <DynamicComponent id={item._id}/>
+                      <DynamicComponent id={item._id} componentProps={item.props} containerProps={item.containerProps}/>
                     </div>
                   </>
                 )}

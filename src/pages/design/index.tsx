@@ -8,7 +8,7 @@ import { useModel } from 'umi';
 import { doChildrenReady } from '@/utils';
 
 export default function() {
-  const { setSelectComponent } = useModel('design');
+  const { setSelectComponentId } = useModel('design');
   useEffect(() => {
     // postmessage同步状态
     if (location.href.includes('/design')) {
@@ -20,8 +20,8 @@ export default function() {
           console.log('p------------------p');
           /** 放置组件 */
           if (type === EVENT_TYPE.component_select) {
-            const { component } = payload;
-            setSelectComponent(component);
+            const { componentId } = payload;
+            setSelectComponentId(componentId);
           }
           if (type === EVENT_TYPE.children_ready) {
             doChildrenReady();

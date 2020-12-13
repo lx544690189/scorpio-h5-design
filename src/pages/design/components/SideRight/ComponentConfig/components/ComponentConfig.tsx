@@ -1,4 +1,3 @@
-import { componentBaseConfig } from '@/constant';
 import { EVENT_TYPE } from '@/types/event';
 import { postMessageToMobile } from '@/utils';
 import FormRender from 'form-render/lib/antd';
@@ -9,7 +8,7 @@ import { useModel } from 'umi';
 const App = () => {
   const { pageSchema, selectPageIndex, selectComponentId, setPageSchema } = useModel('design');
   const component = pageSchema[selectPageIndex].components.find((item:any)=>item.uuid === selectComponentId);
-  const {containerProps} = component;
+  const {schema, props} = component;
   const [valid, setValid] = useState([]);
   const [showValidate, setShowValidate] = useState(false);
 
@@ -21,7 +20,7 @@ const App = () => {
   };
 
   const onChange = (values: any) => {
-    component.containerProps = values;
+    component.props = values;
     setPageSchema([...pageSchema]);
     postMessageToMobile({
       type: EVENT_TYPE.page_edit,
@@ -34,8 +33,8 @@ const App = () => {
 
   return (
     <FormRender
-      schema={componentBaseConfig}
-      formData={containerProps}
+      schema={schema}
+      formData={props}
       onChange={onChange}
       onValidate={setValid}
       showValidate={showValidate}

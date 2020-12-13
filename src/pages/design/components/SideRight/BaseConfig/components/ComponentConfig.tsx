@@ -5,12 +5,10 @@ import React from 'react';
 import { useModel } from 'umi';
 
 const App = () => {
-  const { selectComponent } = useModel('design');
-  console.log('selectComponent.schema: ', selectComponent.schema);
+  const { selectComponentId } = useModel('design');
   return (
     <SchemaForm
       components={{ Input, Select, NumberPicker }}
-      schema={selectComponent.schema}
       onSubmit={(values)=>{
         console.log(values);
       }}

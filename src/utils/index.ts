@@ -32,3 +32,7 @@ export const doChildrenDestroy = function(){
   window.isChildren_ready = false;
   window.children_ready_task = [];
 };
+
+export const pxToVw = function(px:number){
+  return px ? px / 750* 100 : 0;
+};

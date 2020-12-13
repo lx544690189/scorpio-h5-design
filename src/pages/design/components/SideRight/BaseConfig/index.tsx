@@ -5,7 +5,7 @@ import BaseConfig from './components/BaseConfig';
 export default function() {
 
   return (
-    <div className="dashboard">
+    <div className="design-config-base">
       <BaseConfig />
     </div>
   );

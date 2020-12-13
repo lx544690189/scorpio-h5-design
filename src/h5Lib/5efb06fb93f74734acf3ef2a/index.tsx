@@ -12,13 +12,7 @@ interface IProps {
 
 export default function(props: IProps) {
   // const { className, status, title, info, amount } = props;
-  const { className, status, title, info, amount } = {
-    className: '',
-    info: '有效期：领取5天后',
-    title: '新用户体验券',
-    status: 1,
-    amount: 5,
-  };
+  const { className, status, title, info, amount } = props;
   return (
     <div className={classnames('re-coupon', className, `status-${status}`)}>
       <div className="re-coupon-left">
