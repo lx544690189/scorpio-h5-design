@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import './index.less';
-import DynamicForm from '../../components/DynamicForm';
 import SideLeft from './components/SideLeft';
 import SideRight from './components/SideRight';
 import { EVENT_TYPE } from '@/types/event';
@@ -8,7 +7,7 @@ import { useModel } from 'umi';
 import { doChildrenReady } from '@/utils';
 
 export default function() {
-  const { setSelectComponentId } = useModel('design');
+  const { setSelectComponentId, setPageSchema, setSelectPageIndex } = useModel('design');
   useEffect(() => {
     // postmessage同步状态
     if (location.href.includes('/design')) {
@@ -18,10 +17,16 @@ export default function() {
           console.log('p------------------p');
           console.log(payload);
           console.log('p------------------p');
-          /** 放置组件 */
+          /** 选择组件 */
           if (type === EVENT_TYPE.component_select) {
             const { componentId } = payload;
             setSelectComponentId(componentId);
+          }
+          /** 页面编辑 */
+          if (type === EVENT_TYPE.page_edit) {
+            const { pageSchema, selectPageIndex } = payload;
+            setPageSchema(pageSchema);
+            setSelectPageIndex(selectPageIndex);
           }
           if (type === EVENT_TYPE.children_ready) {
             doChildrenReady();

@@ -8,7 +8,7 @@ import { useModel } from 'umi';
 const { TabPane } = Tabs;
 
 export default function() {
-  const { selectComponentId } = useModel('design');
+  const { selectComponentId, pageSchema } = useModel('design');
 
   if (!selectComponentId) {
     return <Empty description="请选取组件后配置" />;

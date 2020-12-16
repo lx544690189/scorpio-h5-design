@@ -71,7 +71,6 @@ const dataList = [{
 export default function() {
 
   const { onDragStart, onDragEnd, pageSchema } = useModel('design');
-  console.log(pageSchema);
 
   const dragStart = function(item:any){
     if(pageSchema.length === 0){

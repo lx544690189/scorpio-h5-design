@@ -17,7 +17,6 @@ export default function() {
   if (pageSchema.length > 0 && selectPageIndex !== -1) {
     components = pageSchema[selectPageIndex].components;
   }
-  console.log('components: ', components);
 
   return (
     <DragDropContext onDragEnd={(result: DropResult)=>{onSortEnd(result, components);}}>

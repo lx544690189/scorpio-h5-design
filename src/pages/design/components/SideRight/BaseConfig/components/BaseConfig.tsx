@@ -21,6 +21,7 @@ const App = () => {
   };
 
   const onChange = (values: any) => {
+    console.log('values: ', values);
     component.containerProps = values;
     setPageSchema([...pageSchema]);
     postMessageToMobile({

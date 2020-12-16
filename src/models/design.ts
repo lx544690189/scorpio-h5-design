@@ -32,19 +32,18 @@ export default function drag() {
 
   // 组件拖拽结束
   const onDragEnd = function() {
-    setIsDraging(false);
-    setDragComponent(undefined);
     postMessageToMobile({
       type: EVENT_TYPE.drag_component,
       payload: {
-        component: undefined,
+        component: dragComponent,
         isDraging: false,
       },
     });
+    setIsDraging(false);
+    setDragComponent(undefined);
   };
 
   const onDragOver = function(ev: React.DragEvent<HTMLDivElement>) {
-    console.log('ev: ', ev.clientX, ev.clientY);
     ev.preventDefault();
   };
 
@@ -53,11 +52,9 @@ export default function drag() {
     index: number
   ) {
     console.log('index: ', index);
-    console.log('onDragLeave');
   };
 
   const onDrop = function(ev: React.DragEvent<HTMLDivElement>) {
-    console.log('onDrop');
     ev.preventDefault();
   };
 
@@ -67,7 +64,6 @@ export default function drag() {
     console.log('item: ', item);
     //
   };
-  console.log('pageSchema.pageSchema: ', pageSchema);
 
   return {
     isDraging,

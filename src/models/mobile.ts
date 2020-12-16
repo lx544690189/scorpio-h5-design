@@ -24,7 +24,6 @@ export default function drag() {
     e: React.DragEvent<HTMLDivElement>,
     index: number
   ) {
-    console.log('index: ', index);
     setDragingComponentIndex(index);
   };
 
@@ -37,12 +36,19 @@ export default function drag() {
 
   /** 拖拽-放置 */
   const onDrop = function(ev: React.DragEvent<HTMLDivElement>, index: number) {
+    ev.preventDefault();
     const components: any[] = pageSchema[selectPageIndex].components;
     components.splice(index, 0, dragComponent);
     setDragingComponentIndex(-1);
     setDragComponent(undefined);
     setPageSchema(pageSchema);
-    ev.preventDefault();
+    postMessageToParent({
+      type: EVENT_TYPE.page_edit,
+      payload: {
+        pageSchema,
+        selectPageIndex,
+      },
+    });
   };
 
   /** 重排 */
@@ -55,12 +61,10 @@ export default function drag() {
 
   /** 排序拖拽-放置 */
   const onSortEnd = function(result: DropResult, currentPageComponents:any[]) {
-    console.log('currentPageComponents: ', currentPageComponents);
     if (!result.destination) {
       return;
     }
     const reorderedComponents = reorder(currentPageComponents, result.source.index, result.destination.index);
-    console.log('reorderedComponents: ', reorderedComponents);
     pageSchema[selectPageIndex].components = reorderedComponents;
     setPageSchema([...pageSchema]);
   };

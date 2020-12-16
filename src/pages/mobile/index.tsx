@@ -57,7 +57,6 @@ const construct = {
 export default function() {
 
   const { setIsDraging, setDragComponent, isDraging, setPageSchema, setSelectPageIndex } = useModel('mobile');
-  console.log('isDraging: ', isDraging);
 
   useEffect(() => {
     registerPostmessageEventListener();
@@ -79,7 +78,6 @@ export default function() {
           if (type === EVENT_TYPE.drag_component) {
             setIsDraging(event.data.isDraging);
             const { isDraging, component } = payload;
-            console.log('component: ', component);
             setIsDraging(isDraging);
             setDragComponent(component);
           }
