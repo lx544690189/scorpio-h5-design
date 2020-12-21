@@ -10,12 +10,17 @@ export default defineConfig({
   routes: [
     {
       path: '/',
-      component: '../layouts/index',
+      component: '@/layouts/index',
       routes: [
-        { path: '/', component: '../pages/index' },
-        { path: '/quickStart', component: '../pages/quickStart' },
-        { path: '/design', component: '../pages/design' },
-        { path: '/mobile', component: '../pages/mobile' },
+        { path: '/', component: '@/pages/index' },
+        { path: '/quickStart', component: '@/pages/quickStart' },
+        { path: '/design', component: '@/pages/design' },
+        { path: '/mobile', component: '@/pages/mobile' },
+        {
+          path: '/manage', routes: [
+            { path: '/manage/category', component: '@/pages/manage/category' },
+          ]
+        },
       ],
     },
   ],

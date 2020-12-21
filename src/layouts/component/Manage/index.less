@@ -1,0 +1,36 @@
+.layout-manage {
+  background-color: rgb(239 242 245);
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+
+  &-left {
+    position: relative;
+    height: 100%;
+    background-color: #fff;
+    overflow: hidden;
+    padding-right: 1px;
+
+    // border-right: 1px solid #d3d3d3;
+    &::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      transform: translateX(.5);
+      background-color: #dddddd;
+    }
+
+    .ant-menu {
+      width: 250px;
+      box-shadow: none;
+    }
+  }
+
+  &-right {
+    padding: 40px;
+    flex: 1;
+  }
+}

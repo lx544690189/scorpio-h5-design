@@ -5,6 +5,7 @@ import SideRight from './components/SideRight';
 import { EVENT_TYPE } from '@/types/event';
 import { useModel } from 'umi';
 import { doChildrenReady } from '@/utils';
+import Header from './components/Header';
 
 export default function() {
   const { setSelectComponentId, setPageSchema, setSelectPageIndex } = useModel('design');
@@ -38,9 +39,7 @@ export default function() {
 
   return (
     <div className="design">
-      <div className="header">
-        <i className="iconfont icon-shuxingjiegou" />
-      </div>
+      <Header />
       <SideLeft />
       <div className="side-right">
         <SideRight />

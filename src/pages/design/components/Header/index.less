@@ -1,0 +1,55 @@
+.design {
+  &-header {
+    position: relative;
+    &-operations {
+      position: absolute;
+      right: 100px;
+      height: 100%;
+      padding: 5px 0;
+
+      li {
+        position: relative;
+        display: inline-block;
+        height: 100%;
+        width: 60px;
+        height: 50px;
+        border-radius: 2px;
+        text-align: center;
+        cursor: pointer;
+        color: rgb(105, 105, 105);
+        transition: border .3s ease;
+        padding-top: 3px;
+        border: 1px dashed rgba(0,0,0,0);
+
+        &:hover{
+          color: #2d88f8;
+          border: 1px dashed #2d88f8;
+          .text{
+            font-weight: bold;
+          }
+        }
+
+        &.selected {
+          background: #2d88f8;
+          color: #fff;
+          cursor: default;
+        }
+
+        .text{
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 25px;
+          text-align: center;
+          line-height: 25px;
+        }
+        .icon{
+          display: inline-block;
+          font-size: 20px;
+          line-height: 80px;
+        }
+      }
+    }
+  }
+}

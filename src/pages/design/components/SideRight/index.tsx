@@ -14,7 +14,7 @@ export default function() {
     return <Empty description="请选取组件后配置" />;
   }
   return (
-    <Tabs defaultActiveKey="1" type="card">
+    <Tabs defaultActiveKey="1" type="card" className="config-tabs">
       <TabPane tab="基础属性" key="1">
         <BaseConfig />
       </TabPane>

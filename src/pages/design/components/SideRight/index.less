@@ -1,6 +1,26 @@
-.side-right{
-  padding: 10px;
-  .ant-tabs{
-    
+.side-right {
+  .config-tabs {
+    height: 100%;
+
+    .ant-tabs-nav {
+      margin-bottom: 0;
+    }
+
+    .ant-tabs-nav::before {
+      border-bottom: 1px solid #d8d8d8;
+    }
+
+    .ant-tabs-tab {
+      margin-right: 0 !important;
+      border: none;
+      border-right: 1px solid #d8d8d8;
+      border-bottom: 1px solid #d8d8d8;
+    }
+
+    .ant-tabs-content {
+      height: 100%;
+      overflow-y: scroll;
+      padding: 20px;
+    }
   }
 }
