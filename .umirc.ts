@@ -19,6 +19,8 @@ export default defineConfig({
         {
           path: '/manage', routes: [
             { path: '/manage/category', component: '@/pages/manage/category' },
+            { path: '/manage/component', component: '@/pages/manage/component' },
+            { path: '/manage/page', component: '@/pages/manage/page' },
           ]
         },
       ],

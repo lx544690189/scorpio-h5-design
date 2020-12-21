@@ -23,15 +23,7 @@ export default function(props: any) {
         </Menu>
       </div>
       <div className="layout-manage-right">
-        <PageHeader
-          ghost={false}
-          className="site-page-header"
-          onBack={() => null}
-          title="Title"
-          subTitle="This is a subtitle"
-        >
-          {props.children}
-        </PageHeader>
+        {props.children}
       </div>
     </div>
   );

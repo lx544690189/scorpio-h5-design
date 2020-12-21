@@ -3,8 +3,8 @@ import './index.less';
 
 export default function() {
   return (
-    <div className="manage">
-111
+    <div className="manage-category">
+category
     </div>
   );
 }
