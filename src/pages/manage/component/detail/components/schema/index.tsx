@@ -1,15 +1,6 @@
-import { Avatar, Badge, Button, Card, Col, PageHeader, Row, Spin, Tabs } from 'antd';
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
-import { history } from 'umi';
-import Generator from 'fr-generator';
-
-
 import React from 'react';
-import Model from './model';
+import Generator from 'fr-generator';
 import './index.less';
-
-const { TabPane } = Tabs;
-const { Meta } = Card;
 
 const defaultValue = {
   schema: {
@@ -54,32 +45,14 @@ const templates = [
   },
 ];
 
-
-const Component = function() {
-  const { getCategoryList } = Model.useContainer();
-
+export default function() {
   return (
-    <div>
+    <div className="manage-component-detail-schema">
       <Generator
         defaultValue={defaultValue}
         templates={templates}
-        extraButtons={[true, true, true, true,
-          {
-            text: '保存',
-            onClick: () => {
-              // alert(1);
-            },
-          },
-        ]}
+        extraButtons={[false, false, false, false]}
       />
     </div>
-  );
-};
-
-export default function() {
-  return (
-    <Model.Provider>
-      <Component />
-    </Model.Provider>
   );
 }

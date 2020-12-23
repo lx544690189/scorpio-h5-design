@@ -1,0 +1,44 @@
+.manage-component-detail {
+  .left{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 400px;
+    bottom: 0;
+    display: flex;
+    overflow: hidden;
+    background-color: #f3f2f2;
+    border-right: 1px solid #858484;
+    .mobile {
+      margin: auto;
+      transition: width 0.3s ease 0s, height 0.3s ease 0s;
+      position: relative;
+      border: 10px solid grey;
+      border-radius: 4px;
+      height: 80vh;
+      width: 350px;
+    }
+  }
+  .right{
+    position: absolute;
+    top: 0;
+    left: 400px;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    overflow: hidden;
+    .manage-component-detail-tabs{
+      width: 100%;
+      .ant-tabs-nav-wrap{
+        padding: 0 20px;
+      }
+      .ant-tabs-content{
+        height: 100%;
+      }
+      .ant-tabs-tabpane{
+        padding: 20px 20px;
+        height: 100%;
+      }
+    }
+  }
+}

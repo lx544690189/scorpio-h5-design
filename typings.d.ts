@@ -33,7 +33,7 @@ declare module 'form-render/lib/antd' {
     showDescIcon?: boolean;
     showValidate?: boolean;
     displayType?: string;
-    onValidate: any;
+    onValidate?: any;
     readOnly?: boolean;
     labelWidth?: number | string;
     useLogger?: boolean;
