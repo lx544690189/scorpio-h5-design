@@ -1,11 +1,16 @@
-import { useState } from 'react';
+import { useRequest } from 'umi';
 import { createContainer } from 'unstated-next';
+import * as service from '@/service';
 
+export default createContainer(() => {
+  const getCategoryList = useRequest(service.getCategoryList, {
+    initialData: {
+      list: [],
+      total: 0,
+    },
+  });
 
-
-export default createContainer(function useCounter() {
-  const [count, setCount] = useState(0);
-  const decrement = () => setCount(count - 1);
-  const increment = () => setCount(count + 1);
-  return { count, decrement, increment };
+  return {
+    getCategoryList,
+  };
 });
