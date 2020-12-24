@@ -1,58 +1,40 @@
-import React from 'react';
+import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import Generator from 'fr-generator';
 import './index.less';
+import Model from '../../model';
 
 const defaultValue = {
   schema: {
     type: 'object',
     properties: {
-      inputName: {
-        title: '简单输入框',
-        type: 'string',
-      },
     },
   },
   displayType: 'row',
   showDescIcon: true,
   labelWidth: 120,
 };
-const templates = [
-  {
-    text: '模板1',
-    name: 'something',
-    schema: {
-      title: '对象',
-      description: '这是一个对象类型',
-      type: 'object',
-      properties: {
-        inputName: {
-          title: '简单输入框',
-          type: 'string',
-        },
-        selectName: {
-          title: '单选',
-          type: 'string',
-          enum: ['a', 'b', 'c'],
-          enumNames: ['早', '中', '晚'],
-        },
-        dateName: {
-          title: '时间选择',
-          type: 'string',
-          format: 'date',
-        },
-      },
-    },
-  },
-];
 
-export default function() {
+export default forwardRef((props: any, ref: any) => {
+  const { componentDetail } = Model.useContainer();
+  const GeneratorRef = useRef(null);
+
+  useImperativeHandle(ref, () => ({
+    // @ts-expect-error
+    getValue: GeneratorRef.current.getValue,
+    // @ts-expect-error
+    setValue: GeneratorRef.current.setValue,
+    // @ts-expect-error
+    copyValue: GeneratorRef.current.copyValue,
+  }));
+
   return (
     <div className="manage-component-detail-schema">
       <Generator
-        defaultValue={defaultValue}
-        templates={templates}
+        ref={GeneratorRef}
+        defaultValue={componentDetail.data.mschema || defaultValue}
+        templates={[]}
         extraButtons={[false, false, false, false]}
       />
     </div>
   );
-}
+});

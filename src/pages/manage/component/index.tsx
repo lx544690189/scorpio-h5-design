@@ -15,7 +15,7 @@ const Component = function() {
   const { list } = getCategoryList.data;
 
   const edit = function({_id}: any){
-    history.push(`/manage/component/detail?id=${_id}`);
+    history.push(`/manage/component/detail?componentId=${_id}`);
   };
 
   return (
