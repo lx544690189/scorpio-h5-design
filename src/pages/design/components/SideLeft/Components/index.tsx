@@ -70,7 +70,7 @@ const dataList = [{
 
 export default function() {
 
-  const { onDragStart, onDragEnd, pageSchema } = useModel('design');
+  const { onDragStart, onDragEnd, pageSchema } = useModel('bridge');
 
   const dragStart = function(item:any){
     if(pageSchema.length === 0){

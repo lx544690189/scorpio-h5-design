@@ -4,38 +4,35 @@ import SideLeft from './components/SideLeft';
 import SideRight from './components/SideRight';
 import { EVENT_TYPE } from '@/types/event';
 import { useModel } from 'umi';
-import { doChildrenReady } from '@/utils';
+import { doChildrenReady, IMessage, IMessageType } from '@/utils/bridge';
 import Header from './components/Header';
 
 export default function() {
-  const { setSelectComponentId, setPageSchema, setSelectPageIndex } = useModel('design');
+  const { setStateByObjectKeys } = useModel('bridge');
+
   useEffect(() => {
-    // postmessage同步状态
-    if (location.href.includes('/design')) {
-      window.addEventListener('message', (event) => {
-        if (event.data && event.data.type !== undefined) {
-          const { type, payload } = event.data;
-          console.log('p------------------p');
-          console.log(payload);
-          console.log('p------------------p');
-          /** 选择组件 */
-          if (type === EVENT_TYPE.component_select) {
-            const { componentId } = payload;
-            setSelectComponentId(componentId);
-          }
-          /** 页面编辑 */
-          if (type === EVENT_TYPE.page_edit) {
-            const { pageSchema, selectPageIndex } = payload;
-            setPageSchema(pageSchema);
-            setSelectPageIndex(selectPageIndex);
-          }
-          if (type === EVENT_TYPE.children_ready) {
-            doChildrenReady();
-          }
-        }
-      }, false);
-    }
+    registerPostmessageEventListener();
   }, []);
+
+  /**
+   * 监听父页面message
+   */
+  const registerPostmessageEventListener = function(){
+    window.addEventListener('message', (event) => {
+      if (event.data && event.data.from === 'mobile') {
+        const { payload, type } = event.data as IMessage;
+        console.log('--------design----------');
+        console.log(payload);
+        console.log('--------design----------');
+        if(type === IMessageType.syncState){
+          setStateByObjectKeys(payload);
+        }
+        if(type === IMessageType.children_ready){
+          doChildrenReady();
+        }
+      }
+    });
+  };
 
   return (
     <div className="design">

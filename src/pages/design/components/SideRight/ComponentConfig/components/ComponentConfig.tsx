@@ -1,12 +1,11 @@
-import { EVENT_TYPE } from '@/types/event';
-import { postMessageToMobile } from '@/utils';
+import { IMessageType, syncState } from '@/utils/bridge';
 import FormRender from 'form-render/lib/antd';
 
 import React, { useState } from 'react';
 import { useModel } from 'umi';
 
 const App = () => {
-  const { pageSchema, selectPageIndex, selectComponentId, setPageSchema } = useModel('design');
+  const { pageSchema, selectPageIndex, selectComponentId, setStateByObjectKeys } = useModel('bridge');
   const component = pageSchema[selectPageIndex].components.find((item:any)=>item.uuid === selectComponentId);
   const {schema, props} = component;
   const [valid, setValid] = useState([]);
@@ -21,13 +20,14 @@ const App = () => {
 
   const onChange = (values: any) => {
     component.props = values;
-    setPageSchema([...pageSchema]);
-    postMessageToMobile({
-      type: EVENT_TYPE.page_edit,
-      payload: {
-        pageSchema: pageSchema,
-        selectPageIndex,
-      },
+    const state = {
+      pageSchema: [...pageSchema],
+    };
+    setStateByObjectKeys(state);
+    syncState({
+      payload: state,
+      from: 'design',
+      type: IMessageType.syncState,
     });
   };
 

@@ -38,6 +38,15 @@ declare module 'form-render/lib/antd' {
     labelWidth?: number | string;
     useLogger?: boolean;
   }
-  class FormRender extends React.Component<FRProps> {}
+  class FormRender extends React.Component<FRProps> { }
   export default FormRender;
+}
+
+declare module 'fr-generator' {
+  interface Props {
+    defaultValue?: any;
+    templates?: any;
+    extraButtons?: Boolean[];
+  }
+  export default class Generator extends React.Component<Props> { }
 }

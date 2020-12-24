@@ -5,7 +5,7 @@ import React from 'react';
 import { useModel } from 'umi';
 
 const App = () => {
-  const { selectComponentId } = useModel('design');
+  const { selectComponentId } = useModel('bridge');
   return (
     <SchemaForm
       components={{ Input, Select, NumberPicker }}

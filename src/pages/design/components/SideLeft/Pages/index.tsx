@@ -9,7 +9,7 @@ import classnames from 'classnames';
 
 export default function() {
   const { openCreatePageDrawer } = useModel('page');
-  const { pageSchema, selectPageIndex } = useModel('design');
+  const { pageSchema, selectPageIndex } = useModel('bridge');
 
   return (
     <div className="page">

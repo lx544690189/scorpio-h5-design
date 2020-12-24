@@ -11,8 +11,10 @@ import { useModel } from 'umi';
 import DynamicComponent from '../DynamicComponent';
 
 export default function() {
-  const { isDraging, onDragEnter, onDragLeave, onDrop, onSelectComponent, pageSchema,
-    selectPageIndex, dragingComponentIndex, onSortEnd, selectComponentId } = useModel('mobile');
+  const {
+    isDraging, pageSchema, selectPageIndex, dragingComponentIndex, selectComponentId,
+    onDragEnter, onDragLeave, onDrop, onSelectComponent, onSortEnd,
+  } = useModel('bridge');
   let components:any[] = [];
   if (pageSchema.length > 0 && selectPageIndex !== -1) {
     components = pageSchema[selectPageIndex].components;
@@ -38,8 +40,8 @@ export default function() {
                           over: dragingComponentIndex === index,
                         }
                       )}
-                      onDragEnter={(event) => { onDragEnter(event, index); }}
-                      onDragLeave={(event) => { onDragLeave(event); }}
+                      onDragEnter={() => { onDragEnter(index); }}
+                      onDragLeave={() => { onDragLeave(); }}
                       onDragOver={(event) => { event.preventDefault(); }}
                       onDrop={(event)=>{onDrop(event, index);}}
                     />
@@ -71,8 +73,8 @@ export default function() {
                   over: dragingComponentIndex === components.length,
                 }
               )}
-              onDragEnter={(event) => { onDragEnter(event, components.length); }}
-              onDragLeave={(event) => { onDragLeave(event); }}
+              onDragEnter={() => { onDragEnter(components.length); }}
+              onDragLeave={() => { onDragLeave(); }}
               onDragOver={(event) => { event.preventDefault(); }}
               onDrop={(event)=>{onDrop(event, components.length);}}
             />

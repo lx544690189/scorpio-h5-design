@@ -1,40 +1,39 @@
 import { TEMPLATE_TYPE } from '@/types';
 import { history, useModel } from 'umi';
 import { pageSchema } from '@/constant';
-import { EVENT_TYPE } from '@/types/event';
-import { onChildrenReady, postMessageToMobile } from '@/utils';
+import { IMessageType, onChildrenReady } from '@/utils/bridge';
+import { syncState } from '@/utils/bridge';
 
 export default function useAuthModel() {
 
-  const { setPageSchema, setSelectPageIndex } = useModel('design');
+  const { setStateByObjectKeys } = useModel('bridge');
 
   /** 创建模板 */
   const onCreateTemplate = function(type: TEMPLATE_TYPE) {
+    let state = {};
     /** 空白模板 */
     if (type === TEMPLATE_TYPE.blank) {
-      // 设置页面模板数据
-      setPageSchema([]);
-      // 设置默认选择的页面
-      setSelectPageIndex(-1);
-      history.push('/design');
+      state = {
+        pageSchema: [],
+        selectPageIndex: -1,
+      };
     }
     /** 示例模板 */
     if (type === TEMPLATE_TYPE.example) {
-      // 设置页面模板数据
-      setPageSchema(pageSchema);
-      // 设置默认选择的页面
-      setSelectPageIndex(0);
-      onChildrenReady(() => {
-        postMessageToMobile({
-          type: EVENT_TYPE.page_edit,
-          payload: {
-            pageSchema,
-            selectPageIndex: 0,
-          },
-        });
-      });
-      history.push('/design');
+      state = {
+        pageSchema: pageSchema,
+        selectPageIndex: 0,
+      };
     }
+    setStateByObjectKeys(state);
+    history.push('/design');
+    onChildrenReady(() => {
+      syncState({
+        payload: state,
+        from: 'design',
+        type: IMessageType.syncState,
+      });
+    });
   };
 
   return {

@@ -1,9 +1,8 @@
-import { EVENT_TYPE } from '@/types/event';
-import { postMessageToMobile } from '@/utils';
+import { IMessageType, syncState } from '@/utils/bridge';
 import { useState, useCallback } from 'react';
 import { useModel } from 'umi';
 export default () => {
-  const { pageSchema, setPageSchema, selectPageIndex, setSelectPageIndex } = useModel('design');
+  const { setStateByObjectKeys, pageSchema, selectPageIndex } = useModel('bridge');
 
   const [page, setPage] = useState<{
     createModalVisible: boolean;
@@ -37,14 +36,15 @@ export default () => {
       createModalVisible: false,
       configModalVisible: false,
     });
-    setPageSchema(newPageSchame);
-    setSelectPageIndex(newSelectPageIndex);
-    postMessageToMobile({
-      type: EVENT_TYPE.page_edit,
-      payload: {
-        pageSchema: newPageSchame,
-        selectPageIndex: newSelectPageIndex,
-      },
+    const state = {
+      pageSchema: newPageSchame,
+      selectPageIndex: newSelectPageIndex,
+    };
+    setStateByObjectKeys(state);
+    syncState({
+      payload: state,
+      from: 'design',
+      type: IMessageType.syncState,
     });
   };
 

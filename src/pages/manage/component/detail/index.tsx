@@ -26,11 +26,11 @@ const ComponentDetail = function() {
       </div>
       <div className="right">
         <Tabs className="manage-component-detail-tabs" defaultActiveKey="1" onChange={callback}>
-          <TabPane tab="表单项" key="1">
-            <Form />
-          </TabPane>
-          <TabPane tab="schema配置" key="2">
+          <TabPane tab="schema配置" key="1">
             <Schema />
+          </TabPane>
+          <TabPane tab="表单项" key="2">
+            <Form />
           </TabPane>
         </Tabs>
       </div>
