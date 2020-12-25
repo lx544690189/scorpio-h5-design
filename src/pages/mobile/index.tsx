@@ -19,7 +19,8 @@ export default function() {
    */
   const registerPostmessageEventListener = function(){
     window.addEventListener('message', (event) => {
-      if (event.data && event.data.from === 'design') {
+      console.log('event: ', event);
+      if (event.data && (event.data.from === 'design' || event.data.from === 'componentEdit')) {
         const { payload, type } = event.data as IMessage;
         console.log('--------mobile----------');
         console.log(payload);

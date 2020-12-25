@@ -1,5 +1,3 @@
-import { ISchema } from '@formily/antd';
-
 export const componentBaseConfig = {
   'type': 'object',
   'properties': {

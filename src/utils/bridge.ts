@@ -16,7 +16,7 @@ export enum IMessageType {
 
 export interface IMessage {
   payload: any;
-  from: 'design' | 'mobile',
+  from: 'design' | 'mobile' | 'componentEdit',
   type: IMessageType,
 }
 /**
