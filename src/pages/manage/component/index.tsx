@@ -11,7 +11,6 @@ const { Meta } = Card;
 
 const Component = function() {
   const { getCategoryList } = Model.useContainer();
-  console.log('getCategoryList: ', getCategoryList.data);
   const { list } = getCategoryList.data;
 
   const edit = function({_id}: any){
