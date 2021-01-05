@@ -32,6 +32,8 @@ export default defineConfig({
   alias: {
     '@src': path.resolve(__dirname, 'src'),
   },
+  fastRefresh:{},
+  // esbuild: {},
   extraPostCSSPlugins: [
     pxToViewPort({
       viewportWidth: 750, // (Number) The width of the viewport.
