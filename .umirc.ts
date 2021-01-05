@@ -32,7 +32,7 @@ export default defineConfig({
   alias: {
     '@src': path.resolve(__dirname, 'src'),
   },
-  fastRefresh:{},
+  // fastRefresh:{},
   // esbuild: {},
   extraPostCSSPlugins: [
     pxToViewPort({

@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Col, Form, Input, Row, Table, Select, PageHeader, Space, Divider, Typography } from 'antd';
 import { useAntdTable } from 'ahooks';
-import { PaginatedParams } from 'ahooks/lib/useAntdTable';
 import * as service from '@/service';
 import './index.less';
+import FormRenderDrawer from '@/components/FormRenderDrawer';
 
 
 export default function() {
   const [form] = Form.useForm();
-  const { tableProps, search, loading } = useAntdTable(service.getCategoryList, {
+  const [edit, setEdit] = useState({
+    visible: false,
+    data: undefined,
+  });
+  const { tableProps, search } = useAntdTable(service.getCategoryList, {
     form,
     defaultParams: [
       { current: 1, pageSize: 10 },
@@ -23,6 +27,13 @@ export default function() {
     },
   });
   const { submit, reset } = search;
+
+  const add = function(){
+    setEdit({
+      visible: true,
+      data: undefined,
+    });
+  };
   const columns = [
     {
       title: '分类名称',
@@ -69,16 +80,20 @@ export default function() {
       className="manage-category"
       ghost={false}
       onBack={() => null}
-      title="组件分类管理"
+      title="组件分类管理22"
       extra={[
-        <Button key="1" type="primary">
+        <Button key="1" type="primary" onClick={add}>
           新增
         </Button>,
       ]}
     >
       {SearchForm}
       <Table columns={columns} rowKey="_id" {...tableProps} />
-
+      <FormRenderDrawer
+        visible={edit.visible}
+      >
+        <div>1</div>
+      </FormRenderDrawer>
     </PageHeader>
   );
 }
