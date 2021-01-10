@@ -1,18 +1,41 @@
 import React, { useState } from 'react';
-import { Button, Col, Form, Input, Row, Table, Select, PageHeader, Space, Divider, Typography } from 'antd';
+import { Button, Col, Form, Input, Row, Table, Select, PageHeader, Space, Divider, Typography, Popconfirm } from 'antd';
 import { useAntdTable } from 'ahooks';
 import * as service from '@/service';
 import './index.less';
 import FormRenderDrawer from '@/components/FormRenderDrawer';
+import { useRequest } from 'umi';
 
+const formSchema = {
+  'schema': {
+    'type': 'object',
+    'properties': {
+      'categoryName': {
+        'title': '组件名称',
+        'type': 'string',
+        'ui:options': {},
+      },
+    },
+    'ui:displayType': 'row',
+    'ui:showDescIcon': true,
+    'required': ['categoryName'],
+  },
+  'displayType': 'row',
+  'showDescIcon': true,
+};
 
 export default function() {
   const [form] = Form.useForm();
-  const [edit, setEdit] = useState({
+  const [edit, setEdit] = useState<{
+    visible: boolean,
+    data: any,
+    type: string,
+  }>({
     visible: false,
-    data: undefined,
+    data: {},
+    type: 'add',
   });
-  const { tableProps, search } = useAntdTable(service.getCategoryList, {
+  const { tableProps, search, refresh } = useAntdTable(service.getCategoryList, {
     form,
     defaultParams: [
       { current: 1, pageSize: 10 },
@@ -21,32 +44,90 @@ export default function() {
       },
     ],
     formatResult(res){
-      res.data.list.forEach((item)=>delete item.children);
-      console.log('res.data: ', res.data);
+      res.data.list.forEach((item:any)=>delete item.children);
       return res.data;
     },
+  });
+  const addCategoryReq = useRequest(service.addCategory, {
+    manual: true,
+  });
+  const editCategoryReq = useRequest(service.editCategory, {
+    manual: true,
+  });
+  const deleteCategoryReq = useRequest(service.deleteCategory, {
+    manual: true,
   });
   const { submit, reset } = search;
 
   const add = function(){
     setEdit({
       visible: true,
-      data: undefined,
+      data: {},
+      type: 'add',
     });
+  };
+  const cancel = function(){
+    setEdit({
+      visible: false,
+      data: {},
+      type: 'add',
+    });
+  };
+  const confirm =async function(values: any){
+    if(edit.type === 'add'){
+      await addCategoryReq.run(values);
+    }
+    if(edit.type === 'edit'){
+      await editCategoryReq.run({
+        categoryId: edit.data._id,
+        categoryName: values.categoryName,
+      });
+    }
+    setEdit({
+      visible: false,
+      data: {},
+      type: 'add',
+    });
+    await refresh();
+  };
+  const onEdit = function(data:any){
+    setEdit({
+      visible: true,
+      data,
+      type: 'edit',
+    });
+  };
+  const onDelelte = async function(data:any){
+    await deleteCategoryReq.run({
+      categoryId: data._id,
+    });
+    setEdit({
+      visible: false,
+      data: {},
+      type: 'add',
+    });
+    await refresh();
   };
   const columns = [
     {
-      title: '分类名称',
+      title: '名称',
       dataIndex: 'categoryName',
     },
     {
       title: '操作',
       width: 180,
-      render(){
+      render(data:any){
         return (
           <Space split={<Divider type="vertical" />}>
-            <Typography.Link>修改</Typography.Link>
-            <Typography.Link type="danger">删除</Typography.Link>
+            <Typography.Link onClick={()=>{onEdit(data);}}>修改</Typography.Link>
+            <Popconfirm
+              title="确认此操作？"
+              onConfirm={()=>{onDelelte(data);}}
+              okText="确认"
+              cancelText="取消"
+            >
+              <Typography.Link type="danger">删除</Typography.Link>
+            </Popconfirm>
           </Space>
         );
       },
@@ -80,7 +161,7 @@ export default function() {
       className="manage-category"
       ghost={false}
       onBack={() => null}
-      title="组件分类管理22"
+      title="组件分类管理"
       extra={[
         <Button key="1" type="primary" onClick={add}>
           新增
@@ -90,7 +171,14 @@ export default function() {
       {SearchForm}
       <Table columns={columns} rowKey="_id" {...tableProps} />
       <FormRenderDrawer
+        // @ts-expect-error
+        type={edit.type}
         visible={edit.visible}
+        onCancel={cancel}
+        formSchema={formSchema}
+        onSubmit={confirm}
+        loading={addCategoryReq.loading}
+        formData={edit.data}
       >
         <div>1</div>
       </FormRenderDrawer>

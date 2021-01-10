@@ -1,5 +1,5 @@
-import { Avatar, Badge, Button, Card, Col, PageHeader, Row, Spin, Tabs } from 'antd';
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+import { Badge, Button, Card, Col, PageHeader, Row, Spin, Tabs } from 'antd';
+import { EditOutlined, SettingOutlined } from '@ant-design/icons';
 import { history } from 'umi';
 
 import React from 'react';
