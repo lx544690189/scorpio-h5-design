@@ -5,7 +5,7 @@ const HOST = 'http://127.0.0.1:7001';
 export async function getCategoryList(data: {
   current?: number;
   pageSize?: number;
-}, form:{
+}, form: {
   categoryName?: string;
 }) {
   return request(`${HOST}/category/list`, {
@@ -40,6 +40,19 @@ export async function deleteCategory(data: {
   categoryId: string;
 }) {
   return request(`${HOST}/category/delete`, {
+    method: 'post',
+    data,
+  });
+}
+
+export async function addComponent(data: {
+  categoryId: string;
+  component: {
+    name: string;
+    cover?: string;
+  }
+}) {
+  return request(`${HOST}/category/component/add`, {
     method: 'post',
     data,
   });

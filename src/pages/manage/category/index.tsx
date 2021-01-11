@@ -11,7 +11,7 @@ const formSchema = {
     'type': 'object',
     'properties': {
       'categoryName': {
-        'title': '组件名称',
+        'title': '分类名称',
         'type': 'string',
         'ui:options': {},
       },
@@ -179,9 +179,7 @@ export default function() {
         onSubmit={confirm}
         loading={addCategoryReq.loading}
         formData={edit.data}
-      >
-        <div>1</div>
-      </FormRenderDrawer>
+      />
     </PageHeader>
   );
 }
