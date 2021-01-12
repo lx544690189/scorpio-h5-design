@@ -16,7 +16,7 @@
   }
 
   &-card {
-    width: 220px;
+    width: 250px;
     float: left;
     margin: 20px;
 
@@ -29,25 +29,26 @@
         margin: 6px 0;
       }
     }
+    .ant-typography-ellipsis{
+      margin-bottom: 0;
+    }
+    .ant-card-cover{
+      border-bottom: 1px dashed #d9d9d9;
+      height: 150px;
+      .ant-empty{
+        margin: 0;
+        padding-top: 20px;
+      }
+    }
+
   }
 
-  &-addCard {
-    width: 220px;
+  &-add-btn{
+    width: 250px;
     float: left;
     margin: 20px;
-    height: 192px;
-    background: #fafafa;
-    transition: border-color .3s;
-    border: 1px dashed #d9d9d9;
-    cursor: pointer;
-    text-align: center;
-    line-height: 192px;
+    height: 222px;
     font-size: 16px;
-    border-radius: 4px;
-
-    &:hover {
-      border-color: #40a9ff;
-      color: #1890ff;
-    }
+    font-weight: normal;
   }
 }

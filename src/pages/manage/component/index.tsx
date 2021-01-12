@@ -1,11 +1,12 @@
-import { Badge, Card, Empty, PageHeader, Spin, Tabs, Typography } from 'antd';
+/* eslint-disable @typescript-eslint/no-var-requires */
+import { Badge, Button, Card, Empty, PageHeader, Spin, Tabs, Tooltip, Typography, message } from 'antd';
 import { history, useRequest } from 'umi';
-
 import React, { useState } from 'react';
 import Model from './model';
 import './index.less';
 import FormRenderDrawer from '@/components/FormRenderDrawer';
 import * as service from '@/service';
+import { PlusOutlined } from '@ant-design/icons';
 
 const { TabPane } = Tabs;
 const { Meta } = Card;
@@ -65,6 +66,7 @@ const Component = function() {
       visible: false,
       data: {},
     });
+    await getCategoryList.refresh();
   };
   const onAddComponent = function(category:any){
     setComponentDraw({
@@ -72,6 +74,19 @@ const Component = function() {
       visible: true,
       data: {},
     });
+  };
+
+  const copyId = function(component:any){
+    //
+  };
+
+  const dev = function(component:any){
+    try {
+      require(`@/h5Lib/${component._id}/index.tsx`).default;
+      history.push(`/manage/component/detail?componentId=${component._id}`);
+    } catch (error) {
+      message.error('组件不存在，请检查本地h5lib目录');
+    }
   };
 
   return (
@@ -99,19 +114,28 @@ const Component = function() {
                         /> : <Empty description={false} />
                       }
                       actions={[
-                        <Typography.Link key="id" onClick={()=>edit(component)}>info</Typography.Link>,
+                        <Tooltip title={`ID：${component._id}`} key="id">
+                          <Typography.Link  onClick={()=>copyId(component)}>ID</Typography.Link>
+                        </Tooltip>,
                         <Typography.Link key="edit" onClick={()=>edit(component)}>info</Typography.Link>,
-                        <Typography.Link key="edit" onClick={()=>edit(component)}>dev</Typography.Link>,
+                        <Typography.Link key="edit" onClick={()=>dev(component)}>dev</Typography.Link>,
                       ]}
                     >
-                      <Meta
-                        title={component.name}
-                      />
-                      <Paragraph copyable={{ text: 'Hello, Ant Design!' }} style={{fontSize: '12px', color: 'rgb(185 184 184)'}}>{component._id}</Paragraph>
+                      <Paragraph ellipsis={{ rows: 2, expandable: true, symbol: 'more' }}>
+                        <Meta
+                          title={component.name}
+                        />
+                      </Paragraph>
                     </Card>
                   ))
                 }
-                <div className="manage-component-addCard" onClick={()=>onAddComponent(category)}>新增</div>
+                <Button
+                  type="dashed"
+                  block
+                  className="manage-component-add-btn"
+                  icon={<PlusOutlined />}
+                  onClick={()=>onAddComponent(category)}
+                >新增</Button>
               </TabPane>
             ))
           }
