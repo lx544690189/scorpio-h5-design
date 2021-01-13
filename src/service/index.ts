@@ -6,7 +6,7 @@ export async function getCategoryList(data: {
   current?: number;
   pageSize?: number;
 }, form: {
-  categoryName?: string;
+  name?: string;
 }) {
   return request(`${HOST}/category/list`, {
     method: 'post',
@@ -18,7 +18,7 @@ export async function getCategoryList(data: {
 }
 
 export async function addCategory(data: {
-  categoryName: string;
+  name: string;
 }) {
   return request(`${HOST}/category/add`, {
     method: 'post',
@@ -27,8 +27,8 @@ export async function addCategory(data: {
 }
 
 export async function editCategory(data: {
-  categoryId: string;
-  categoryName: string;
+  _id: string;
+  name: string;
 }) {
   return request(`${HOST}/category/edit`, {
     method: 'post',
@@ -37,7 +37,7 @@ export async function editCategory(data: {
 }
 
 export async function deleteCategory(data: {
-  categoryId: string;
+  _id: string;
 }) {
   return request(`${HOST}/category/delete`, {
     method: 'post',
@@ -45,23 +45,47 @@ export async function deleteCategory(data: {
   });
 }
 
+export async function queryAllWithComponent() {
+  return request(`${HOST}/category/queryAllWithComponent`, {
+    method: 'post',
+  });
+}
+
 export async function addComponent(data: {
-  categoryId: string;
-  component: {
-    name: string;
-    cover?: string;
-  }
+  categoryId:string;
+  name: string;
+  cover?: string;
 }) {
-  return request(`${HOST}/category/component/add`, {
+  return request(`${HOST}/component/add`, {
     method: 'post',
     data,
   });
 }
 
-export async function getComponentDetail(data: {
-  componentId: string
+export async function queryComponentDetail(data: {
+  _id: string
 }) {
-  return request(`${HOST}/category/component/detail`, {
+  return request(`${HOST}/component/detail`, {
+    method: 'post',
+    data,
+  });
+}
+
+export async function editComponent(data: {
+  _id: string;
+  name: string;
+  cover: string;
+}) {
+  return request(`${HOST}/component/edit`, {
+    method: 'post',
+    data,
+  });
+}
+
+export async function deleteComponent(data: {
+  _id: string;
+}) {
+  return request(`${HOST}/component/delete`, {
     method: 'post',
     data,
   });

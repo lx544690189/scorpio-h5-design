@@ -3,14 +3,11 @@ import { createContainer } from 'unstated-next';
 import * as service from '@/service';
 
 export default createContainer(() => {
-  const getCategoryList = useRequest(service.getCategoryList, {
-    initialData: {
-      list: [],
-      total: 0,
-    },
+  const queryAllWithComponent = useRequest(service.queryAllWithComponent, {
+    initialData: [],
   });
 
   return {
-    getCategoryList,
+    queryAllWithComponent,
   };
 });

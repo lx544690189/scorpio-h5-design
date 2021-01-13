@@ -7,7 +7,7 @@ import { IMessageType, onChildrenReady, syncState } from '@/utils/bridge';
 
 export default createContainer(() => {
   const { setStateByObjectKeys } = useModel('bridge');
-  const componentId = history.location.query.componentId;
+  const componentId = <string>history.location.query.componentId;
   // state-组件详情
   const [componentDetailData, setComponentDetailData] = useState({
     _id: '',
@@ -16,9 +16,9 @@ export default createContainer(() => {
     generatorSchema: undefined,
   });
   // state- 组件props
-  const componentDetail = useRequest(service.getComponentDetail, {
+  const componentDetail = useRequest(service.queryComponentDetail, {
     defaultParams: [{
-      componentId,
+      _id: componentId,
     }],
     onSuccess: (data) => {
       setComponentDetailData(data);

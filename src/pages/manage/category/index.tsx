@@ -10,7 +10,7 @@ const formSchema = {
   'schema': {
     'type': 'object',
     'properties': {
-      'categoryName': {
+      'name': {
         'title': '分类名称',
         'type': 'string',
         'ui:options': {},
@@ -18,7 +18,7 @@ const formSchema = {
     },
     'ui:displayType': 'row',
     'ui:showDescIcon': true,
-    'required': ['categoryName'],
+    'required': ['name'],
   },
   'displayType': 'row',
   'showDescIcon': true,
@@ -79,8 +79,8 @@ export default function() {
     }
     if(edit.type === 'edit'){
       await editCategoryReq.run({
-        categoryId: edit.data._id,
-        categoryName: values.categoryName,
+        _id: edit.data._id,
+        name: values.name,
       });
     }
     setEdit({
@@ -99,7 +99,7 @@ export default function() {
   };
   const onDelelte = async function(data:any){
     await deleteCategoryReq.run({
-      categoryId: data._id,
+      _id: data._id,
     });
     setEdit({
       visible: false,
@@ -111,7 +111,7 @@ export default function() {
   const columns = [
     {
       title: '名称',
-      dataIndex: 'categoryName',
+      dataIndex: 'name',
     },
     {
       title: '操作',
@@ -138,7 +138,7 @@ export default function() {
       <Form form={form}>
         <Row gutter={24}>
           <Col span={8}>
-            <Form.Item label="分类名称" name="categoryName">
+            <Form.Item label="分类名称" name="name">
               <Input placeholder="name" />
             </Form.Item>
           </Col>
