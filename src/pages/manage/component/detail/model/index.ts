@@ -7,6 +7,7 @@ import { IMessageType, onChildrenReady, syncState } from '@/utils/bridge';
 
 export default createContainer(() => {
   const { setStateByObjectKeys } = useModel('bridge');
+  // @ts-expect-error
   const componentId = <string>history.location.query.componentId;
   // state-组件详情
   const [componentDetailData, setComponentDetailData] = useState({
@@ -14,6 +15,8 @@ export default createContainer(() => {
     name: '',
     cover: '',
     generatorSchema: undefined,
+    props: undefined,
+    containerProps: undefined,
   });
   // state- 组件props
   const componentDetail = useRequest(service.queryComponentDetail, {
@@ -29,9 +32,9 @@ export default createContainer(() => {
             uuid: uuidv4(),
             name: data.name,
             cover: data.cover,
-            schema: data.generatorSchema?.schema || {},
-            props: {},
-            containerProps: {},
+            schema: data.generatorSchema?.schema ?? {},
+            props: data.props ?? {},
+            containerProps: data.containerProps ?? {},
           }],
         }],
         selectPageIndex: 0,
@@ -46,10 +49,26 @@ export default createContainer(() => {
       });
     },
   });
+  const editComponentDetailReq = useRequest(service.editComponent, {
+    manual: true,
+  });
+
+  const onSubmit = async function(generatorSchema:any, props:any){
+    await editComponentDetailReq.run({
+      _id: componentDetailData._id,
+      name: componentDetailData.name,
+      cover: componentDetailData.cover,
+      generatorSchema,
+      props,
+      containerProps: componentDetailData.containerProps,
+    });
+    history.goBack();
+  };
 
   return {
     componentDetail,
     componentDetailData,
     setComponentDetailData,
+    onSubmit,
   };
 });

@@ -75,6 +75,9 @@ export async function editComponent(data: {
   _id: string;
   name: string;
   cover: string;
+  generatorSchema?: string;
+  props?: string;
+  containerProps?: string;
 }) {
   return request(`${HOST}/component/edit`, {
     method: 'post',

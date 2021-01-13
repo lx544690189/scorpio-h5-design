@@ -101,6 +101,7 @@ const Component = function() {
   };
 
   const dev = function(component: any) {
+    console.log('component: ', component);
     try {
       require(`@/h5Lib/${component._id}/index.tsx`).default;
       history.push(`/manage/component/detail?componentId=${component._id}`);

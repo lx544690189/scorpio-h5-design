@@ -1,5 +1,5 @@
 .manage-component-detail {
-  .left{
+  .left {
     position: absolute;
     top: 0;
     left: 0;
@@ -9,6 +9,16 @@
     overflow: hidden;
     background-color: #f3f2f2;
     border-right: 1px solid #858484;
+
+    &-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 50px;
+      border-bottom: 1px solid grey;
+    }
+
     .mobile {
       margin: auto;
       transition: width 0.3s ease 0s, height 0.3s ease 0s;
@@ -19,7 +29,8 @@
       width: 350px;
     }
   }
-  .right{
+
+  .right {
     position: absolute;
     top: 0;
     left: 400px;
@@ -27,20 +38,29 @@
     bottom: 0;
     display: flex;
     overflow: hidden;
-    .manage-component-detail-tabs{
+
+    .manage-component-detail-tabs {
       width: 100%;
-      .ant-tabs-nav-wrap{
+
+      .ant-tabs-nav-wrap {
         padding: 0 20px;
       }
-      .ant-tabs-content{
+
+      .ant-tabs-content {
         height: 100%;
       }
-      .ant-tabs-tabpane{
+
+      .ant-tabs-tabpane {
         padding: 20px 20px;
         height: 100%;
       }
+
+      &-extBtn{
+        padding-right: 20px;
+      }
     }
-    .ant-spin{
+
+    .ant-spin {
       // max-height: initial;
     }
   }

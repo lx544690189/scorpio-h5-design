@@ -1,4 +1,4 @@
-import { Tabs } from 'antd';
+import { Button, Space, Tabs } from 'antd';
 import React, { useEffect, useRef } from 'react';
 import './index.less';
 import Form from './components/form';
@@ -10,8 +10,9 @@ import { useModel } from 'umi';
 const { TabPane } = Tabs;
 
 const ComponentDetail = function() {
-  const { setStateByObjectKeys } = useModel('bridge');
-  const { componentDetailData, setComponentDetailData } = Model.useContainer();
+  const { setStateByObjectKeys, pageSchema } = useModel('bridge');
+  console.log('pageSchema: ', pageSchema);
+  const { componentDetailData, setComponentDetailData, onSubmit } = Model.useContainer();
   const SchemaRef = useRef(null);
 
   useEffect(() => {
@@ -25,9 +26,6 @@ const ComponentDetail = function() {
     window.addEventListener('message', (event) => {
       if (event.data && event.data.from === 'mobile') {
         const { payload, type } = event.data as IMessage;
-        console.log('--------componentEdit----------');
-        console.log(payload);
-        console.log('--------componentEdit----------');
         if(type === IMessageType.syncState){
           setStateByObjectKeys(payload);
         }
@@ -42,7 +40,6 @@ const ComponentDetail = function() {
     if (key === 'form') {
       // @ts-expect-error
       const generatorSchema = SchemaRef.current.getValue();
-      console.log('generatorSchema: ', generatorSchema);
       setComponentDetailData({
         ...componentDetailData,
         generatorSchema,
@@ -50,14 +47,36 @@ const ComponentDetail = function() {
     }
   }
 
+  async function handelSubmit(){
+    // @ts-expect-error
+    const generatorSchema = SchemaRef.current.getValue();
+    const props = pageSchema[0].components[0].props;
+    await onSubmit(generatorSchema, props);
+  }
+
+  const OperationsSlot = {
+    right: (
+      <Space className="manage-component-detail-tabs-extBtn">
+        <Button>返回</Button>
+        <Button type="primary" onClick={handelSubmit}>保存</Button>
+      </Space>
+    ),
+  };
+
   return (
     <div className="manage-component-detail">
       <div className="left">
+        <div className="left-top"></div>
         <iframe src="/#/mobile" className="mobile" id="mobile" />
       </div>
       <div className="right">
         {/* <Spin spinning={componentDetail.loading}> */}
-        <Tabs className="manage-component-detail-tabs" defaultActiveKey="1" onChange={onTabChange}>
+        <Tabs
+          className="manage-component-detail-tabs"
+          defaultActiveKey="1"
+          onChange={onTabChange}
+          tabBarExtraContent={OperationsSlot}
+        >
           <TabPane tab="schema配置" key="schema">
             <Schema ref={SchemaRef} />
           </TabPane>
