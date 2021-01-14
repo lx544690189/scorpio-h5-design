@@ -1,0 +1,39 @@
+.manage-page{
+  min-height: 100vh;
+  &-card-list{
+    .page-card{
+      border-radius: 10px;
+      overflow: hidden;
+      width: 200px;
+      margin: 10px 0;
+        transition: all .3s ease;
+        box-shadow: 6px 6px 12px #b8b9be,-6px -6px 12px #fff!important;
+        border: 1px solid rgba(243,247,250,.05);
+        .ant-empty{
+          margin-top: 80px;
+        }
+        .ant-card-cover{
+          height: 200px;
+          overflow: hidden;
+        }
+        .ant-card-body{
+          z-index: 1;
+          border-top: 1px solid rgba(100, 99, 99, 0.16);
+
+          padding: 10px;
+          .title{
+            text-align: center;
+          }
+        }
+        &-img{
+          width: 100%;
+          display: block;
+          &:hover{
+            animation: scrollToBottom 1s linear;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+          }
+        }
+    }
+  }
+}
