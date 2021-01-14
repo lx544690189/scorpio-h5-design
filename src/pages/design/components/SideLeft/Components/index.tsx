@@ -1,76 +1,19 @@
 import React from 'react';
 import { Tabs, Select, notification } from 'antd';
 import './index.less';
-import { useModel } from 'umi';
+import { useModel, useRequest } from 'umi';
 import { componentSchema_1, componentSchema_2 } from '@/constant';
+import * as service from '@/service';
 
 const { TabPane } = Tabs;
-
-const dataList = [{
-  _id: '5efb06fb93f74734acf3ef2a',
-  name: '优惠券1',
-  cover: 'https://static.ccrgt.com/images/ac954ea1-523d-4448-8e5b-7e30c54ce89c.png',
-  schema: {
-    'x-component-props': {
-      'size': 'medium',
-      'labelAlign': 'left',
-      'wrapperCol': 12,
-      'labelTextAlign': 'right',
-      'labelCol': 7,
-    },
-    'type': 'object',
-    'properties': {
-      'xx': {
-        'type': 'string',
-        'x-component': 'input',
-        'x-component-props': {
-          'addonTextBefore': '',
-          'trim': true,
-          'hasClear': true,
-          'placeholder': '',
-          'addonTextAfter': '',
-        },
-        'title': 'xx',
-        'x-index': 0,
-        'key': 'xx',
-      },
-    },
-  },
-}, {
-  _id: '5f0bd86393f74734ac1d6bfd',
-  name: '优惠券2',
-  cover: 'https://static.ccrgt.com/images/ac954ea1-523d-4448-8e5b-7e30c54ce89c.png',
-  schema: {
-    'x-component-props': {
-      'size': 'medium',
-      'labelAlign': 'left',
-      'wrapperCol': 12,
-      'labelTextAlign': 'right',
-      'labelCol': 7,
-    },
-    'type': 'object',
-    'properties': {
-      'xx': {
-        'type': 'string',
-        'x-component': 'input',
-        'x-component-props': {
-          'addonTextBefore': '',
-          'trim': true,
-          'hasClear': true,
-          'placeholder': '',
-          'addonTextAfter': '',
-        },
-        'title': 'xx',
-        'x-index': 0,
-        'key': 'xx',
-      },
-    },
-  },
-}];
 
 export default function() {
 
   const { onDragStart, onDragEnd, pageSchema } = useModel('bridge');
+  const queryAllWithComponentReq = useRequest(service.queryAllWithComponent, {
+    cacheKey: 'queryAllWithComponent',
+  });
+  console.log(queryAllWithComponentReq.loading);
 
   const dragStart = function(item:any){
     if(pageSchema.length === 0){
