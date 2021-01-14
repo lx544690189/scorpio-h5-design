@@ -151,10 +151,13 @@ export const componentSchema_2 = {
 };
 
 export const pageSchema = [{
+  uuid: '1606978346559',
   // 基本配置
   config: {
     // 页面标题
     title: '页面标题',
+    // 是否首页
+    isHomePage: true,
     // 封面
     cover: 'https://static.ccrgt.com/images/82ab171c-a600-434f-aafb-3724006e1c92.png',
     // 路径

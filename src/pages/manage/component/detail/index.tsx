@@ -1,11 +1,11 @@
 import { Button, Space, Tabs } from 'antd';
 import React, { useEffect, useRef } from 'react';
+import { useModel, history } from 'umi';
+import { doChildrenReady, IMessage, IMessageType } from '@/utils/bridge';
 import './index.less';
 import Form from './components/form';
 import Schema from './components/schema';
 import Model from './model';
-import { doChildrenReady, IMessage, IMessageType } from '@/utils/bridge';
-import { useModel } from 'umi';
 
 const { TabPane } = Tabs;
 
@@ -57,7 +57,7 @@ const ComponentDetail = function() {
   const OperationsSlot = {
     right: (
       <Space className="manage-component-detail-tabs-extBtn">
-        <Button>返回</Button>
+        <Button onClick={()=>history.goBack()}>返回</Button>
         <Button type="primary" onClick={handelSubmit}>保存</Button>
       </Space>
     ),
