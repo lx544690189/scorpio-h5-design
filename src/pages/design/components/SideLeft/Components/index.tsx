@@ -1,36 +1,74 @@
-import React from 'react';
-import { Tabs, Select, notification } from 'antd';
+import React, { useEffect } from 'react';
+import { Tabs, Select, notification, Row, Col } from 'antd';
 import './index.less';
-import { useModel, useRequest } from 'umi';
-import { componentSchema_1, componentSchema_2 } from '@/constant';
-import * as service from '@/service';
+import { useModel } from 'umi';
+import Model from '../model';
 
 const { TabPane } = Tabs;
 
-export default function() {
+const Components = function()  {
 
   const { onDragStart, onDragEnd, pageSchema } = useModel('bridge');
-  const queryAllWithComponentReq = useRequest(service.queryAllWithComponent, {
-    cacheKey: 'queryAllWithComponent',
-  });
-  console.log(queryAllWithComponentReq.loading);
+  const { queryAllWithComponent } = Model.useContainer();
 
   const dragStart = function(item:any){
     if(pageSchema.length === 0){
       notification.error({
         message: '请先创建一个页面',
-        description:
-          '创建页面后再进行组件拖拽操作！',
+        description: '创建页面后再进行组件拖拽操作！',
       });
     }else{
       onDragStart(item);
     }
   };
 
+  const componentTree = queryAllWithComponent.data;
+
   return (
     <div className="components">
       <Tabs tabPosition="left">
-        <TabPane tab="基础组件" key="1">
+        {
+          componentTree && componentTree.map((category: any)=>(
+            <TabPane tab={category.name} key={category._id}>
+              <Row gutter={10}>
+                {
+                  category.components.map((component:any) => (
+                    <Col span={12} key={component._id}>
+                      <div
+                        className="components-item"
+                        draggable
+                        onDragStart={()=>{dragStart(component);}}
+                        onDragEnd={onDragEnd}
+                      >
+                        <div className="components-item-img">
+                          <img src={component.cover} />
+                        </div>
+                        <div className="components-name">{component.name}</div>
+                      </div>
+                    </Col>
+                  ))
+                }
+              </Row>
+              {/* <div className="components-list">
+                {
+                  category.components.map((component:any) => (
+                    <div
+                      key={component._id}
+                      className="components-item"
+                      draggable
+                      onDragStart={()=>{dragStart(component);}}
+                      onDragEnd={onDragEnd}
+                    >
+                      <div className="components-item-img"><img src={component.cover} /></div>
+                      <div className="components-name">{component.name}</div>
+                    </div>
+                  ))
+                }
+              </div> */}
+            </TabPane>
+          ))
+        }
+        {/* <TabPane tab="基础组件" key="1">
           {
             [componentSchema_1, componentSchema_2].map((item) => (
               <div
@@ -59,8 +97,11 @@ export default function() {
           <div className="component-box">组件3</div>
           <div className="component-box">组件4</div>
           <div className="component-box">组件5</div>
-        </TabPane>
+        </TabPane> */}
       </Tabs>
     </div>
   );
-}
+};
+
+
+export default Components;

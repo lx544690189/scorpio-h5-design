@@ -1,19 +1,13 @@
-import { useState, useCallback } from 'react';
+import * as service from '@/service';
+import { useRequest } from 'umi';
+
 export default function useAuthModel() {
-  const [user, setUser] = useState({
-    name: 'lixin',
+  const queryAllWithComponentReq = useRequest(service.queryAllWithComponent, {
+    initialData: [],
+    manual: true,
   });
-  const signin = useCallback((account, password) => {
-    // signin implementation
-    // setUser(user from signin API)
-  }, []);
-  const signout = useCallback(() => {
-    // signout implementation
-    // setUser(null)
-  }, []);
+
   return {
-    user,
-    signin,
-    signout,
+    queryAllWithComponentReq,
   };
 }
