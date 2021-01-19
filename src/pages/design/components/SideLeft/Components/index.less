@@ -4,6 +4,7 @@
 
     .ant-row {
       padding: 10px;
+
       .ant-col {
         padding-bottom: 10px;
       }
@@ -21,13 +22,13 @@
         pointer-events: none;
         padding: 6px;
         height: 100px;
-        overflow: hidden;
-        display: table-cell;
-        vertical-align: middle;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
         img {
-          width: 100%;
-          display: block;
-          margin: auto;
+          max-width: 100%;
+          max-height: 100%;
         }
       }
 

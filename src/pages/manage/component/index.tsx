@@ -154,12 +154,12 @@ const Component = function() {
                     <Card
                       key={component._id}
                       className="manage-component-card"
-                      cover={
-                        component.cover ? <img
-                          alt="example"
-                          src={component.cover}
-                        /> : <Empty description={false} />
-                      }
+                      // cover={
+                      //   component.cover ? <img
+                      //     alt="example"
+                      //     src={component.cover}
+                      //   /> : <Empty description={false} />
+                      // }
                       actions={[
                         <Tooltip title={`ID：${component._id}`} key="id">
                           <Typography.Link onClick={() => copyId(component)}>ID</Typography.Link>
@@ -183,6 +183,9 @@ const Component = function() {
                         </Dropdown>,
                       ]}
                     >
+                      <div className="manage-component-card-img">
+                        <img src={component.cover} />
+                      </div>
                       <Paragraph ellipsis={{ rows: 2, expandable: true, symbol: 'more' }}>
                         {component.name}
                       </Paragraph>
