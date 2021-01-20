@@ -93,3 +93,12 @@ export async function deleteComponent(data: {
     data,
   });
 }
+
+export async function addPage(data: {
+  pageSchema:string;
+}) {
+  return request(`${HOST}/component/add`, {
+    method: 'post',
+    data,
+  });
+}
