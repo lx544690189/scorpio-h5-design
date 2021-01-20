@@ -10,6 +10,8 @@ export default function bridge() {
   const [isDraging, setIsDraging] = useState(false);
   /** 当前拖拽的组件 */
   const [dragComponent, setDragComponent] = useState(undefined);
+  /** 页面id */
+  const [pageId, setPageId] = useState<string>();
   /** 页面结构schema */
   const [pageSchema, setPageSchema] = useState<any[]>([]);
   /** 当前选中的页面 */
@@ -26,6 +28,7 @@ export default function bridge() {
   const setStateByObjectKeys = function(state: {
     isDraging?: boolean;
     dragComponent?: any;
+    pageId?: string;
     pageSchema?: any[];
     selectPageIndex?: number;
     selectComponentId?: string;
@@ -39,6 +42,9 @@ export default function bridge() {
       }
       if (key === 'dragComponent') {
         setDragComponent(state.dragComponent);
+      }
+      if (key === 'pageId') {
+        setPageId(state.pageId);
       }
       if (key === 'pageSchema') {
         // @ts-expect-error
@@ -167,6 +173,7 @@ export default function bridge() {
   return {
     isDraging,
     dragComponent,
+    pageId,
     pageSchema,
     selectPageIndex,
     selectComponentId,

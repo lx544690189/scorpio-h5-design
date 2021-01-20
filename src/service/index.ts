@@ -95,9 +95,46 @@ export async function deleteComponent(data: {
 }
 
 export async function addPage(data: {
-  pageSchema:string;
+  pageSchema: any[];
 }) {
-  return request(`${HOST}/component/add`, {
+  return request(`${HOST}/page/add`, {
+    method: 'post',
+    data,
+  });
+}
+
+export async function editPage(data: {
+  pageId:string;
+  pageSchema: any[];
+}) {
+  return request(`${HOST}/page/edit`, {
+    method: 'post',
+    data,
+  });
+}
+
+export async function queryPageDetail(data: {
+  _id: string;
+}) {
+  return request(`${HOST}/page/detail`, {
+    method: 'post',
+    data,
+  });
+}
+
+export async function queryPageList(data: {
+  _id: string;
+}) {
+  return request(`${HOST}/page/list`, {
+    method: 'post',
+    data,
+  });
+}
+
+export async function deletePage(data: {
+  _id: string;
+}) {
+  return request(`${HOST}/page/delete`, {
     method: 'post',
     data,
   });

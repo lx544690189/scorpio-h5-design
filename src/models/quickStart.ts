@@ -1,8 +1,7 @@
 import { TEMPLATE_TYPE } from '@/types';
 import { history, useModel } from 'umi';
 import { pageSchema } from '@/constant';
-import { IMessageType, onChildrenReady } from '@/utils/bridge';
-import { syncState } from '@/utils/bridge';
+import { IMessageType, onChildrenReady, syncState } from '@/utils/bridge';
 
 export default function useAuthModel() {
 

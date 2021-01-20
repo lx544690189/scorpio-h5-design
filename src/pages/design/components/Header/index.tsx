@@ -1,11 +1,31 @@
 import React from 'react';
-import { useModel } from 'umi';
+import { useModel, useRequest } from 'umi';
+import * as service from '@/service';
 import './index.less';
+import { message } from 'antd';
 
 export default function() {
-  const { pageSchema } = useModel('bridge');
-  const onSave = function(){
-    console.log('pageSchema: ', pageSchema);
+  const { pageId, pageSchema } = useModel('bridge');
+  const addPageReq = useRequest(service.addPage, {
+    manual: true,
+  });
+  const editPageReq = useRequest(service.editPage, {
+    manual: true,
+  });
+
+  const onSave = async function(){
+    if(pageId){
+      editPageReq.run({
+        pageId,
+        pageSchema,
+      });
+    }else{
+      await addPageReq.run({
+        pageSchema,
+      });
+    }
+
+    message.success('保存成功！');
   };
 
   return (
