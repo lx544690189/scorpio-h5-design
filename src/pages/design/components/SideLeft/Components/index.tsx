@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Tabs, Select, notification, Row, Col } from 'antd';
+import React from 'react';
+import { Tabs, notification, Row, Col } from 'antd';
 import './index.less';
 import { useModel } from 'umi';
 import Model from '../model';

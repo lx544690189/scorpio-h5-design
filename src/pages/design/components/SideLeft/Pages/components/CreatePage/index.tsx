@@ -1,28 +1,10 @@
 import React from 'react';
-import { Skeleton, Switch, Card, Avatar, Empty, Button, Tooltip, Drawer, Row, Col } from 'antd';
+import { Card, Empty, Drawer, Row, Col } from 'antd';
 import './index.less';
 import { useModel } from 'umi';
 
-const pageSchema = {
-  // 基本配置
-  config: {
-    // 页面标题
-    title: '页面标题',
-    // 封面
-    cover: 'https://static.ccrgt.com/images/82ab171c-a600-434f-aafb-3724006e1c92.png',
-    // 路径
-    path: 'home',
-    // 分享
-    share: {
-      type: [1, 2],
-      desc: '邀请好友助力',
-    },
-  },
-  components: [],
-};
-
 export default function() {
-  const { page, closeCreatePageDrawer, onCreatePage, openConfigPageDrawer } = useModel('page');
+  const { page, closeCreatePageDrawer, openConfigPageDrawer } = useModel('page');
 
   return (
     <Drawer

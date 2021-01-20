@@ -1,11 +1,10 @@
-import SchemaForm, { createEffectHook, createFormActions } from '@formily/antd';
+import SchemaForm from '@formily/antd';
 import { Input, Select, NumberPicker } from '@formily/antd-components';
 
 import React from 'react';
 import { useModel } from 'umi';
 
 const App = () => {
-  const { selectComponentId } = useModel('bridge');
   return (
     <SchemaForm
       components={{ Input, Select, NumberPicker }}

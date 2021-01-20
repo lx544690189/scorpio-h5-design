@@ -11,16 +11,23 @@ import {
 import {
   Input,
 } from '@formily/antd-components'; // 或者@formily/next-components
+import { v4 as uuidv4 } from 'uuid';
 
 const actions = createAsyncFormActions();
+let pageNumber = 1;
 
 export default function() {
-  const { page, closeConfigPageDrawer, onCreatePage, closeCreatePageDrawer } = useModel('page');
+  const { page, closeConfigPageDrawer, onCreatePage } = useModel('page');
   useEffect(() => {
-    actions.setFieldState('bb', (state) => {
-      state.value = '11';
-    });
-  }, []);
+    if(page.configModalVisible){
+      actions.setFieldState('title', (state) => {
+        state.value = `页面-${pageNumber++}`;
+      });
+      actions.setFieldState('path', (state) => {
+        state.value = uuidv4();
+      });
+    }
+  }, [page.configModalVisible]);
 
   const submit1 = async() => {
     const validate = await actions.submit();
