@@ -14,6 +14,7 @@ interface Window {
   isChild: boolean;
   isChildren_ready: boolean;
   children_ready_task: any[];
+  onCaptureComponentOver: (fileName:string)=>void
 }
 
 declare module 'form-render/lib/antd' {

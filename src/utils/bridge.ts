@@ -12,6 +12,8 @@ export enum IMessageType {
   syncState = 1,
   /** 子页面-事件通道建立 */
   children_ready,
+  /** 生成截图 */
+  capture,
 }
 
 export interface IMessage {
@@ -31,6 +33,7 @@ export function syncState(message: IMessage) {
     window.document.querySelector('#mobile').contentWindow.postMessage(message, '*');
   }
 }
+
 export const onChildrenReady = function(callback: () => any) {
   if (window.isChildren_ready) {
     callback();

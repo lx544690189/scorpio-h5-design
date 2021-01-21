@@ -1,7 +1,7 @@
 import { Button, Space, Tabs } from 'antd';
 import React, { useEffect, useRef } from 'react';
 import { useModel, history } from 'umi';
-import { doChildrenReady, IMessage, IMessageType } from '@/utils/bridge';
+import { doChildrenReady, IMessage, IMessageType, syncState } from '@/utils/bridge';
 import './index.less';
 import Form from './components/form';
 import Schema from './components/schema';
@@ -13,11 +13,23 @@ const ComponentDetail = function() {
   const { setStateByObjectKeys, pageSchema } = useModel('bridge');
   console.log('pageSchema: ', pageSchema);
   const { componentDetailData, setComponentDetailData, onSubmit } = Model.useContainer();
-  const SchemaRef = useRef(null);
+  const SchemaRef = useRef<{getValue: ()=>any}>(null);
 
   useEffect(() => {
     registerPostmessageEventListener();
-  }, []);
+    window.onCaptureComponentOver = async function(fileName){
+      console.log('fileName: ', fileName);
+      if(SchemaRef.current){
+        const generatorSchema = SchemaRef.current.getValue();
+        console.log('pageSchema: ', pageSchema);
+        const props = pageSchema[0].components[0].props;
+        componentDetailData.cover = `https://static.lxzyl.cn/design/${fileName}`;
+        await onSubmit(generatorSchema, props);
+      }
+    };
+  }, [pageSchema]);
+
+
 
   /**
    * 监听父页面message
@@ -48,10 +60,11 @@ const ComponentDetail = function() {
   }
 
   async function handelSubmit(){
-    // @ts-expect-error
-    const generatorSchema = SchemaRef.current.getValue();
-    const props = pageSchema[0].components[0].props;
-    await onSubmit(generatorSchema, props);
+    syncState({
+      payload: {},
+      from: 'design',
+      type: IMessageType.capture,
+    });
   }
 
   const OperationsSlot = {

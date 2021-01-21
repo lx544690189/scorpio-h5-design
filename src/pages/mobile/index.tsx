@@ -1,13 +1,16 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './index.less';
 import DragContainer from './components/DragContainer';
 import { useModel } from 'umi';
-import {IMessage, IMessageType, syncState} from '@/utils/bridge';
+import { IMessage, IMessageType, syncState } from '@/utils/bridge';
+import html2canvas from 'html2canvas';
+import { v4 as uuidv4 } from 'uuid';
+import { dataURLtoFile, ossClient } from '@/utils';
 
 export default function() {
-
   const { setStateByObjectKeys } = useModel('bridge');
+  const canvasRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     registerPostmessageEventListener();
@@ -17,7 +20,7 @@ export default function() {
   /**
    * 监听父页面message
    */
-  const registerPostmessageEventListener = function(){
+  const registerPostmessageEventListener = function() {
     window.addEventListener('message', (event) => {
       console.log('event: ', event);
       if (event.data && (event.data.from === 'design' || event.data.from === 'componentEdit')) {
@@ -25,8 +28,23 @@ export default function() {
         console.log('--------mobile----------');
         console.log(payload);
         console.log('--------mobile----------');
-        if(type === IMessageType.syncState){
+        if (type === IMessageType.syncState) {
           setStateByObjectKeys(payload);
+        }
+        if (type === IMessageType.capture) {
+          const captureDom = canvasRef.current;
+          if(captureDom){
+            html2canvas(captureDom, {
+              useCORS: true,
+              scale: 0.9,
+            }).then(async function(canvas) {
+              const dataURL = canvas.toDataURL('image/png');
+              const file = dataURLtoFile(dataURL, new Date().getTime().toString());
+              const fileName = `${uuidv4()}.png`;
+              await ossClient.put(`design/${fileName}`, file);
+              window.parent.onCaptureComponentOver(fileName);
+            });
+          }
         }
       }
     });
@@ -35,7 +53,7 @@ export default function() {
   /**
    * 子页面通信建立，通知父页面
    */
-  const onReady = function(){
+  const onReady = function() {
     syncState({
       payload: {},
       from: 'mobile',
@@ -47,7 +65,9 @@ export default function() {
     <div
       className="h5-canvas"
     >
-      <DragContainer />
+      <div ref={canvasRef}>
+        <DragContainer />
+      </div>
     </div>
   );
 }

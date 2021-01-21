@@ -54,6 +54,7 @@ export default createContainer(() => {
   });
 
   const onSubmit = async function(generatorSchema:any, props:any){
+    console.log('componentDetailData: ', componentDetailData);
     await editComponentDetailReq.run({
       _id: componentDetailData._id,
       name: componentDetailData.name,

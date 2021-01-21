@@ -3,6 +3,7 @@ import { history, useModel, useRequest } from 'umi';
 import * as service from '@/service';
 import { PageHeader, Card, Pagination, Button } from 'antd';
 import { IMessageType, onChildrenReady, syncState } from '@/utils/bridge';
+import AliyunUpload from '@/components/AliyunUpload';
 
 import './index.less';
 
@@ -57,7 +58,7 @@ export default function() {
         </Button>,
       ]}
     >
-      <div className="manage-page-container">
+      {/* <div className="manage-page-container">
         {
           queryPageListReq.data&&  queryPageListReq.data.list.map((item:any)=>(
             <div className="manage-page-item" key={item._id}>
@@ -80,8 +81,9 @@ export default function() {
       </div>
       <div className="manage-page-pagination">
         <Pagination defaultCurrent={1} total={50} />
-      </div>
+      </div> */}
 
+      <AliyunUpload />
     </PageHeader>
   );
 }
