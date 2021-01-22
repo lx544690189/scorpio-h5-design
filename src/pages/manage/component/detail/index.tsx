@@ -11,17 +11,14 @@ const { TabPane } = Tabs;
 
 const ComponentDetail = function() {
   const { setStateByObjectKeys, pageSchema } = useModel('bridge');
-  console.log('pageSchema: ', pageSchema);
   const { componentDetailData, setComponentDetailData, onSubmit } = Model.useContainer();
-  const SchemaRef = useRef<{getValue: ()=>any}>(null);
+  const SchemaRef = useRef<{ getValue: () => any }>(null);
 
   useEffect(() => {
     registerPostmessageEventListener();
-    window.onCaptureComponentOver = async function(fileName){
-      console.log('fileName: ', fileName);
-      if(SchemaRef.current){
+    window.onCaptureComponentOver = async function(fileName) {
+      if (SchemaRef.current) {
         const generatorSchema = SchemaRef.current.getValue();
-        console.log('pageSchema: ', pageSchema);
         const props = pageSchema[0].components[0].props;
         componentDetailData.cover = `https://static.lxzyl.cn/design/${fileName}`;
         await onSubmit(generatorSchema, props);
@@ -29,19 +26,17 @@ const ComponentDetail = function() {
     };
   }, [pageSchema]);
 
-
-
   /**
    * 监听父页面message
    */
-  const registerPostmessageEventListener = function(){
+  const registerPostmessageEventListener = function() {
     window.addEventListener('message', (event) => {
       if (event.data && event.data.from === 'mobile') {
         const { payload, type } = event.data as IMessage;
-        if(type === IMessageType.syncState){
+        if (type === IMessageType.syncState) {
           setStateByObjectKeys(payload);
         }
-        if(type === IMessageType.children_ready){
+        if (type === IMessageType.children_ready) {
           doChildrenReady();
         }
       }
@@ -59,7 +54,7 @@ const ComponentDetail = function() {
     }
   }
 
-  async function handelSubmit(){
+  async function handelSubmit() {
     syncState({
       payload: {},
       from: 'design',
@@ -70,7 +65,7 @@ const ComponentDetail = function() {
   const OperationsSlot = {
     right: (
       <Space className="manage-component-detail-tabs-extBtn">
-        <Button onClick={()=>history.goBack()}>返回</Button>
+        <Button onClick={() => history.goBack()}>返回</Button>
         <Button type="primary" onClick={handelSubmit}>保存</Button>
       </Space>
     ),

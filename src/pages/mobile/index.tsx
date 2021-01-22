@@ -36,7 +36,7 @@ export default function() {
           if(captureDom){
             html2canvas(captureDom, {
               useCORS: true,
-              scale: 0.9,
+              scale: 1,
             }).then(async function(canvas) {
               const dataURL = canvas.toDataURL('image/png');
               const file = dataURLtoFile(dataURL, new Date().getTime().toString());

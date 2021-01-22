@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useModel, useRequest } from 'umi';
 import * as service from '@/service';
 import './index.less';
-import { message } from 'antd';
+import { message, Spin } from 'antd';
+import { IMessageType, syncState } from '@/utils/bridge';
 
 export default function() {
   const { pageId, pageSchema } = useModel('bridge');
@@ -13,18 +14,29 @@ export default function() {
     manual: true,
   });
 
-  const onSave = async function(){
-    if(pageId){
-      editPageReq.run({
-        pageId,
-        pageSchema,
-      });
-    }else{
-      await addPageReq.run({
-        pageSchema,
-      });
-    }
+  useEffect(() => {
+    window.onCaptureComponentOver = async function(fileName) {
+      if (pageId) {
+        await editPageReq.run({
+          _id: pageId,
+          pageSchema,
+          cover: `https://static.lxzyl.cn/design/${fileName}`,
+        });
+      } else {
+        await addPageReq.run({
+          pageSchema,
+          cover: `https://static.lxzyl.cn/design/${fileName}`,
+        });
+      }
+    };
+  }, [pageId]);
 
+  const onSave = async function() {
+    syncState({
+      payload: {},
+      from: 'design',
+      type: IMessageType.capture,
+    });
     message.success('保存成功！');
   };
 

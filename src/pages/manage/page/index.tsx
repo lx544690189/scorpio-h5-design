@@ -3,7 +3,6 @@ import { history, useModel, useRequest } from 'umi';
 import * as service from '@/service';
 import { PageHeader, Card, Pagination, Button } from 'antd';
 import { IMessageType, onChildrenReady, syncState } from '@/utils/bridge';
-import AliyunUpload from '@/components/AliyunUpload';
 
 import './index.less';
 
@@ -58,7 +57,7 @@ export default function() {
         </Button>,
       ]}
     >
-      {/* <div className="manage-page-container">
+      <div className="manage-page-container">
         {
           queryPageListReq.data&&  queryPageListReq.data.list.map((item:any)=>(
             <div className="manage-page-item" key={item._id}>
@@ -68,7 +67,7 @@ export default function() {
                   <img
                     className="page-add-card-img"
                     alt="example"
-                    src="https://static.ccrgt.com/images/82ab171c-a600-434f-aafb-3724006e1c92.png"
+                    src={item.cover}
                   />
                 }
                 onClick={()=>{onEditPage(item);}}
@@ -81,9 +80,7 @@ export default function() {
       </div>
       <div className="manage-page-pagination">
         <Pagination defaultCurrent={1} total={50} />
-      </div> */}
-
-      <AliyunUpload />
+      </div>
     </PageHeader>
   );
 }
