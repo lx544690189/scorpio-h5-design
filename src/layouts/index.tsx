@@ -21,12 +21,3 @@ export default withRouter((props: any) => {
     </ConfigProvider>
   );
 });
-
-
-// export default function(props: any){
-//   return (
-//     <ConfigProvider locale={zhCN} >
-//       <LayoutRoute
-//     </ConfigProvider>
-//   );
-// }

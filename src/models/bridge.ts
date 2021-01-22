@@ -147,14 +147,27 @@ export default function bridge() {
     return result;
   };
 
-  /** 排序拖拽-放置 */
-  const onSortEnd = function(result: DropResult, currentPageComponents:any[]) {
+  /**
+   * 排序拖拽-放置
+   * @TODO 视图会闪烁
+  */
+  const onSortEnd = function(result: DropResult, currentPageComponents: any[]) {
     if (!result.destination) {
       return;
     }
     const reorderedComponents = reorder(currentPageComponents, result.source.index, result.destination.index);
-    pageSchema[selectPageIndex].components = reorderedComponents;
-    setPageSchema([...pageSchema]);
+    // pageSchema[selectPageIndex].components = reorderedComponents;
+    const newPageSchema = JSON.parse(JSON.stringify(pageSchema));
+    newPageSchema[selectPageIndex].components = reorderedComponents;
+    const state = {
+      pageSchema: newPageSchema,
+    };
+    setStateByObjectKeys(state);
+    syncState({
+      payload: state,
+      from: 'mobile',
+      type: IMessageType.syncState,
+    });
   };
 
   /** 选中组件 */
