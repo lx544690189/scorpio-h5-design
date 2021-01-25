@@ -7,7 +7,6 @@ import SideRight from './components/SideRight';
 import { useModel } from 'umi';
 import { doChildrenReady, IMessage, IMessageType, onChildrenReady, syncState } from '@/utils/bridge';
 import Header from './components/Header';
-import { useBoolean } from 'ahooks';
 
 export default function() {
   // @ts-expect-error
@@ -16,7 +15,6 @@ export default function() {
   const queryPageDetailReq = useRequest(service.queryPageDetail, {
     manual: true,
   });
-  const [loading, setLoading] = useBoolean(true);
 
   useEffect(() => {
     registerPostmessageEventListener();
@@ -55,7 +53,6 @@ export default function() {
       pageSchema: [],
       selectPageIndex: -1,
     };
-    console.log('_id: ', _id);
     if (_id) {
       const res = await queryPageDetailReq.run({
         _id,
