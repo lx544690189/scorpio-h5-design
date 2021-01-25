@@ -122,8 +122,6 @@ export default function bridge() {
   /** 拖拽-放置 */
   const onDrop = function(ev: React.DragEvent<HTMLDivElement>, index: number) {
     ev.preventDefault();
-    console.log('pageSchema: ', pageSchema);
-    console.log('selectPageIndex: ', selectPageIndex);
     const components: any[] = pageSchema[selectPageIndex].components;
     components.splice(index, 0, dragComponent);
     const state = {
@@ -156,11 +154,9 @@ export default function bridge() {
       return;
     }
     const reorderedComponents = reorder(currentPageComponents, result.source.index, result.destination.index);
-    // pageSchema[selectPageIndex].components = reorderedComponents;
-    const newPageSchema = JSON.parse(JSON.stringify(pageSchema));
-    newPageSchema[selectPageIndex].components = reorderedComponents;
+    pageSchema[selectPageIndex].components = reorderedComponents;
     const state = {
-      pageSchema: newPageSchema,
+      pageSchema,
     };
     setStateByObjectKeys(state);
     syncState({

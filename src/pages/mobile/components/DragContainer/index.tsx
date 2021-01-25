@@ -9,8 +9,10 @@ import {
 import classnames from 'classnames';
 import { useModel } from 'umi';
 import DynamicComponent from '../DynamicComponent';
+import { useBoolean } from 'ahooks';
 
 export default function() {
+  const [isOrdering, setIsOrdering] = useBoolean(false);
   const {
     isDraging, pageSchema, selectPageIndex, dragingComponentIndex, selectComponentId,
     onDragEnter, onDragLeave, onDrop, onSelectComponent, onSortEnd,
@@ -21,7 +23,15 @@ export default function() {
   }
 
   return (
-    <DragDropContext onDragEnd={(result: DropResult)=>{onSortEnd(result, components);}}>
+    <DragDropContext
+      onDragStart={()=>{
+        setIsOrdering.setTrue();
+      }}
+      onDragEnd={(result: DropResult)=>{
+        onSortEnd(result, components);
+        setIsOrdering.setFalse();
+      }}
+    >
       <Droppable droppableId="droppable">
         {(provided, snapshot) => (
           <div
@@ -49,7 +59,7 @@ export default function() {
                       className={classnames(
                         'h5-canvas-block',
                         {
-                          'isDragging': snapshot.isDragging,
+                          'blur': !snapshot.isDragging && isOrdering,
                           'isSelected': selectComponentId === item.uuid,
                         }
                       )}

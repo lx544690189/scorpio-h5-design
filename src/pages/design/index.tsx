@@ -4,21 +4,27 @@ import * as service from '@/service';
 import './index.less';
 import SideLeft from './components/SideLeft';
 import SideRight from './components/SideRight';
-import { EVENT_TYPE } from '@/types/event';
 import { useModel } from 'umi';
 import { doChildrenReady, IMessage, IMessageType, onChildrenReady, syncState } from '@/utils/bridge';
 import Header from './components/Header';
+import { useBoolean } from 'ahooks';
 
 export default function() {
+  // @ts-expect-error
+  const { _id } = history.location.query;
   const { setStateByObjectKeys } = useModel('bridge');
   const queryPageDetailReq = useRequest(service.queryPageDetail, {
     manual: true,
   });
+  const [loading, setLoading] = useBoolean(true);
 
   useEffect(() => {
     registerPostmessageEventListener();
-    initData();
   }, []);
+
+  useEffect(() => {
+    initData();
+  }, [_id]);
 
   /**
    * 监听父页面message
@@ -44,26 +50,30 @@ export default function() {
    * 初始化数据、编辑页面初始数据
    */
   const initData = async function() {
-    // @ts-expect-error
-    const { _id } = history.location.query;
+    let state = {
+      pageId: undefined,
+      pageSchema: [],
+      selectPageIndex: -1,
+    };
+    console.log('_id: ', _id);
     if (_id) {
       const res = await queryPageDetailReq.run({
         _id,
       });
-      const state = {
+      state = {
         pageId: res._id,
         pageSchema: res.pageSchema,
         selectPageIndex: 0,
       };
-      setStateByObjectKeys(state);
-      onChildrenReady(() => {
-        syncState({
-          payload: state,
-          from: 'design',
-          type: IMessageType.syncState,
-        });
-      });
     }
+    setStateByObjectKeys(state);
+    onChildrenReady(() => {
+      syncState({
+        payload: state,
+        from: 'design',
+        type: IMessageType.syncState,
+      });
+    });
   };
 
   return (

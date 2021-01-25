@@ -18,17 +18,15 @@ export default function() {
     };
     setStateByObjectKeys(state);
     history.push('/design');
-    onChildrenReady(() => {
-      syncState({
-        payload: state,
-        from: 'design',
-        type: IMessageType.syncState,
-      });
-    });
   };
 
   const onEditPage = function(item:any){
-    console.log('item: ', item);
+    const state = {
+      pageId: undefined,
+      pageSchema: [],
+      selectPageIndex: -1,
+    };
+    setStateByObjectKeys(state);
     history.push({
       pathname: '/design',
       query: {

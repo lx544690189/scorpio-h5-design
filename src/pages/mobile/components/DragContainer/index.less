@@ -1,14 +1,6 @@
-@keyframes selected {
-  0% {
-    outline: 2px solid #f9f9fa;
-  }
-
-  60% {
-    outline: 2px solid #f87204;
-  }
-
+@keyframes linearGradientMove {
   100% {
-    outline: 2px solid #f9f9fa;
+    background-position: 4px 0, -4px 100%, 0 -4px, 100% 4px;
   }
 }
 
@@ -17,21 +9,29 @@
   &-block {
     position: relative;
     cursor: inherit;
-    // outline: 1px dotted #b9b8b8;
     zoom: 1;
 
     &:hover {
-      outline: 1px solid #1861d5;
+      animation: linearGradientMove .3s infinite linear;
     }
 
     &.isDragging {
-      outline: 1px solid #1861d5;
+      filter: none
+    }
+    &.blur {
       filter: blur(1px);
     }
 
     &.isSelected {
-      animation: selected 3s linear;
-      animation-iteration-count: infinite;
+      animation: linearGradientMove .3s infinite linear;
+      background:
+        linear-gradient(90deg, #fa4a04 50%, transparent 0) repeat-x,
+        linear-gradient(90deg, #fa4a04 50%, transparent 0) repeat-x,
+        linear-gradient(0deg, #fa4a04 50%, transparent 0) repeat-y,
+        linear-gradient(0deg, #fa4a04 50%, transparent 0) repeat-y;
+      background-size: 4px 1px, 4px 1px, 1px 4px, 1px 4px;
+      background-position: 0 0, 0 100%, 0 0, 100% 0;
+      padding: 1px;
     }
   }
 
