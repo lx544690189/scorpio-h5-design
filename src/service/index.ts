@@ -96,7 +96,6 @@ export async function deleteComponent(data: {
 
 export async function addPage(data: {
   pageSchema: any[];
-  cover:string;
 }) {
   return request(`${HOST}/page/add`, {
     method: 'post',
@@ -106,7 +105,6 @@ export async function addPage(data: {
 
 export async function editPage(data: {
   _id:string;
-  cover:string;
   pageSchema: any[];
 }) {
   return request(`${HOST}/page/edit`, {

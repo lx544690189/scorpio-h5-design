@@ -29,19 +29,11 @@ export default function() {
 
   const onEditPage = function(item:any){
     console.log('item: ', item);
-    const state = {
-      pageId: item._id,
-      pageSchema: item.pageSchema,
-      selectPageIndex: 0,
-    };
-    setStateByObjectKeys(state);
-    history.push('/design');
-    onChildrenReady(() => {
-      syncState({
-        payload: state,
-        from: 'design',
-        type: IMessageType.syncState,
-      });
+    history.push({
+      pathname: '/design',
+      query: {
+        _id: item._id,
+      },
     });
   };
 

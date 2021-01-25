@@ -10,6 +10,7 @@ import classnames from 'classnames';
 export default function() {
   const { openCreatePageDrawer } = useModel('page');
   const { pageSchema, selectPageIndex } = useModel('bridge');
+  console.log('pageSchema: ', pageSchema);
 
   return (
     <div className="page">
@@ -31,7 +32,7 @@ export default function() {
               cover={
                 <img
                   alt="example"
-                  src="https://carpooling-1256959311.cos.ap-chengdu.myqcloud.com/d6bc039b-04ea-49ca-8ee9-a006aec7c443.png"
+                  src={item.cover ?? 'https://carpooling-1256959311.cos.ap-chengdu.myqcloud.com/d6bc039b-04ea-49ca-8ee9-a006aec7c443.png'}
                 />
               }
               actions={[
