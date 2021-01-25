@@ -57,7 +57,7 @@ export default function() {
                   <img
                     className="page-add-card-img"
                     alt="example"
-                    src={item.cover}
+                    src={item.pageSchema[0]?.cover}
                   />
                 }
                 onClick={()=>{onEditPage(item);}}

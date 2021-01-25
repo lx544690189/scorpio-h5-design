@@ -149,6 +149,13 @@ const Component = function() {
           {
             queryAllWithComponent.data.map((category: any) => (
               <TabPane tab={<>{category.name}<Badge count={category.components.length} /></>} key={category._id}>
+                <Button
+                  type="dashed"
+                  block
+                  className="manage-component-add-btn"
+                  icon={<PlusOutlined />}
+                  onClick={() => onAddComponent(category)}
+                >新增</Button>
                 {
                   category.components.map((component: any) => (
                     <Card
@@ -192,13 +199,6 @@ const Component = function() {
                     </Card>
                   ))
                 }
-                <Button
-                  type="dashed"
-                  block
-                  className="manage-component-add-btn"
-                  icon={<PlusOutlined />}
-                  onClick={() => onAddComponent(category)}
-                >新增</Button>
               </TabPane>
             ))
           }
