@@ -24,6 +24,11 @@ const formSchema = {
         'title': '封面',
         'type': 'string',
       },
+      uploadImage: {
+        title: '上传图片',
+        type: 'array',
+        'ui:widget': 'ImageUpload',
+      },
     },
     'ui:displayType': 'row',
     'ui:showDescIcon': true,

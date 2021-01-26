@@ -3,6 +3,7 @@ import { Drawer, Button } from 'antd';
 import './index.less';
 import { DrawerProps } from 'antd/lib/drawer';
 import FormRender from 'form-render/lib/antd';
+import ImageUpload from '@/widgets/ImageUpload';
 
 interface IProps extends DrawerProps {
   type: 'add' | 'edit' | 'detail';
@@ -71,6 +72,7 @@ export default function(props: IProps) {
         onChange={onChange}
         onValidate={setValid}
         showValidate={showValidate}
+        widgets={{ ImageUpload }}
         {...formSchema}
       />
     </Drawer>
