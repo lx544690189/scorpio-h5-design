@@ -26,7 +26,7 @@ const formSchema = {
       },
       uploadImage: {
         title: '上传图片',
-        type: 'array',
+        type: 'string',
         'ui:widget': 'ImageUpload',
       },
     },
