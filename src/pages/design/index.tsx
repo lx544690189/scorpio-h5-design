@@ -7,6 +7,8 @@ import SideRight from './components/SideRight';
 import { useModel } from 'umi';
 import { doChildrenReady, IMessage, IMessageType, onChildrenReady, syncState } from '@/utils/bridge';
 import Header from './components/Header';
+import { useBoolean } from 'ahooks';
+import Loading from '@/components/Loading';
 
 export default function() {
   // @ts-expect-error
@@ -15,7 +17,7 @@ export default function() {
   const queryPageDetailReq = useRequest(service.queryPageDetail, {
     manual: true,
   });
-
+  const [loading, setLoading] = useBoolean(true);
   useEffect(() => {
     registerPostmessageEventListener();
   }, []);
@@ -52,6 +54,7 @@ export default function() {
       pageId: undefined,
       pageSchema: [],
       selectPageIndex: -1,
+      selectComponentId: undefined,
     };
     if (_id) {
       const res = await queryPageDetailReq.run({
@@ -61,6 +64,7 @@ export default function() {
         pageId: res._id,
         pageSchema: res.pageSchema,
         selectPageIndex: 0,
+        selectComponentId: undefined,
       };
     }
     setStateByObjectKeys(state);
@@ -70,24 +74,28 @@ export default function() {
         from: 'design',
         type: IMessageType.syncState,
       });
+      setLoading.setFalse();
     });
   };
 
   return (
     <div className="design">
       <Header />
-      <SideLeft />
+      <div className="side-left">
+        {!loading && <SideLeft />}
+      </div>
       <div className="side-right">
-        <SideRight />
+        {!loading && <SideRight />}
       </div>
       <div className="center">
         <div className="mobile-simulator">
           <div className="mobile-head-bar"></div>
           <div className="mobile-content">
-            <iframe src="/#/mobile" className="mobile" id="mobile" />
+            <iframe src="/#/mobile" className={`mobile ${!loading && 'show'}`} id="mobile"/>
           </div>
         </div>
       </div>
+      {loading && <Loading />}
     </div>
   );
 }

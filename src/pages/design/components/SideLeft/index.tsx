@@ -1,6 +1,5 @@
 import React from 'react';
 import classnames from 'classnames';
-import { Tabs, Select, Space } from 'antd';
 
 import './index.less';
 import { useModel } from 'umi';
@@ -9,8 +8,6 @@ import Pages from './Pages';
 import Construct from './Construct';
 import Components from './Components';
 import Model from './model';
-
-const { TabPane } = Tabs;
 
 const SlideLeft = function()  {
 
@@ -35,7 +32,7 @@ const SlideLeft = function()  {
   const currentMenu = menus.find((item)=>item.menuType === side.menu);
 
   return (
-    <div className="side-left">
+    <>
       <div className="side-left-nav">
         <ul className="side-left-nav-list">
           {
@@ -55,7 +52,7 @@ const SlideLeft = function()  {
       <div className="side-left-content">
         {currentMenu && <currentMenu.component/ >}
       </div>
-    </div>
+    </>
   );
 };
 

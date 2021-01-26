@@ -72,7 +72,7 @@
       min-width: 350px;
       box-shadow: 3px 3px 6px #bec8e4, -3px -3px 6px #fff;
       border-radius: 24px;
-      background-color: #c2c2c2;
+      background-color: rgba(208, 209, 209, 0.5);
       background-image: url("https://www.transparenttextures.com/patterns/egg-shell.png");
       border: 3px solid #e4ebf5;
       overflow: hidden;
@@ -100,6 +100,11 @@
           height: 100%;
           overflow-y: auto;
           overflow-x: hidden;
+          opacity: 0;
+          transition: all .3s ease;
+          &.show{
+            opacity: 1;
+          }
         }
       }
     }

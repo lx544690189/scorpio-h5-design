@@ -49,7 +49,6 @@ export default function() {
             <div
               key={item.config.path}
               className={classnames('page-card', {select: selectPageIndex === index})}
-              // style={{backgroundImage: `url(${item.cover ?? 'https://carpooling-1256959311.cos.ap-chengdu.myqcloud.com/d6bc039b-04ea-49ca-8ee9-a006aec7c443.png'})`}}
             >
               <img
                 className="page-card-cover"
