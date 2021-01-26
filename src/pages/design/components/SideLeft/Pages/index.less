@@ -3,43 +3,88 @@
     position: relative;
     height: 100%;
     // padding-top: 20px;
-    overflow-y: scroll;
+    overflow-y: auto;
 
     &-card {
-      width: 240px;
+      position: relative;
+      width: 250px;
+      height: 320px;
       margin: 20px auto;
       border-radius: 16px;
       overflow: hidden;
-      // box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.12), 0 5px 12px 4px rgba(0, 0, 0, 0.09);
       border: 1px solid #f0f0f0;
+      box-shadow: var(--box-shadow);
 
       &.select {
         border: 2px solid #06c;
       }
 
-      .ant-card-cover {
-        height: 300px;
+      .title {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        text-align: center;
+        height: 40px;
+        line-height: 40px;
+        font-weight: bold;
+        color: rgb(124, 122, 122);
+        background: #fff;
         overflow: hidden;
+        box-shadow: 0px 5px 12px var(--light-bg-dark-shadow);
       }
-
-      .ant-card-body {
-        padding: 0;
-        position: relative;
-
-        .title {
-          position: absolute;
-          top: -40px;
-          left: 0;
-          right: 0;
-          text-align: center;
-          height: 40px;
-          line-height: 40px;
-          font-weight: bold;
-          color: #fff;
-          background-color: rgba(0, 0, 0, 0.5);
-        }
+      &-cover{
+        width: 100%;
+        display: block;
       }
     }
+
+    // &-card {
+    //   width: 240px;
+    //   margin: 20px auto;
+    //   border-radius: 16px;
+    //   overflow: hidden;
+    //   border: 1px solid #f0f0f0;
+    //   box-shadow: var(--box-shadow);
+    //   background: inherit;
+
+    //   &.select {
+    //     border: 2px solid #06c;
+    //   }
+
+    //   .ant-card-cover {
+    //     height: 300px;
+    //     overflow: hidden;
+    //   }
+
+    //   .ant-card-body {
+    //     padding: 0;
+    //     position: relative;
+    //     background-image: url(https://static.lxzyl.cn/design/27e08285-d409-4d66-8bb6-6a33f04e4201.png);
+
+    //     .title {
+    //       position: absolute;
+    //       top: -40px;
+    //       left: 0;
+    //       right: 0;
+    //       text-align: center;
+    //       height: 40px;
+    //       line-height: 40px;
+    //       font-weight: bold;
+    //       color: rgb(124, 122, 122);
+    //       background: hsla(0,0%,100%,.5);
+    //       text-shadow: 0 1px 1px hsla(0, 0%, 100%, .3); 
+    //       hyphens: auto;
+    //       &::before{
+    //         content: "";
+    //         position: absolute;
+    //         top: 0; right: 0; bottom: 0; left: 0; 
+    //         z-index: -1; 
+    //         filter: blur(50px);
+    //       }
+    //     }
+    //   }
+    // }
 
     &-empty {
       display: flex;

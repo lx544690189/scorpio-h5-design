@@ -26,26 +26,37 @@ export default function() {
           </>
         ) : (
           pageSchema.map((item, index)=>(
-            <Card
+            // <Card
+            //   key={item.config.path}
+            //   className={classnames('page-card', {select: selectPageIndex === index})}
+            //   cover={
+            //     <img
+            //       alt="example"
+            //       src={item.cover ?? 'https://carpooling-1256959311.cos.ap-chengdu.myqcloud.com/d6bc039b-04ea-49ca-8ee9-a006aec7c443.png'}
+            //     />
+            //   }
+            //   actions={[
+            //     <Tooltip title="页面设置" key="setting">
+            //       <SettingOutlined />
+            //     </Tooltip>,
+            //     <Tooltip title="编辑" key="edit">
+            //       <EditOutlined />
+            //     </Tooltip>,
+            //   ]}
+            // >
+            //   <div className="title">{item.config.title}</div>
+            // </Card>
+            <div
               key={item.config.path}
               className={classnames('page-card', {select: selectPageIndex === index})}
-              cover={
-                <img
-                  alt="example"
-                  src={item.cover ?? 'https://carpooling-1256959311.cos.ap-chengdu.myqcloud.com/d6bc039b-04ea-49ca-8ee9-a006aec7c443.png'}
-                />
-              }
-              actions={[
-                <Tooltip title="页面设置" key="setting">
-                  <SettingOutlined />
-                </Tooltip>,
-                <Tooltip title="编辑" key="edit">
-                  <EditOutlined />
-                </Tooltip>,
-              ]}
+              // style={{backgroundImage: `url(${item.cover ?? 'https://carpooling-1256959311.cos.ap-chengdu.myqcloud.com/d6bc039b-04ea-49ca-8ee9-a006aec7c443.png'})`}}
             >
+              <img
+                className="page-card-cover"
+                src={item.cover ?? 'https://carpooling-1256959311.cos.ap-chengdu.myqcloud.com/d6bc039b-04ea-49ca-8ee9-a006aec7c443.png'}
+              />
               <div className="title">{item.config.title}</div>
-            </Card>
+            </div>
           ))
         )
       }

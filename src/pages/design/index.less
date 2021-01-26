@@ -1,10 +1,12 @@
 @header-height: 60px;
 @side-left-width: 500px;
 @side-right-width: 400px;
+@mobile-head-height: 22px / 718px * 330px;
 
 .design {
   position: relative;
   height: 100vh;
+  background-color: var(--light-bg);
 
   ::-webkit-scrollbar {
     width: 6px
@@ -17,7 +19,6 @@
   ::-webkit-scrollbar-thumb {
     border-radius: 2px;
     border: 3px solid transparent;
-    background-color: rgba(0, 0, 0, 0.45);
   }
 
   &-header {
@@ -26,7 +27,9 @@
     left: 0;
     right: 0;
     height: @header-height;
-    background: #eaedf0;
+    background: inherit;
+    z-index: 10;
+
 
     // border-bottom: 1px solid #bfbfbf;
     &::after {
@@ -35,9 +38,8 @@
       bottom: 0;
       left: 0;
       right: 0;
-      height: 1px;
-      transform: translateY(0.5);
-      background: #bfbfbf;
+      height: 4px;
+      box-shadow: inset -1px -1px 3px #fff,inset 1px 1px 3px #bec8e4;
     }
   }
 
@@ -47,8 +49,7 @@
     right: 0;
     bottom: 0;
     width: @side-right-width;
-    border-left: 1px solid #858484;
-    background-color: #fff;
+    // border-left: 1px solid #858484;
   }
 
   .center {
@@ -59,16 +60,48 @@
     bottom: 0;
     display: flex;
     overflow: hidden;
-    background-color: #e4ebf5;
 
-    .mobile {
+
+    .mobile-simulator {
+      position: relative;
       margin: auto;
       transition: width 0.3s ease 0s, height 0.3s ease 0s;
-      position: relative;
-      border: 10px solid grey;
-      border-radius: 4px;
+      border: none;
       height: 80vh;
       width: 350px;
+      min-width: 350px;
+      box-shadow: 3px 3px 6px #bec8e4, -3px -3px 6px #fff;
+      border-radius: 24px;
+      background-color: #c2c2c2;
+      background-image: url("https://www.transparenttextures.com/patterns/egg-shell.png");
+      border: 3px solid #e4ebf5;
+      overflow: hidden;
+
+      .mobile-head-bar {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        height: @mobile-head-height;
+        background-size: 100% 100%;
+        background-image: url('../../assets/images/mobile_head_bar.png');
+      }
+
+      .mobile-content {
+        position: absolute;
+        top: @mobile-head-height + 20px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        .mobile {
+          border: none;
+          width: 100%;
+          height: 100%;
+          overflow-y: auto;
+          overflow-x: hidden;
+        }
+      }
     }
   }
 }

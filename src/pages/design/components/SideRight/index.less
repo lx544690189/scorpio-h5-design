@@ -1,4 +1,21 @@
 .side-right {
+  z-index: 1;
+  padding-left: 4px;
+
+  >.ant-empty{
+    margin-top: 50%;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    top: 0;
+    width: 4px;
+    box-shadow: inset -1px -1px 3px #fff, inset 1px 1px 3px #bec8e4;
+  }
+
   .config-tabs {
     height: 100%;
 
@@ -11,10 +28,23 @@
     }
 
     .ant-tabs-tab {
+      background: inherit;
       margin-right: 0 !important;
       border: none;
-      border-right: 1px solid #d8d8d8;
-      border-bottom: 1px solid #d8d8d8;
+      position: relative;
+      &::after {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        content: '';
+        height: 1px;
+        background-color:  #d8d8d8;
+      }
+      &.ant-tabs-tab-active{
+        box-shadow: var(--box-shadow-inset-low);
+      }
+     
     }
 
     .ant-tabs-content {
@@ -22,5 +52,12 @@
       overflow-y: scroll;
       padding: 20px;
     }
+  }
+
+  .ant-input-number{
+    background-color: inherit;
+  }
+  .ant-input{
+    background-color: inherit;
   }
 }

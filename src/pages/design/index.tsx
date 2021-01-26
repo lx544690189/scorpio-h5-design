@@ -81,7 +81,12 @@ export default function() {
         <SideRight />
       </div>
       <div className="center">
-        <iframe src="/#/mobile" className="mobile" id="mobile" />
+        <div className="mobile-simulator">
+          <div className="mobile-head-bar"></div>
+          <div className="mobile-content">
+            <iframe src="/#/mobile" className="mobile" id="mobile" />
+          </div>
+        </div>
       </div>
     </div>
   );
