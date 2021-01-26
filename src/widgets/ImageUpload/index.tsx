@@ -41,18 +41,10 @@ export default function ImageUpload(props:any) {
       message.success(`${info.file.name} file uploaded successfully`);
       const uploadResult = await ossClient.put(`design/${info.file.name}`, info.file.originFileObj);
       console.log('uploadResult: ', uploadResult);
-      onChange(name, info.fileList);
+      onChange(name, `https://static.lxzyl.cn/design/${info.file.name}`);
     } else if (info.file.status === 'error') {
       message.error(`${info.file.name} file upload failed.`);
     }
-  };
-
-  const handleCancel = function(){
-    setPreview({
-      previewVisible: false,
-      previewImage: '',
-      previewTitle: '',
-    });
   };
 
   const uploadButton = (
@@ -63,24 +55,14 @@ export default function ImageUpload(props:any) {
   );
 
   return (
-    <div className="manage">
-      <Upload
-        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-        listType="picture-card"
-        fileList={value || []}
-        onPreview={handlePreview}
-        onChange={handleChange}
-      >
-        {value.length >= 8 ? null : uploadButton}
-      </Upload>
-      <Modal
-        visible={preview.previewVisible}
-        title={preview.previewTitle}
-        footer={null}
-        onCancel={handleCancel}
-      >
-        <img alt="example" style={{ width: '100%' }} src={preview.previewImage} />
-      </Modal>
-    </div>
+    <Upload
+      name="avatar"
+      listType="picture-card"
+      className="avatar-uploader"
+      showUploadList={false}
+      onChange={handleChange}
+    >
+      {value ? <img src={value} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+    </Upload>
   );
 }

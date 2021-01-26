@@ -48,6 +48,8 @@ declare module 'fr-generator' {
     defaultValue?: any;
     templates?: any;
     extraButtons?: Boolean[];
+    widgets?: any;
+    settings?: any[];
   }
   export default class Generator extends React.Component<Props> { }
 }
