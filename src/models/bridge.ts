@@ -20,6 +20,8 @@ export default function bridge() {
   const [selectComponentId, setSelectComponentId] = useState<any>(undefined);
   /** 当前拖拽元素即将插入的位置索引（从0开始，-1为初始值） */
   const [dragingComponentIndex, setDragingComponentIndex] = useState(-1);
+  const selectPage = pageSchema[selectPageIndex];
+  const selectComponent = (selectPage && selectComponentId) ? pageSchema[selectPageIndex].components.find((item:any)=>item.uuid === selectComponentId):undefined;
 
   /**
    * 根据对象更新state
@@ -195,5 +197,7 @@ export default function bridge() {
     onDrop,
     onSelectComponent,
     onSortEnd,
+    selectPage,
+    selectComponent,
   };
 }

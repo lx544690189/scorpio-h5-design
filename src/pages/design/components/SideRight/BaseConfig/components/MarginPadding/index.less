@@ -1,0 +1,186 @@
+.design-config-base {
+  .layout-config {
+    margin: 0 auto;
+    position: relative;
+    width: 150px;
+    height: 150px;
+
+    input{
+      position: absolute;
+      border: none;
+      outline: none;
+      padding: 0;
+      margin: 0;
+      font-weight: 400;
+      vertical-align: middle;
+      background-color: transparent;
+      color: #333;
+      text-align: center;
+      line-height: 30px;
+    }
+
+    .margin-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 0;
+      border-left: 30px solid transparent;
+      border-right: 30px solid transparent;
+      border-top: 30px solid #d6e4ff;
+      transition: all .3s ease;
+
+      &:hover{
+        border-top: 30px solid #bfd4fb;
+      }
+      input{
+        top: -30px;
+        width: 90px;
+        height: 30px;
+      }
+    }
+
+    .margin-right {
+      position: absolute;
+      top: 5px;
+      bottom: 5px;
+      right: 0;
+      width: 0;
+      border-top: 30px solid transparent;
+      border-bottom: 30px solid transparent;
+      border-right: 30px solid #d6e4ff;
+      transition: all .3s ease;
+      &:hover{
+        border-right: 30px solid #bfd4fb;
+      }
+      input{
+        right: -30px;
+        width: 30px;
+        height: 80px;
+      }
+    }
+
+    .margin-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 0;
+      border-left: 30px solid transparent;
+      border-right: 30px solid transparent;
+      border-bottom: 30px solid #d6e4ff;
+      transition: all .3s ease;
+      &:hover{
+        border-bottom: 30px solid #bfd4fb;
+      }
+      input{
+        bottom: -30px;
+        width: 90px;
+        height: 30px;
+      }
+    }
+
+    .margin-left {
+      position: absolute;
+      top: 5px;
+      bottom: 5px;
+      left: 0;
+      width: 0;
+      border-top: 30px solid transparent;
+      border-bottom: 30px solid transparent;
+      border-left: 30px solid #d6e4ff;
+      transition: all .3s ease;
+      &:hover{
+        border-left: 30px solid #bfd4fb;
+      }
+      input{
+        left: -30px;
+        width: 30px;
+        height: 80px;
+      }
+    }
+
+    .padding-top {
+      position: absolute;
+      top: 35px;
+      left: 35px;
+      right: 35px;
+      height: 0;
+      border-left: 30px solid transparent;
+      border-right: 30px solid transparent;
+      border-top: 30px solid #d6e4ff;
+      transition: all .3s ease;
+      &:hover{
+        border-top: 30px solid #bfd4fb;
+      }
+      input{
+        top: -30px;
+        width: 30px;
+        margin-left: -5px;
+        height: 30px;
+      }
+    }
+
+    .padding-right {
+      position: absolute;
+      top: 40px;
+      bottom: 40px;
+      right: 35px;
+      width: 0;
+      border-top: 30px solid transparent;
+      border-bottom: 30px solid transparent;
+      border-right: 30px solid #d6e4ff;
+      transition: all .3s ease;
+      &:hover{
+        border-right: 30px solid #bfd4fb;
+      }
+      input{
+        right: -30px;
+        width: 30px;
+        height: 20px;
+        margin-top: -5px;
+      }
+    }
+    .padding-bottom {
+      position: absolute;
+      bottom: 35px;
+      left: 35px;
+      right: 35px;
+      height: 0;
+      border-left: 30px solid transparent;
+      border-right: 30px solid transparent;
+      border-bottom: 30px solid #d6e4ff;
+      transition: all .3s ease;
+      &:hover{
+        border-bottom: 30px solid #bfd4fb;
+      }
+      input{
+        bottom: -30px;
+        width: 30px;
+        margin-left: -5px;
+        height: 30px;
+      }
+    }
+  
+    .padding-left {
+      position: absolute;
+      top: 40px;
+      bottom: 40px;
+      left: 35px;
+      width: 0;
+      border-top: 30px solid transparent;
+      border-bottom: 30px solid transparent;
+      border-left: 30px solid #d6e4ff;
+      transition: all .3s ease;
+      &:hover{
+        border-left: 30px solid #bfd4fb;
+      }
+      input{
+        left: -30px;
+        width: 30px;
+        height: 20px;
+        margin-top: -5px;
+      }
+    }
+  }
+}
