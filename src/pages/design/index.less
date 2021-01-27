@@ -6,7 +6,7 @@
 .design {
   position: relative;
   height: 100vh;
-  background-color: var(--light-bg);
+  background-color: rgb(239 242 245);
 
   ::-webkit-scrollbar {
     width: 6px
@@ -27,7 +27,7 @@
     left: 0;
     right: 0;
     height: @header-height;
-    background: inherit;
+    background: #ececec;
     z-index: 10;
 
 
@@ -66,15 +66,14 @@
       position: relative;
       margin: auto;
       transition: width 0.3s ease 0s, height 0.3s ease 0s;
-      border: none;
       height: 80vh;
       width: 350px;
       min-width: 350px;
       box-shadow: 3px 3px 6px #bec8e4, -3px -3px 6px #fff;
       border-radius: 24px;
-      background-color: rgba(208, 209, 209, 0.5);
+      background-color: rgba(163, 162, 162, 0.5);
       background-image: url("https://www.transparenttextures.com/patterns/egg-shell.png");
-      border: 3px solid #e4ebf5;
+      border: 3px solid #999fa7;
       overflow: hidden;
 
       .mobile-head-bar {
@@ -108,5 +107,14 @@
         }
       }
     }
+  }
+}
+
+.blur-loading{
+  .ant-spin-blur{
+    filter: blur(3px);
+  }
+  .ant-spin{
+    min-height: 100vh !important;
   }
 }

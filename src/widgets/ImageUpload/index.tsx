@@ -56,7 +56,6 @@ export default function ImageUpload(props:any) {
 
   return (
     <Upload
-      name="avatar"
       listType="picture-card"
       className="avatar-uploader"
       showUploadList={false}

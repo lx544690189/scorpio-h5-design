@@ -7,8 +7,10 @@ import SideRight from './components/SideRight';
 import { useModel } from 'umi';
 import { doChildrenReady, IMessage, IMessageType, onChildrenReady, syncState } from '@/utils/bridge';
 import Header from './components/Header';
-import { useBoolean } from 'ahooks';
+import { useBoolean, useDebounce } from 'ahooks';
 import Loading from '@/components/Loading';
+import { Spin } from 'antd';
+import { sleep } from '@/utils';
 
 export default function() {
   // @ts-expect-error
@@ -50,6 +52,8 @@ export default function() {
    * 初始化数据、编辑页面初始数据
    */
   const initData = async function() {
+    // 加载iframe、发送请求、更新state会导致页面短时间卡顿，延时进行这些任务
+    await sleep(100);
     let state = {
       pageId: undefined,
       pageSchema: [],
@@ -76,26 +80,36 @@ export default function() {
       });
       setLoading.setFalse();
     });
+    await sleep(100);
+    // @ts-expect-error
+    window.document.querySelector('#mobile').src='/#/mobile';
   };
+  const debouncedloading = useDebounce(loading, { wait: 800 });
+
 
   return (
-    <div className="design">
-      <Header />
-      <div className="side-left">
-        {!loading && <SideLeft />}
-      </div>
-      <div className="side-right">
-        {!loading && <SideRight />}
-      </div>
-      <div className="center">
-        <div className="mobile-simulator">
-          <div className="mobile-head-bar"></div>
-          <div className="mobile-content">
-            <iframe src="/#/mobile" className={`mobile ${!loading && 'show'}`} id="mobile"/>
+    <Spin
+      spinning={debouncedloading}
+      wrapperClassName="blur-loading"
+      indicator={<Loading />}
+    >
+      <div className="design">
+        <Header />
+        <div className="side-left">
+          {!loading && <SideLeft />}
+        </div>
+        <div className="side-right">
+          {!loading && <SideRight />}
+        </div>
+        <div className="center">
+          <div className="mobile-simulator">
+            <div className="mobile-head-bar"></div>
+            <div className="mobile-content">
+              <iframe className={`mobile ${!loading && 'show'}`} id="mobile"/>
+            </div>
           </div>
         </div>
       </div>
-      {loading && <Loading />}
-    </div>
+    </Spin>
   );
 }

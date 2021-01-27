@@ -26,6 +26,7 @@
     position: relative;
     flex: 0;
     min-width: 50px;
+    background: #ececec;
 
     // border-right: 1px solid #bfbfbf;
     &::after {
@@ -35,8 +36,8 @@
       bottom: 0;
       right: 0;
       width: 1px;
-      transform: translateX(0.5);
-      background: var(--light-bg-dark-shadow);
+      transform: translateY(0.5);
+      background: #bfbfbf;
     }
 
     &-list {
@@ -45,16 +46,14 @@
         text-align: center;
         cursor: pointer;
         padding: 5px 0;
-        // border-bottom: 1px dashed #bfbfbf;
+        border-bottom: 1px dashed #bfbfbf;
         transition: all .1s linear;
-        margin: 5px;
 
         &.active{
-          // background-color: #1890ff;
-          color: #2979ff;
-          box-shadow: var(--box-shadow-inset-low);
+          background-color: #1890ff;
+          color: #fff;
           .title{
-            color: #2979ff;
+            color: #fff;
           }
         }
 

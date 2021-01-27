@@ -25,3 +25,12 @@ export const dataURLtoFile = function(dataUrl:string, fileName:string){
   }
   return new File([u8arr], fileName, {type: mime});
 };
+
+// 单纯的延时await写法
+export const sleep = function(time:number):Promise<void>{
+  return new Promise((resolve)=>{
+    setTimeout(() => {
+      resolve();
+    }, time);
+  });
+};
