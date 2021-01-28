@@ -5,6 +5,7 @@ import MarginPadding from './components/MarginPadding';
 import Background from './components/Background';
 import Font from './components/Font';
 import Border from './components/Border';
+import Shadow from './components/Shadow';
 
 
 const { Panel } = Collapse;
@@ -12,7 +13,7 @@ export default function BaseConfig() {
 
   return (
     <div className="design-config-base">
-      <Collapse defaultActiveKey={[1, 2, 3]}>
+      <Collapse defaultActiveKey={[1, 2, 3, 4, 5]}>
         <Panel header="布局" key={1}>
           <Descriptions column={1}>
             {/* <Descriptions.Item label="宽高">
@@ -31,6 +32,9 @@ export default function BaseConfig() {
         </Panel>
         <Panel header="边框" key={4}>
           <Border />
+        </Panel>
+        <Panel header="阴影" key={5}>
+          <Shadow />
         </Panel>
       </Collapse>
     </div>

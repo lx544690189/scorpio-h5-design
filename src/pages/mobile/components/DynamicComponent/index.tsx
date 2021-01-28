@@ -15,7 +15,12 @@ function computedBorder({top, right, bottom, left}:any){
 export default function(props: Iprops) {
   const { id, componentProps, containerProps } = props;
   const Component = require(`@/h5Lib/${id}/index.tsx`).default;
-  const {color, fontSize, fontWeight, backgroundImage, backgroundColor, backgroundSize, backgroundRepeat, margin, padding} = containerProps ?? {};
+  const {
+    color, fontSize, fontWeight,
+    backgroundImage, backgroundColor, backgroundSize, backgroundRepeat,
+    borderColor, borderWidth, borderStyle, borderRadius,
+    margin, padding,
+  } = containerProps ?? {};
   const style = {
     color,
     fontSize,
@@ -24,6 +29,10 @@ export default function(props: Iprops) {
     backgroundImage: `url(${backgroundImage})`,
     backgroundSize,
     backgroundRepeat,
+    borderColor,
+    borderWidth,
+    borderStyle,
+    borderRadius,
     margin: margin ? computedBorder(margin): 0,
     padding: padding ? computedBorder(padding): 0,
   };
