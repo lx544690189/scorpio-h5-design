@@ -3,7 +3,6 @@ import React from 'react';
 import ColorPicker from 'rc-color-picker';
 import { Input } from 'antd';
 import 'rc-color-picker/assets/index.css';
-import { useDebounceFn } from 'ahooks';
 import classnames from 'classnames';
 import './index.less';
 
@@ -36,13 +35,6 @@ export default function color(p) {
   const onInputChange = (e) => {
     p.onChange(e.target.value);
   };
-  const { run: onPickerChange  } = useDebounceFn((e) => {
-    console.log('e: ', e);
-    if (p.disabled || p.readonly) return;
-    p.onChange(transformColorWithAlpha(e.color, e.alpha));
-  }, {
-    wait: 300,
-  },);
 
   const onPickerClose = function(e){
     console.log('e: ', e);

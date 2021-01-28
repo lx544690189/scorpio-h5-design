@@ -182,6 +182,12 @@ export default function bridge() {
   };
 
   const changeContainerPropsState = function(key: string, value: any) {
+    if(!selectComponent.containerProps){
+      selectComponent.containerProps = {
+        margin: {},
+        padding: {},
+      };
+    }
     selectComponent.containerProps[key] = value;
     const state = {
       pageSchema: [...pageSchema],

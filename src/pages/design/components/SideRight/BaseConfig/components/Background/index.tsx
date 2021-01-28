@@ -12,7 +12,7 @@ enum FILL_TYPE {
 export default function Background() {
   const { selectComponent, changeContainerPropsState } = useModel('bridge');
   const { containerProps } = selectComponent;
-  const { backgroundImage, backgroundColor, backgroundSize, backgroundRepeat } = containerProps;
+  const { backgroundImage, backgroundColor, backgroundSize, backgroundRepeat } = containerProps ?? {};
 
   const [backgroundFillType, setBackgroundFillType] = useState(FILL_TYPE.color);
 

@@ -6,7 +6,7 @@ import ColorPicker from '../ColorPicker';
 export default function Font() {
   const { selectComponent, changeContainerPropsState } = useModel('bridge');
   const { containerProps } = selectComponent;
-  const { color, fontSize, fontWeight } = containerProps;
+  const { color, fontSize, fontWeight } = containerProps ?? {};
 
   return (
     <Descriptions column={1}>

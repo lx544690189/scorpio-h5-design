@@ -7,6 +7,12 @@ export default function() {
   const { selectComponent, pageSchema, setStateByObjectKeys} = useModel('bridge');
   const {containerProps} = selectComponent;
   const handleChange = function(value: string, key1: 'margin' | 'padding', key2: 'top' | 'right' | 'bottom' | 'left') {
+    if(!selectComponent.containerProps){
+      selectComponent.containerProps = {
+        margin: {},
+        padding: {},
+      };
+    }
     selectComponent.containerProps[key1][key2] = value;
     const state = {
       pageSchema: [...pageSchema],

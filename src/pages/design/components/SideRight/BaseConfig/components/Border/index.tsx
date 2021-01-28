@@ -6,7 +6,7 @@ import ColorPicker from '../ColorPicker';
 export default function Border() {
   const { selectComponent, changeContainerPropsState } = useModel('bridge');
   const { containerProps } = selectComponent;
-  const { borderColor, borderWidth, borderStyle, borderRadius } = containerProps;
+  const { borderColor, borderWidth, borderStyle, borderRadius } = containerProps ?? {};
 
   return (
     <Descriptions column={1}>

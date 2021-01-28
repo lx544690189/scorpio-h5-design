@@ -19,6 +19,7 @@ export default function(props: Iprops) {
     color, fontSize, fontWeight,
     backgroundImage, backgroundColor, backgroundSize, backgroundRepeat,
     borderColor, borderWidth, borderStyle, borderRadius,
+    boxShadow,
     margin, padding,
   } = containerProps ?? {};
   const style = {
@@ -33,6 +34,7 @@ export default function(props: Iprops) {
     borderWidth,
     borderStyle,
     borderRadius,
+    boxShadow,
     margin: margin ? computedBorder(margin): 0,
     padding: padding ? computedBorder(padding): 0,
   };
