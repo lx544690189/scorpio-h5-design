@@ -1,13 +1,13 @@
-import { Collapse, Descriptions} from 'antd';
-import React from 'react';
+import { Collapse, Descriptions, InputNumber, Radio, Select } from 'antd';
+import React, { useEffect, useState } from 'react';
 import './index.less';
 import MarginPadding from './components/MarginPadding';
-import WidthHeight from './components/WidthHeight';
-import { SketchPicker } from 'react-color';
+import Background from './components/Background';
+import Font from './components/Font';
+import Border from './components/Border';
 
 
 const { Panel } = Collapse;
-
 export default function BaseConfig() {
 
   return (
@@ -24,16 +24,13 @@ export default function BaseConfig() {
           </Descriptions>
         </Panel>
         <Panel header="文字" key={2}>
-          <Descriptions column={1}>
-            <Descriptions.Item label="颜色">
-              <div className="font-color-input">
-                <SketchPicker />
-              </div>
-            </Descriptions.Item>
-          </Descriptions>
+          <Font />
         </Panel>
-        <Panel header="定位" key={3}>
-          <p>33</p>
+        <Panel header="背景" key={3}>
+          <Background />
+        </Panel>
+        <Panel header="边框" key={4}>
+          <Border />
         </Panel>
       </Collapse>
     </div>

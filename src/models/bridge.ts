@@ -181,6 +181,19 @@ export default function bridge() {
     });
   };
 
+  const changeContainerPropsState = function(key: string, value: any) {
+    selectComponent.containerProps[key] = value;
+    const state = {
+      pageSchema: [...pageSchema],
+    };
+    setStateByObjectKeys(state);
+    syncState({
+      payload: state,
+      from: 'design',
+      type: IMessageType.syncState,
+    });
+  };
+
   return {
     isDraging,
     dragComponent,
@@ -199,5 +212,6 @@ export default function bridge() {
     onSortEnd,
     selectPage,
     selectComponent,
+    changeContainerPropsState,
   };
 }
