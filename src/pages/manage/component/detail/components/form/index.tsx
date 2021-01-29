@@ -3,14 +3,12 @@ import FormRender from 'form-render/lib/antd';
 import React, { useState } from 'react';
 import { useModel } from 'umi';
 import ImageUpload from '@/widgets/ImageUpload';
-import Model from '../../model';
 import './index.less';
 
 export default function() {
-  const { pageSchema, setStateByObjectKeys } = useModel('bridge');
+  const { pageSchema, setStateByObjectKeys, selectComponent } = useModel('bridge');
   const [valid, setValid] = useState([]);
   const [showValidate, setShowValidate] = useState(false);
-  const { componentDetailData } = Model.useContainer();
 
   let formData = {};
   if (pageSchema.length === 1 && pageSchema[0].components.length === 1) {
@@ -46,7 +44,7 @@ export default function() {
         onValidate={setValid}
         showValidate={showValidate}
         widgets={{ ImageUpload }}
-        {...componentDetailData.generatorSchema}
+        {...selectComponent.generatorSchema}
       />
     </div>
   );

@@ -1,17 +1,21 @@
-import { Button, Space, Tabs } from 'antd';
+import { Button, Space, Spin, Tabs } from 'antd';
 import React, { useEffect, useRef } from 'react';
 import { useModel, history } from 'umi';
-import { doChildrenReady, IMessage, IMessageType, syncState } from '@/utils/bridge';
+import { doChildrenReady, IMessage, IMessageType, onChildrenReady, syncState } from '@/utils/bridge';
 import './index.less';
 import Form from './components/form';
 import Schema from './components/schema';
 import Model from './model';
+import Code from './components/Code';
+import { useBoolean, useDebounce } from 'ahooks';
+import Loading from '@/components/Loading';
+import MobileSimulator from '@/components/MobileSimulator';
 
 const { TabPane } = Tabs;
 
 const ComponentDetail = function() {
-  const { setStateByObjectKeys, pageSchema } = useModel('bridge');
-  const { componentDetailData, setComponentDetailData, onSubmit } = Model.useContainer();
+  const { setStateByObjectKeys, pageSchema, selectComponent } = useModel('bridge');
+  const { onSubmit, loading } = Model.useContainer();
   const SchemaRef = useRef<{ getValue: () => any }>(null);
 
   useEffect(() => {
@@ -19,9 +23,8 @@ const ComponentDetail = function() {
     window.onCaptureComponentOver = async function(fileName) {
       if (SchemaRef.current) {
         const generatorSchema = SchemaRef.current.getValue();
-        const props = pageSchema[0].components[0].props;
-        componentDetailData.cover = `https://static.lxzyl.cn/design/${fileName}`;
-        await onSubmit(generatorSchema, props);
+        selectComponent.cover = `https://static.lxzyl.cn/design/${fileName}`;
+        await onSubmit(generatorSchema);
       }
     };
   }, [pageSchema]);
@@ -45,11 +48,17 @@ const ComponentDetail = function() {
 
   function onTabChange(key: string) {
     if (key === 'form') {
-      // @ts-expect-error
-      const generatorSchema = SchemaRef.current.getValue();
-      setComponentDetailData({
-        ...componentDetailData,
-        generatorSchema,
+      selectComponent.generatorSchema = SchemaRef.current?.getValue();
+      const state = {
+        pageSchema: [...pageSchema],
+      };
+      setStateByObjectKeys(state);
+      onChildrenReady(() => {
+        syncState({
+          payload: state,
+          from: 'componentEdit',
+          type: IMessageType.syncState,
+        });
       });
     }
   }
@@ -71,30 +80,42 @@ const ComponentDetail = function() {
     ),
   };
 
+  const debouncedloading = useDebounce(loading, { wait: 800 });
+  console.log('loading: ', loading);
+
   return (
-    <div className="manage-component-detail">
-      <div className="left">
-        <div className="left-top"></div>
-        <iframe src="/#/mobile" className="mobile" id="mobile" />
+
+    <Spin
+      spinning={debouncedloading}
+      wrapperClassName="blur-loading"
+      indicator={<Loading />}
+    >
+      <div className="manage-component-detail">
+        <div className="left">
+          <MobileSimulator loading={debouncedloading}/>
+        </div>
+        {selectComponent && <div className="right">
+          {/* <Spin spinning={componentDetail.loading}> */}
+          <Tabs
+            className="manage-component-detail-tabs"
+            defaultActiveKey="1"
+            onChange={onTabChange}
+            tabBarExtraContent={OperationsSlot}
+          >
+            <TabPane tab="可视化配置" key="schema">
+              <Schema ref={SchemaRef} />
+            </TabPane>
+            <TabPane tab="编辑schema" key="code">
+              <Code />
+            </TabPane>
+            <TabPane tab="表单项" key="form">
+              <Form />
+            </TabPane>
+          </Tabs>
+          {/* </Spin> */}
+        </div>}
       </div>
-      <div className="right">
-        {/* <Spin spinning={componentDetail.loading}> */}
-        <Tabs
-          className="manage-component-detail-tabs"
-          defaultActiveKey="1"
-          onChange={onTabChange}
-          tabBarExtraContent={OperationsSlot}
-        >
-          <TabPane tab="schema配置" key="schema">
-            <Schema ref={SchemaRef} />
-          </TabPane>
-          <TabPane tab="表单项" key="form">
-            <Form />
-          </TabPane>
-        </Tabs>
-        {/* </Spin> */}
-      </div>
-    </div>
+    </Spin>
   );
 };
 

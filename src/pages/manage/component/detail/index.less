@@ -1,4 +1,5 @@
 .manage-component-detail {
+  height: 100vh;
   .left {
     position: absolute;
     top: 0;
@@ -7,8 +8,7 @@
     bottom: 0;
     display: flex;
     overflow: hidden;
-    background-color: #f3f2f2;
-    border-right: 1px solid #858484;
+    // border-right: 1px solid #858484;
 
     &-top {
       position: absolute;
@@ -42,13 +42,25 @@
     .manage-component-detail-tabs {
       width: 100%;
 
+      .ant-tabs-nav{
+        margin-bottom: 0;
+        padding-top: 5px;
+        padding-bottom: 5px;
+      }
+
       .ant-tabs-nav-wrap {
         padding: 0 20px;
       }
-
-      .ant-tabs-content {
-        height: 100%;
+      >.ant-tabs-content-holder{
+        >.ant-tabs-content {
+          height: 100%;
+          box-shadow: inset -2px -2px 5px #a7acb4,inset 2px 2px 5px #e4ebf5;
+  
+          overflow: hidden;
+          background-color: #fff;
+        }
       }
+      
 
       .ant-tabs-tabpane {
         padding: 20px 20px;

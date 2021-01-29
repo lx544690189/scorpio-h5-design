@@ -1,75 +1,77 @@
-import { useState } from 'react';
 import { useRequest, history, useModel } from 'umi';
 import { createContainer } from 'unstated-next';
 import * as service from '@/service';
 import { v4 as uuidv4 } from 'uuid';
 import { IMessageType, onChildrenReady, syncState } from '@/utils/bridge';
+import { useBoolean } from 'ahooks';
+import { sleep } from '@/utils';
 
 export default createContainer(() => {
-  const { setStateByObjectKeys } = useModel('bridge');
+  const { setStateByObjectKeys, selectComponent } = useModel('bridge');
+  const [loading, setLoading] = useBoolean(true);
   // @ts-expect-error
   const componentId = <string>history.location.query.componentId;
-  // state-组件详情
-  const [componentDetailData, setComponentDetailData] = useState({
-    _id: '',
-    name: '',
-    cover: '',
-    generatorSchema: undefined,
-    props: undefined,
-    containerProps: undefined,
-  });
   // state- 组件props
   const componentDetail = useRequest(service.queryComponentDetail, {
     defaultParams: [{
       _id: componentId,
     }],
-    onSuccess: (data) => {
-      setComponentDetailData(data);
+    onSuccess: async(data) => {
+      await sleep(100);
+      const selectComponentId = uuidv4();
       const state = {
         pageSchema: [{
           components: [{
             _id: data._id,
-            uuid: uuidv4(),
+            uuid: selectComponentId,
             name: data.name,
             cover: data.cover,
             schema: data.generatorSchema?.schema ?? {},
             props: data.props ?? {},
-            containerProps: data.containerProps ?? {},
+            containerProps: data.containerProps ?? {
+              margin: {},
+              padding: {},
+            },
           }],
         }],
         selectPageIndex: 0,
+        selectComponentId,
       };
       setStateByObjectKeys(state);
-      onChildrenReady(() => {
+      onChildrenReady(async() => {
         syncState({
           payload: state,
           from: 'componentEdit',
           type: IMessageType.syncState,
         });
+        setLoading.setFalse();
       });
+      await sleep(100);
+      // @ts-expect-error
+      window.document.querySelector('#mobile').src='/#/mobile';
+      console.log('window.document.', window.document.querySelector('#mobile'));
     },
   });
   const editComponentDetailReq = useRequest(service.editComponent, {
     manual: true,
   });
 
-  const onSubmit = async function(generatorSchema:any, props:any){
-    console.log('componentDetailData: ', componentDetailData);
+  const onSubmit = async function(generatorSchema:any){
+    const {_id, name, cover, containerProps, props}  =selectComponent;
     await editComponentDetailReq.run({
-      _id: componentDetailData._id,
-      name: componentDetailData.name,
-      cover: componentDetailData.cover,
+      _id,
+      name,
+      cover,
       generatorSchema,
       props,
-      containerProps: componentDetailData.containerProps,
+      containerProps,
     });
     history.goBack();
   };
 
   return {
     componentDetail,
-    componentDetailData,
-    setComponentDetailData,
     onSubmit,
+    loading,
   };
 });
