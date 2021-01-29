@@ -11,6 +11,7 @@ import { useBoolean, useDebounce } from 'ahooks';
 import Loading from '@/components/Loading';
 import { Spin } from 'antd';
 import { sleep } from '@/utils';
+import MobileSimulator from '@/components/MobileSimulator';
 
 export default function() {
   // @ts-expect-error
@@ -102,12 +103,7 @@ export default function() {
           {!loading && <SideRight />}
         </div>
         <div className="center">
-          <div className="mobile-simulator">
-            <div className="mobile-head-bar"></div>
-            <div className="mobile-content">
-              <iframe className={`mobile ${!loading && 'show'}`} id="mobile"/>
-            </div>
-          </div>
+          <MobileSimulator loading={loading}/>
         </div>
       </div>
     </Spin>
