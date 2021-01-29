@@ -2,6 +2,8 @@ import { defineConfig } from 'umi';
 import path from 'path';
 //@ts-expect-error
 import pxToViewPort from 'postcss-px-to-viewport-fixed';
+import MonacoWebpackPlugin from 'monaco-editor-webpack-plugin';
+
 
 export default defineConfig({
   history: {
@@ -47,4 +49,12 @@ export default defineConfig({
       exclude: /node_modules/i,
     }),
   ],
+  chainWebpack: (memo) => {
+    // 更多配置 https://github.com/Microsoft/monaco-editor-webpack-plugin#options
+    memo.plugin('monaco-editor-webpack-plugin').use(MonacoWebpackPlugin, [
+      // 按需配置
+      { languages: ['json'] }
+    ]);
+    return memo;
+  },
 });
