@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 
+import Postmate from 'Postmate';
 declare module '*.css';
 declare module '*.less';
 declare module '*.png';
@@ -10,11 +11,16 @@ declare module '*.svg' {
   const url: string;
   export default url;
 }
-interface Window {
-  isChild: boolean;
-  isChildren_ready: boolean;
-  children_ready_task: any[];
-  onCaptureComponentOver: (fileName:string)=>void
+
+declare global {
+  interface Window {
+    isChild: boolean;
+    isChildren_ready: boolean;
+    children_ready_task: any[];
+    onCaptureComponentOver: (fileName:string)=>void;
+    postmate_mobile:Postmate.ParentAPI;
+    postmate_parent:Postmate.ChildAPI;
+  }
 }
 
 declare module 'form-render/lib/antd' {

@@ -7,8 +7,8 @@ export default function(props:{
   return (
     <div className="mobile-simulator">
       <div className="mobile-head-bar"></div>
-      <div className="mobile-content">
-        <iframe className={`mobile ${!props.loading && 'show'}`} id="mobile"/>
+      <div className="mobile-content" id="mobile-content">
+        {/* <iframe className={`mobile ${!props.loading && 'show'}`} id="mobile"/> */}
       </div>
     </div>
   );

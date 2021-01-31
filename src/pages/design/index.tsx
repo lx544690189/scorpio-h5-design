@@ -12,6 +12,7 @@ import Loading from '@/components/Loading';
 import { Spin } from 'antd';
 import { sleep } from '@/utils';
 import MobileSimulator from '@/components/MobileSimulator';
+import Postmate from 'Postmate';
 
 export default function() {
   // @ts-expect-error
@@ -51,13 +52,13 @@ export default function() {
    */
   const initData = async function() {
     setLoading.setTrue();
-    onChildrenReady(() => {
-      syncState({
-        payload: state,
-        type: IMessageType.syncState,
-      });
-      setLoading.setFalse();
-    });
+    // onChildrenReady(() => {
+    //   syncState({
+    //     payload: state,
+    //     type: IMessageType.syncState,
+    //   });
+    //   setLoading.setFalse();
+    // });
     // 加载iframe、发送请求、更新state会导致页面短时间卡顿，延时进行这些任务
     await sleep(100);
     let state = {
@@ -79,8 +80,22 @@ export default function() {
     }
     setStateByObjectKeys(state, false);
     await sleep(100);
-    // @ts-expect-error
-    window.document.querySelector('#mobile').src='/#/mobile';
+    // // @ts-expect-error
+    // window.document.querySelector('#mobile').src='/#/mobile';
+    const handshake = new Postmate({
+      container: document.getElementById('mobile-content'),
+      url: '/#/mobile',
+      name: 'mobile',
+      classListArray: ['mobile', 'show'],
+    });
+    handshake.then((child) => {
+      window.postmate_mobile = child;
+      syncState({
+        payload: state,
+        type: IMessageType.syncState,
+      });
+      setLoading.setFalse();
+    });
   };
 
   return (

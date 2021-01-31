@@ -31,8 +31,7 @@ export function syncState(message: IMessage) {
   if (isMobile) {
     window.parent.postMessage(message, '*');
   } else {
-    // @ts-expect-error
-    window.document.querySelector('#mobile').contentWindow.postMessage(message, '*');
+    window.postmate_mobile.call('syncState', message);
   }
 }
 
