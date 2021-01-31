@@ -37,13 +37,8 @@ export default function color(p) {
   };
 
   const onPickerClose = function(e){
-    console.log('e: ', e);
     if (p.disabled || p.readonly) return;
     p.onChange(transformColorWithAlpha(e.color, e.alpha));
-  };
-
-  const onInputBlur = function(e){
-    console.log(e.target.value);
   };
 
   // const matchAlpha = p.value.match(/\((.*?)\)/);
@@ -65,7 +60,6 @@ export default function color(p) {
           disabled={p.disabled}
           value={p.value}
           onChange={onInputChange}
-          onBlur={onInputBlur}
         />
       )}
     </div>

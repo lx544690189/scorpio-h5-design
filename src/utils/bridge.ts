@@ -18,14 +18,16 @@ export enum IMessageType {
 
 export interface IMessage {
   payload: any;
-  from: 'design' | 'mobile' | 'componentEdit',
+  from?: string,
   type: IMessageType,
 }
 /**
  * 同步状态
  */
 export function syncState(message: IMessage) {
-  const isMobile = history.location.pathname === '/mobile';
+  const {pathname} = history.location;
+  const isMobile = pathname === '/mobile';
+  message.from = pathname;
   if (isMobile) {
     window.parent.postMessage(message, '*');
   } else {

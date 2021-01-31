@@ -1,5 +1,4 @@
 import { componentBaseConfig } from '@/constant';
-import { IMessageType, syncState } from '@/utils/bridge';
 import FormRender from 'form-render/lib/antd';
 
 import React, { useState } from 'react';
@@ -20,14 +19,8 @@ const App = () => {
 
   const onChange = (values: any) => {
     component.containerProps = values;
-    const state = {
+    setStateByObjectKeys({
       pageSchema: [...pageSchema],
-    };
-    setStateByObjectKeys(state);
-    syncState({
-      payload: state,
-      from: 'design',
-      type: IMessageType.syncState,
     });
   };
 

@@ -2,10 +2,12 @@ import { IMessageType, syncState } from '@/utils/bridge';
 import { useState } from 'react';
 import { DropResult } from 'react-beautiful-dnd';
 import { v4 as uuidv4 } from 'uuid';
+import html2canvas from 'html2canvas';
 /**
  * 这份状态会在父页面和iframe中实时同步
  */
 export default function bridge() {
+  const snapshotContainer = window.document.getElementById('snapshot-container');
   /** 是否拖拽中 */
   const [isDraging, setIsDraging] = useState(false);
   /** 当前拖拽的组件 */
@@ -20,12 +22,15 @@ export default function bridge() {
   const [selectComponentId, setSelectComponentId] = useState<any>(undefined);
   /** 当前拖拽元素即将插入的位置索引（从0开始，-1为初始值） */
   const [dragingComponentIndex, setDragingComponentIndex] = useState(-1);
+  /** 页面快照 */
+  const [coverSnapshot, setCoverSnapshot] = useState('');
   const selectPage = pageSchema[selectPageIndex];
   const selectComponent = (selectPage && selectComponentId) ? pageSchema[selectPageIndex].components.find((item:any)=>item.uuid === selectComponentId):undefined;
 
   /**
    * 根据对象更新state
    * @param state
+   * @param isSyncState 是否在iframe之间同步状态，默认true
    */
   const setStateByObjectKeys = function(state: {
     isDraging?: boolean;
@@ -35,7 +40,7 @@ export default function bridge() {
     selectPageIndex?: number;
     selectComponentId?: string;
     dragingComponentIndex?: number;
-  }) {
+  }, isSyncState = true) {
     // 遍历key值set，可以避免不必要的渲染
     Object.keys(state).forEach((key) => {
       if (key === 'isDraging') {
@@ -63,6 +68,23 @@ export default function bridge() {
         // @ts-expect-error
         setDragingComponentIndex(state.dragingComponentIndex);
       }
+      // iframe之间同步状态
+      if(isSyncState){
+        syncState({
+          payload: state,
+          type: IMessageType.syncState,
+        });
+      }
+      // 同步移动端页面快照
+      // if(snapshotContainer){
+      //   html2canvas(snapshotContainer, {
+      //     useCORS: true,
+      //     scale: 1,
+      //   }).then(async function(canvas) {
+      //     const dataURL = canvas.toDataURL('image/png');
+      //     setCoverSnapshot(dataURL);
+      //   });
+      // }
     });
   };
 
@@ -70,54 +92,30 @@ export default function bridge() {
   const onDragStart = function(component: any) {
     // 组件增加唯一标识
     component.uuid = uuidv4();
-    const state = {
+    setStateByObjectKeys({
       isDraging: true,
       dragComponent: component,
-    };
-    setStateByObjectKeys(state);
-    syncState({
-      payload: state,
-      from: 'design',
-      type: IMessageType.syncState,
     });
   };
 
   // 组件拖拽结束
   const onDragEnd = function() {
-    const state = {
+    setStateByObjectKeys({
       isDraging: false,
-    };
-    setStateByObjectKeys(state);
-    syncState({
-      payload: state,
-      from: 'design',
-      type: IMessageType.syncState,
     });
   };
 
   /** 拖拽-进入 */
   const onDragEnter = function(index: number) {
-    const state = {
+    setStateByObjectKeys({
       dragingComponentIndex: index,
-    };
-    setStateByObjectKeys(state);
-    syncState({
-      payload: state,
-      from: 'mobile',
-      type: IMessageType.syncState,
     });
   };
 
   /** 拖拽-离开 */
   const onDragLeave = function() {
-    const state = {
+    setStateByObjectKeys({
       dragingComponentIndex: -1,
-    };
-    setStateByObjectKeys(state);
-    syncState({
-      payload: state,
-      from: 'mobile',
-      type: IMessageType.syncState,
     });
   };
 
@@ -126,16 +124,10 @@ export default function bridge() {
     ev.preventDefault();
     const components: any[] = pageSchema[selectPageIndex].components;
     components.splice(index, 0, dragComponent);
-    const state = {
+    setStateByObjectKeys({
       dragingComponentIndex: -1,
       dragComponent: undefined,
       pageSchema,
-    };
-    setStateByObjectKeys(state);
-    syncState({
-      payload: state,
-      from: 'mobile',
-      type: IMessageType.syncState,
     });
   };
 
@@ -157,27 +149,15 @@ export default function bridge() {
     }
     const reorderedComponents = reorder(currentPageComponents, result.source.index, result.destination.index);
     pageSchema[selectPageIndex].components = reorderedComponents;
-    const state = {
+    setStateByObjectKeys({
       pageSchema,
-    };
-    setStateByObjectKeys(state);
-    syncState({
-      payload: state,
-      from: 'mobile',
-      type: IMessageType.syncState,
     });
   };
 
   /** 选中组件 */
   const onSelectComponent = function(selectComponentId: string) {
-    const state = {
+    setStateByObjectKeys({
       selectComponentId,
-    };
-    setStateByObjectKeys(state);
-    syncState({
-      payload: state,
-      from: 'mobile',
-      type: IMessageType.syncState,
     });
   };
 
@@ -189,14 +169,8 @@ export default function bridge() {
       };
     }
     selectComponent.containerProps[key] = value;
-    const state = {
+    setStateByObjectKeys({
       pageSchema: [...pageSchema],
-    };
-    setStateByObjectKeys(state);
-    syncState({
-      payload: state,
-      from: 'design',
-      type: IMessageType.syncState,
     });
   };
 

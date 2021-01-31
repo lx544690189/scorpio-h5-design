@@ -47,7 +47,7 @@ export default function Background() {
           <Descriptions.Item label="图片">
             <ImageUpload
               value={backgroundImage}
-              onChange={(name, value) => { console.log('value: ', value);changeContainerPropsState('backgroundImage', value); }}
+              onChange={(name, value) => { changeContainerPropsState('backgroundImage', value); }}
             />
           </Descriptions.Item>
           <Descriptions.Item label="尺寸">

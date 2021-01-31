@@ -31,7 +31,6 @@ export default function() {
 
   const submit1 = async() => {
     const validate = await actions.submit();
-    console.log('values: ', validate.values);
     const {title, path} = validate.values;
     onCreatePage({
       config: {

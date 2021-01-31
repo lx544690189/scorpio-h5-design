@@ -1,6 +1,5 @@
 import React from 'react';
-import {  Card, Empty, Button, Tooltip  } from 'antd';
-import { EditOutlined, SettingOutlined } from '@ant-design/icons';
+import {  Empty, Button  } from 'antd';
 import './index.less';
 import CreatePage from './components/CreatePage';
 import PageConfig from './components/PageConfig';
@@ -10,7 +9,6 @@ import classnames from 'classnames';
 export default function() {
   const { openCreatePageDrawer } = useModel('page');
   const { pageSchema, selectPageIndex } = useModel('bridge');
-  console.log('pageSchema: ', pageSchema);
 
   return (
     <div className="page">
@@ -26,26 +24,6 @@ export default function() {
           </>
         ) : (
           pageSchema.map((item, index)=>(
-            // <Card
-            //   key={item.config.path}
-            //   className={classnames('page-card', {select: selectPageIndex === index})}
-            //   cover={
-            //     <img
-            //       alt="example"
-            //       src={item.cover ?? 'https://carpooling-1256959311.cos.ap-chengdu.myqcloud.com/d6bc039b-04ea-49ca-8ee9-a006aec7c443.png'}
-            //     />
-            //   }
-            //   actions={[
-            //     <Tooltip title="页面设置" key="setting">
-            //       <SettingOutlined />
-            //     </Tooltip>,
-            //     <Tooltip title="编辑" key="edit">
-            //       <EditOutlined />
-            //     </Tooltip>,
-            //   ]}
-            // >
-            //   <div className="title">{item.config.title}</div>
-            // </Card>
             <div
               key={item.config.path}
               className={classnames('page-card', {select: selectPageIndex === index})}

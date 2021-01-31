@@ -7,7 +7,7 @@ import Form from './components/form';
 import Schema from './components/schema';
 import Model from './model';
 import Code from './components/Code';
-import { useBoolean, useDebounce } from 'ahooks';
+import { useDebounce } from 'ahooks';
 import Loading from '@/components/Loading';
 import MobileSimulator from '@/components/MobileSimulator';
 
@@ -34,7 +34,7 @@ const ComponentDetail = function() {
    */
   const registerPostmessageEventListener = function() {
     window.addEventListener('message', (event) => {
-      if (event.data && event.data.from === 'mobile') {
+      if (event.data && event.data.from === '/mobile') {
         const { payload, type } = event.data as IMessage;
         if (type === IMessageType.syncState) {
           setStateByObjectKeys(payload);
@@ -56,7 +56,6 @@ const ComponentDetail = function() {
       onChildrenReady(() => {
         syncState({
           payload: state,
-          from: 'componentEdit',
           type: IMessageType.syncState,
         });
       });
@@ -66,7 +65,6 @@ const ComponentDetail = function() {
   async function handelSubmit() {
     syncState({
       payload: {},
-      from: 'design',
       type: IMessageType.capture,
     });
   }
@@ -80,8 +78,7 @@ const ComponentDetail = function() {
     ),
   };
 
-  const debouncedloading = useDebounce(loading, { wait: 800 });
-  console.log('loading: ', loading);
+  const debouncedloading = useDebounce(loading, { wait: 500 });
 
   return (
 
@@ -95,7 +92,6 @@ const ComponentDetail = function() {
           <MobileSimulator loading={debouncedloading}/>
         </div>
         {selectComponent && <div className="right">
-          {/* <Spin spinning={componentDetail.loading}> */}
           <Tabs
             className="manage-component-detail-tabs"
             defaultActiveKey="1"
@@ -112,7 +108,6 @@ const ComponentDetail = function() {
               <Form />
             </TabPane>
           </Tabs>
-          {/* </Spin> */}
         </div>}
       </div>
     </Spin>

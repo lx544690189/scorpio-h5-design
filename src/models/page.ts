@@ -1,5 +1,4 @@
-import { IMessageType, syncState } from '@/utils/bridge';
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { useModel } from 'umi';
 export default () => {
   const { setStateByObjectKeys, pageSchema, selectPageIndex } = useModel('bridge');
@@ -36,15 +35,9 @@ export default () => {
       createModalVisible: false,
       configModalVisible: false,
     });
-    const state = {
+    setStateByObjectKeys({
       pageSchema: newPageSchame,
       selectPageIndex: newSelectPageIndex,
-    };
-    setStateByObjectKeys(state);
-    syncState({
-      payload: state,
-      from: 'design',
-      type: IMessageType.syncState,
     });
   };
 

@@ -35,7 +35,6 @@ const formSchema = {
 
 const Component = function() {
   const { queryAllWithComponent } = Model.useContainer();
-  console.log('queryAllWithComponent: ', queryAllWithComponent.data);
   const [componentDraw, setComponentDraw] = useState({
     category: {},
     component: {},

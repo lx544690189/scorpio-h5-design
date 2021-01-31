@@ -34,13 +34,10 @@ export default function() {
    */
   const registerPostmessageEventListener = function() {
     window.addEventListener('message', (event) => {
-      if (event.data && event.data.from === 'mobile') {
+      if (event.data && event.data.from === '/mobile') {
         const { payload, type } = event.data as IMessage;
-        console.log('--------design----------');
-        console.log(payload);
-        console.log('--------design----------');
         if (type === IMessageType.syncState) {
-          setStateByObjectKeys(payload);
+          setStateByObjectKeys(payload, false);
         }
         if (type === IMessageType.children_ready) {
           doChildrenReady();
@@ -53,6 +50,14 @@ export default function() {
    * 初始化数据、编辑页面初始数据
    */
   const initData = async function() {
+    setLoading.setTrue();
+    onChildrenReady(() => {
+      syncState({
+        payload: state,
+        type: IMessageType.syncState,
+      });
+      setLoading.setFalse();
+    });
     // 加载iframe、发送请求、更新state会导致页面短时间卡顿，延时进行这些任务
     await sleep(100);
     let state = {
@@ -72,25 +77,15 @@ export default function() {
         selectComponentId: undefined,
       };
     }
-    setStateByObjectKeys(state);
-    onChildrenReady(() => {
-      syncState({
-        payload: state,
-        from: 'design',
-        type: IMessageType.syncState,
-      });
-      setLoading.setFalse();
-    });
+    setStateByObjectKeys(state, false);
     await sleep(100);
     // @ts-expect-error
     window.document.querySelector('#mobile').src='/#/mobile';
   };
-  const debouncedloading = useDebounce(loading, { wait: 800 });
-
 
   return (
     <Spin
-      spinning={debouncedloading}
+      spinning={useDebounce(loading, { wait: 500 })}
       wrapperClassName="blur-loading"
       indicator={<Loading />}
     >

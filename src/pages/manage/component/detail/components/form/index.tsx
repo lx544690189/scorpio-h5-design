@@ -1,4 +1,3 @@
-import { IMessageType, syncState } from '@/utils/bridge';
 import FormRender from 'form-render/lib/antd';
 import React, { useState } from 'react';
 import { useModel } from 'umi';
@@ -14,7 +13,6 @@ export default function() {
   if (pageSchema.length === 1 && pageSchema[0].components.length === 1) {
     formData = pageSchema[0].components[0].props;
   }
-  console.log('formData: ', formData);
 
   const onSubmit = () => {
     // valid 是校验判断的数组，valid 长度为 0 代表校验全部通过
@@ -24,16 +22,9 @@ export default function() {
   };
 
   const onChange = (values: any) => {
-    console.log('values: ', values);
     pageSchema[0].components[0].props = values;
-    const state = {
+    setStateByObjectKeys({
       pageSchema: [...pageSchema],
-    };
-    setStateByObjectKeys(state);
-    syncState({
-      payload: state,
-      from: 'componentEdit',
-      type: IMessageType.syncState,
     });
   };
   return (

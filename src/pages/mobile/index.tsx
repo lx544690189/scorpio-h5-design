@@ -22,14 +22,10 @@ export default function() {
    */
   const registerPostmessageEventListener = function() {
     window.addEventListener('message', (event) => {
-      console.log('event: ', event);
-      if (event.data && (event.data.from === 'design' || event.data.from === 'componentEdit')) {
+      if (event.data && (event.data.from === '/design' || event.data.from === '/manage/component/detail')) {
         const { payload, type } = event.data as IMessage;
-        console.log('--------mobile----------');
-        console.log(payload);
-        console.log('--------mobile----------');
         if (type === IMessageType.syncState) {
-          setStateByObjectKeys(payload);
+          setStateByObjectKeys(payload, false);
         }
         if (type === IMessageType.capture) {
           const captureDom = canvasRef.current;
@@ -56,7 +52,6 @@ export default function() {
   const onReady = function() {
     syncState({
       payload: {},
-      from: 'mobile',
       type: IMessageType.children_ready,
     });
   };
@@ -65,7 +60,7 @@ export default function() {
     <div
       className="h5-canvas"
     >
-      <div ref={canvasRef}>
+      <div id="snapshot-container" ref={canvasRef}>
         <DragContainer />
       </div>
     </div>

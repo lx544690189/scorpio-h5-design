@@ -1,4 +1,3 @@
-import { IMessageType, syncState } from '@/utils/bridge';
 import React from 'react';
 import { useModel } from 'umi';
 import './index.less';
@@ -14,14 +13,8 @@ export default function() {
       };
     }
     selectComponent.containerProps[key1][key2] = value;
-    const state = {
+    setStateByObjectKeys({
       pageSchema: [...pageSchema],
-    };
-    setStateByObjectKeys(state);
-    syncState({
-      payload: state,
-      from: 'design',
-      type: IMessageType.syncState,
     });
   };
 

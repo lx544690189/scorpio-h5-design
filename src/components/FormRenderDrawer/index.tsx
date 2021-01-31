@@ -28,7 +28,6 @@ export default function(props: IProps) {
 
   useEffect(()=>{
     if(visible){
-      console.log('formData: ', formData);
       setValue(formData || {});
     }
   }, [visible]);

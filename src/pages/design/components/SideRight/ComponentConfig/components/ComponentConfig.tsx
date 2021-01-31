@@ -1,4 +1,3 @@
-import { IMessageType, syncState } from '@/utils/bridge';
 import FormRender from 'form-render/lib/antd';
 import ImageUpload from '@/widgets/ImageUpload';
 
@@ -21,14 +20,8 @@ const App = () => {
 
   const onChange = (values: any) => {
     component.props = values;
-    const state = {
+    setStateByObjectKeys({
       pageSchema: [...pageSchema],
-    };
-    setStateByObjectKeys(state);
-    syncState({
-      payload: state,
-      from: 'design',
-      type: IMessageType.syncState,
     });
   };
 

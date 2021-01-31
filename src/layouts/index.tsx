@@ -9,7 +9,6 @@ import Manage from './component/Manage';
 
 export default withRouter((props: any) => {
   const { pathname } = props.location;
-  console.log('pathname: ', pathname);
   let Layout = Full;
   if(pathname.indexOf('/manage') !== -1  && pathname !== '/manage/component/detail'){
     Layout = Manage;

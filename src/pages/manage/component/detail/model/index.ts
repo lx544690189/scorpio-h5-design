@@ -17,6 +17,14 @@ export default createContainer(() => {
       _id: componentId,
     }],
     onSuccess: async(data) => {
+      setLoading.setTrue();
+      onChildrenReady(async() => {
+        syncState({
+          payload: state,
+          type: IMessageType.syncState,
+        });
+        setLoading.setFalse();
+      });
       await sleep(100);
       const selectComponentId = uuidv4();
       const state = {
@@ -26,7 +34,7 @@ export default createContainer(() => {
             uuid: selectComponentId,
             name: data.name,
             cover: data.cover,
-            schema: data.generatorSchema?.schema ?? {},
+            generatorSchema: data.generatorSchema ?? {},
             props: data.props ?? {},
             containerProps: data.containerProps ?? {
               margin: {},
@@ -38,18 +46,9 @@ export default createContainer(() => {
         selectComponentId,
       };
       setStateByObjectKeys(state);
-      onChildrenReady(async() => {
-        syncState({
-          payload: state,
-          from: 'componentEdit',
-          type: IMessageType.syncState,
-        });
-        setLoading.setFalse();
-      });
       await sleep(100);
       // @ts-expect-error
       window.document.querySelector('#mobile').src='/#/mobile';
-      console.log('window.document.', window.document.querySelector('#mobile'));
     },
   });
   const editComponentDetailReq = useRequest(service.editComponent, {

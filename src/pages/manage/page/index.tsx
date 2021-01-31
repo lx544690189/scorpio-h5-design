@@ -2,7 +2,6 @@ import React from 'react';
 import { history, useModel, useRequest } from 'umi';
 import * as service from '@/service';
 import { PageHeader, Card, Pagination, Button } from 'antd';
-import { IMessageType, onChildrenReady, syncState } from '@/utils/bridge';
 
 import './index.less';
 
@@ -21,12 +20,6 @@ export default function() {
   };
 
   const onEditPage = function(item:any){
-    const state = {
-      pageId: undefined,
-      pageSchema: [],
-      selectPageIndex: -1,
-    };
-    setStateByObjectKeys(state);
     history.push({
       pathname: '/design',
       query: {
