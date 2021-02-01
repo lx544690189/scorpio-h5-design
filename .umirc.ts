@@ -30,6 +30,8 @@ export default defineConfig({
     },
   ],
   dynamicImport: false,
+  ignoreMomentLocale: true,
+  inlineLimit: false,
   title: '搭建',
   alias: {
     '@src': path.resolve(__dirname, 'src'),
@@ -56,5 +58,23 @@ export default defineConfig({
       { languages: ['json'] }
     ]);
     return memo;
+  },
+  // 配置 external
+  externals: {
+    'react': 'window.React',
+    'react-dom': 'window.ReactDOM',
+  },
+  // 引入被 external 库的 scripts
+  // 区分 development 和 production，使用不同的产物
+  scripts: process.env.NODE_ENV === 'development' ? [
+    'https://gw.alipayobjects.com/os/lib/react/16.13.1/umd/react.development.js',
+    'https://gw.alipayobjects.com/os/lib/react-dom/16.13.1/umd/react-dom.development.js',
+  ] : [
+    'https://gw.alipayobjects.com/os/lib/react/16.13.1/umd/react.production.min.js',
+    'https://gw.alipayobjects.com/os/lib/react-dom/16.13.1/umd/react-dom.production.min.js',
+  ],
+  nodeModulesTransform: {
+    type: 'none',
+    exclude: [],
   },
 });
