@@ -1,23 +1,32 @@
 import React, { useState } from 'react';
 import MonacoEditor from 'react-monaco-editor';
+import parseJson from 'json-parse-better-errors';
 import { useModel } from 'umi';
 
 import './index.less';
+import { message } from 'antd';
 
 export default function Code() {
   const { selectComponent } = useModel('bridge');
 
   const options = {
     selectOnLineNumbers: true,
+    strike: true,
   };
   function editorDidMount(editor:any, monaco:any) {
     console.log('editorDidMount', editor);
     editor.focus();
   }
   function onChange(newValue:string, e:any) {
-    console.log('onChange', newValue, e);
+    try {
+      const jsonValue = parseJson(newValue);
+      console.log('jsonValue: ', jsonValue);
+    } catch (error) {
+      message.error('json格式错误');
+      console.log('error: ', error);
+    }
   }
-  const code = JSON.stringify(selectComponent.schema, null, 4);
+  const code = JSON.stringify(selectComponent.generatorSchema, null, 2);
   console.log('code: ', code);
   return (
     <div className="code-editor">
