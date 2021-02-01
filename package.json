@@ -22,6 +22,7 @@
     "@types/ali-oss": "^6.0.7",
     "@types/classnames": "^2.2.10",
     "@types/clipboard": "^2.0.1",
+    "@types/json-parse-better-errors": "^1.0.0",
     "@types/postmate": "^1.5.1",
     "@types/qrcode": "^1.3.5",
     "@types/react-beautiful-dnd": "^13.0.0",
@@ -37,6 +38,7 @@
     "form-render": "^0.8.7",
     "fr-generator": "^1.0.0",
     "html2canvas": "^1.0.0-rc.7",
+    "json-parse-better-errors": "^1.0.2",
     "lint-staged": "^10.0.7",
     "monaco-editor-webpack-plugin": "^3.0.0",
     "postcss-px-to-viewport-fixed": "^0.0.1",
@@ -52,7 +54,8 @@
     "table-render": "^0.1.72",
     "umi": "^3.3.3",
     "unstated-next": "^1.1.0",
-    "uuid": "^8.3.1"
+    "uuid": "^8.3.1",
+    "wangeditor": "^4.6.5"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.5.0",

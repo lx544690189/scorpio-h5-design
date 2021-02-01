@@ -23,6 +23,12 @@ const formSchema = {
       'cover': {
         'title': '封面',
         'type': 'string',
+        'ui:widget': 'ImageUpload',
+      },
+      'editor': {
+        'title': '富文本',
+        'type': 'string',
+        'ui:widget': 'Editor',
       },
     },
     'ui:displayType': 'row',
@@ -38,7 +44,7 @@ const Component = function() {
   const [componentDraw, setComponentDraw] = useState({
     category: {},
     component: {},
-    visible: false,
+    visible: true,
     data: {},
   });
   const addComponentReq = useRequest(service.addComponent, {

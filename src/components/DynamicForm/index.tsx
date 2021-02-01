@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-//@ts-expect-error
+// @ts-expect-error
 import FormRender from 'form-render/lib/antd';
 import './index.less';
 import { Button } from 'antd';

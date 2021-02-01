@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Drawer, Button } from 'antd';
 import './index.less';
 import { DrawerProps } from 'antd/lib/drawer';
+// @ts-expect-error
 import FormRender from 'form-render/lib/antd';
 import ImageUpload from '@/widgets/ImageUpload';
+import Editor from '@/widgets/Editor';
 
 interface IProps extends DrawerProps {
   type: 'add' | 'edit' | 'detail';
@@ -71,7 +73,7 @@ export default function(props: IProps) {
         onChange={onChange}
         onValidate={setValid}
         showValidate={showValidate}
-        widgets={{ ImageUpload }}
+        widgets={{ ImageUpload, Editor }}
         {...formSchema}
       />
     </Drawer>
