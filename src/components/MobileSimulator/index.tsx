@@ -1,9 +1,7 @@
 import React from 'react';
 import './index.less';
 
-export default function(props:{
-  loading:boolean;
-}) {
+export default function() {
   return (
     <div className="mobile-simulator">
       <div className="mobile-head-bar"></div>

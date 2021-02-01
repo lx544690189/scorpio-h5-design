@@ -18,8 +18,11 @@ export enum IMessageType {
 
 export interface IMessage {
   payload: any;
-  from?: string,
   type: IMessageType,
+}
+
+export enum childrenModel {
+  SYNC_STATE = 'syncState',
 }
 /**
  * 同步状态
@@ -27,11 +30,10 @@ export interface IMessage {
 export function syncState(message: IMessage) {
   const {pathname} = history.location;
   const isMobile = pathname === '/mobile';
-  message.from = pathname;
   if (isMobile) {
-    window.parent.postMessage(message, '*');
+    window.postmate_parent.emit(childrenModel.SYNC_STATE, message.payload);
   } else {
-    window.postmate_mobile.call('syncState', message);
+    window.postmate_mobile.call(childrenModel.SYNC_STATE, message.payload);
   }
 }
 

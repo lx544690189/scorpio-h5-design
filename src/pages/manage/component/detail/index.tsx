@@ -19,7 +19,7 @@ const ComponentDetail = function() {
   const SchemaRef = useRef<{ getValue: () => any }>(null);
 
   useEffect(() => {
-    registerPostmessageEventListener();
+    // registerPostmessageEventListener();
     window.onCaptureComponentOver = async function(fileName) {
       if (SchemaRef.current) {
         const generatorSchema = SchemaRef.current.getValue();
@@ -32,19 +32,19 @@ const ComponentDetail = function() {
   /**
    * 监听父页面message
    */
-  const registerPostmessageEventListener = function() {
-    window.addEventListener('message', (event) => {
-      if (event.data && event.data.from === '/mobile') {
-        const { payload, type } = event.data as IMessage;
-        if (type === IMessageType.syncState) {
-          setStateByObjectKeys(payload);
-        }
-        if (type === IMessageType.children_ready) {
-          doChildrenReady();
-        }
-      }
-    });
-  };
+  // const registerPostmessageEventListener = function() {
+  //   window.addEventListener('message', (event) => {
+  //     if (event.data && event.data.from === '/mobile') {
+  //       const { payload, type } = event.data as IMessage;
+  //       if (type === IMessageType.syncState) {
+  //         setStateByObjectKeys(payload);
+  //       }
+  //       if (type === IMessageType.children_ready) {
+  //         doChildrenReady();
+  //       }
+  //     }
+  //   });
+  // };
 
   function onTabChange(key: string) {
     if (key === 'form') {
@@ -89,7 +89,7 @@ const ComponentDetail = function() {
     >
       <div className="manage-component-detail">
         <div className="left">
-          <MobileSimulator loading={debouncedloading}/>
+          <MobileSimulator/>
         </div>
         {selectComponent && <div className="right">
           <Tabs

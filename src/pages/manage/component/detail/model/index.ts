@@ -2,9 +2,10 @@ import { useRequest, history, useModel } from 'umi';
 import { createContainer } from 'unstated-next';
 import * as service from '@/service';
 import { v4 as uuidv4 } from 'uuid';
-import { IMessageType, onChildrenReady, syncState } from '@/utils/bridge';
+import { childrenModel, IMessageType, onChildrenReady, syncState } from '@/utils/bridge';
 import { useBoolean } from 'ahooks';
 import { sleep } from '@/utils';
+import Postmate from 'Postmate';
 
 export default createContainer(() => {
   const { setStateByObjectKeys, selectComponent } = useModel('bridge');
@@ -18,13 +19,6 @@ export default createContainer(() => {
     }],
     onSuccess: async(data) => {
       setLoading.setTrue();
-      onChildrenReady(async() => {
-        syncState({
-          payload: state,
-          type: IMessageType.syncState,
-        });
-        setLoading.setFalse();
-      });
       await sleep(100);
       const selectComponentId = uuidv4();
       const state = {
@@ -45,10 +39,25 @@ export default createContainer(() => {
         selectPageIndex: 0,
         selectComponentId,
       };
-      setStateByObjectKeys(state);
+      setStateByObjectKeys(state, false);
       await sleep(100);
-      // @ts-expect-error
-      window.document.querySelector('#mobile').src='/#/mobile';
+      const handshake = new Postmate({
+        container: document.getElementById('mobile-content'),
+        url: '/#/mobile',
+        name: 'mobile',
+        classListArray: ['mobile'],
+      });
+      handshake.then((child:any) => {
+        window.postmate_mobile = child;
+        syncState({
+          payload: state,
+          type: IMessageType.syncState,
+        });
+        child.on(childrenModel.SYNC_STATE, (message:any) => {
+          setStateByObjectKeys(message, false);
+        });
+        setLoading.setFalse();
+      });
     },
   });
   const editComponentDetailReq = useRequest(service.editComponent, {

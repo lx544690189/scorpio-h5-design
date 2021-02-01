@@ -5,7 +5,7 @@ import './index.less';
 import SideLeft from './components/SideLeft';
 import SideRight from './components/SideRight';
 import { useModel } from 'umi';
-import { doChildrenReady, IMessage, IMessageType, onChildrenReady, syncState } from '@/utils/bridge';
+import { childrenModel, IMessageType, syncState } from '@/utils/bridge';
 import Header from './components/Header';
 import { useBoolean, useDebounce } from 'ahooks';
 import Loading from '@/components/Loading';
@@ -22,43 +22,16 @@ export default function() {
     manual: true,
   });
   const [loading, setLoading] = useBoolean(true);
-  useEffect(() => {
-    registerPostmessageEventListener();
-  }, []);
 
   useEffect(() => {
     initData();
-  }, [_id]);
-
-  /**
-   * 监听父页面message
-   */
-  const registerPostmessageEventListener = function() {
-    window.addEventListener('message', (event) => {
-      if (event.data && event.data.from === '/mobile') {
-        const { payload, type } = event.data as IMessage;
-        if (type === IMessageType.syncState) {
-          setStateByObjectKeys(payload, false);
-        }
-        if (type === IMessageType.children_ready) {
-          doChildrenReady();
-        }
-      }
-    });
-  };
+  }, []);
 
   /**
    * 初始化数据、编辑页面初始数据
    */
   const initData = async function() {
     setLoading.setTrue();
-    // onChildrenReady(() => {
-    //   syncState({
-    //     payload: state,
-    //     type: IMessageType.syncState,
-    //   });
-    //   setLoading.setFalse();
-    // });
     // 加载iframe、发送请求、更新state会导致页面短时间卡顿，延时进行这些任务
     await sleep(100);
     let state = {
@@ -80,19 +53,20 @@ export default function() {
     }
     setStateByObjectKeys(state, false);
     await sleep(100);
-    // // @ts-expect-error
-    // window.document.querySelector('#mobile').src='/#/mobile';
     const handshake = new Postmate({
       container: document.getElementById('mobile-content'),
       url: '/#/mobile',
       name: 'mobile',
-      classListArray: ['mobile', 'show'],
+      classListArray: ['mobile'],
     });
     handshake.then((child) => {
       window.postmate_mobile = child;
       syncState({
         payload: state,
         type: IMessageType.syncState,
+      });
+      child.on(childrenModel.SYNC_STATE, (message) => {
+        setStateByObjectKeys(message, false);
       });
       setLoading.setFalse();
     });
@@ -113,7 +87,7 @@ export default function() {
           {!loading && <SideRight />}
         </div>
         <div className="center">
-          <MobileSimulator loading={loading}/>
+          <MobileSimulator />
         </div>
       </div>
     </Spin>
