@@ -2,7 +2,7 @@ import React from 'react';
 import { useModel, useRequest } from 'umi';
 import * as service from '@/service';
 import './index.less';
-import { message, Popover } from 'antd';
+import { message, Popover, Spin } from 'antd';
 import { useBoolean } from 'ahooks';
 import * as QRCode from 'qrcode';
 import { dataURLtoFile, ossClient } from '@/utils';
@@ -60,6 +60,8 @@ export default function() {
         <div className="item" onClick={onSave}>
           <i className="iconfont icon-baocun" />
           <div className="text" >保存</div>
+          <Spin spinning={addPageReq.loading || editPageReq.loading}>
+          </Spin>
         </div>
         <Popover
           title="Title"
