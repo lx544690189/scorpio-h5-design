@@ -22,15 +22,22 @@ export interface IMessage {
 }
 
 export enum childrenModel {
+  /** 同步状态 */
   SYNC_STATE = 'syncState',
+  /** 截图 */
+  CAPTURE = 'capture',
 }
+
+export function isMobile(){
+  const {pathname} = history.location;
+  return pathname === '/mobile';
+}
+
 /**
  * 同步状态
  */
 export function syncState(message: IMessage) {
-  const {pathname} = history.location;
-  const isMobile = pathname === '/mobile';
-  if (isMobile) {
+  if (isMobile()) {
     window.postmate_parent.emit(childrenModel.SYNC_STATE, message.payload);
   } else {
     window.postmate_mobile.call(childrenModel.SYNC_STATE, message.payload);

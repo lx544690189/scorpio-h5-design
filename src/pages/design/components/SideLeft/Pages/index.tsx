@@ -30,7 +30,7 @@ export default function() {
             >
               <img
                 className="page-card-cover"
-                src={item.cover ?? 'https://carpooling-1256959311.cos.ap-chengdu.myqcloud.com/d6bc039b-04ea-49ca-8ee9-a006aec7c443.png'}
+                src={item.coverSnapshot ?? item.cover ?? 'https://carpooling-1256959311.cos.ap-chengdu.myqcloud.com/d6bc039b-04ea-49ca-8ee9-a006aec7c443.png'}
               />
               <div className="title">{item.config.title}</div>
             </div>

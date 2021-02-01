@@ -1,31 +1,31 @@
-import { IMessageType, syncState } from '@/utils/bridge';
+import { childrenModel, IMessageType, isMobile, syncState } from '@/utils/bridge';
 import { useState } from 'react';
 import { DropResult } from 'react-beautiful-dnd';
 import { v4 as uuidv4 } from 'uuid';
-import html2canvas from 'html2canvas';
+import { useDebounceFn } from 'ahooks';
 /**
  * 这份状态会在父页面和iframe中实时同步
  */
 export default function bridge() {
-  const snapshotContainer = window.document.getElementById('snapshot-container');
   /** 是否拖拽中 */
   const [isDraging, setIsDraging] = useState(false);
   /** 当前拖拽的组件 */
   const [dragComponent, setDragComponent] = useState(undefined);
   /** 页面id */
   const [pageId, setPageId] = useState<string>();
+  console.log('pageId: ', pageId);
   /** 页面结构schema */
   const [pageSchema, setPageSchema] = useState<any[]>([]);
+
+  console.log('pageSchema: ', pageSchema);
   /** 当前选中的页面 */
   const [selectPageIndex, setSelectPageIndex] = useState(-1);
   /** 当前选中的组件 */
   const [selectComponentId, setSelectComponentId] = useState<any>(undefined);
   /** 当前拖拽元素即将插入的位置索引（从0开始，-1为初始值） */
   const [dragingComponentIndex, setDragingComponentIndex] = useState(-1);
-  /** 页面快照 */
-  const [coverSnapshot, setCoverSnapshot] = useState('');
   const selectPage = pageSchema[selectPageIndex];
-  const selectComponent = (selectPage && selectComponentId) ? pageSchema[selectPageIndex].components.find((item:any)=>item.uuid === selectComponentId):undefined;
+  const selectComponent = (selectPage && selectComponentId) ? pageSchema[selectPageIndex].components.find((item: any) => item.uuid === selectComponentId) : undefined;
 
   /**
    * 根据对象更新state
@@ -69,24 +69,25 @@ export default function bridge() {
         setDragingComponentIndex(state.dragingComponentIndex);
       }
       // iframe之间同步状态
-      if(isSyncState){
+      if (isSyncState) {
         syncState({
           payload: state,
           type: IMessageType.syncState,
         });
       }
       // 同步移动端页面快照
-      // if(snapshotContainer){
-      //   html2canvas(snapshotContainer, {
-      //     useCORS: true,
-      //     scale: 1,
-      //   }).then(async function(canvas) {
-      //     const dataURL = canvas.toDataURL('image/png');
-      //     setCoverSnapshot(dataURL);
-      //   });
-      // }
+      if (!isMobile() && isSyncState && window.postmate_mobile) {
+        capture.run();
+      }
     });
   };
+
+  const capture = useDebounceFn(() => {
+    window.postmate_mobile.get(childrenModel.CAPTURE).then((data) => {
+      pageSchema[selectPageIndex].coverSnapshot = data;
+      setPageSchema([...pageSchema]);
+    });
+  }, { wait: 1000 });
 
   // 组件拖拽开始
   const onDragStart = function(component: any) {
@@ -162,7 +163,7 @@ export default function bridge() {
   };
 
   const changeContainerPropsState = function(key: string, value: any) {
-    if(!selectComponent.containerProps){
+    if (!selectComponent.containerProps) {
       selectComponent.containerProps = {
         margin: {},
         padding: {},

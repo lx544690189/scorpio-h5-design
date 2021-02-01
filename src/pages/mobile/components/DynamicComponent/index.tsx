@@ -27,7 +27,7 @@ export default function(props: Iprops) {
     fontSize,
     fontWeight,
     backgroundColor,
-    backgroundImage: `url(${backgroundImage})`,
+    backgroundImage: backgroundImage ? `url(${backgroundImage})` : undefined,
     backgroundSize,
     backgroundRepeat,
     borderColor,

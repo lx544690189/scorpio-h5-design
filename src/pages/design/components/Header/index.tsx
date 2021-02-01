@@ -1,24 +1,32 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useModel, useRequest } from 'umi';
 import * as service from '@/service';
 import './index.less';
-import { message, Popover, Spin } from 'antd';
-import { IMessageType, syncState } from '@/utils/bridge';
-import {useBoolean} from 'ahooks';
+import { message, Popover } from 'antd';
+import { useBoolean } from 'ahooks';
 import * as QRCode from 'qrcode';
+import { dataURLtoFile, ossClient } from '@/utils';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function() {
-  const { pageId, pageSchema } = useModel('bridge');
+  const { pageId, pageSchema, selectPageIndex } = useModel('bridge');
   const addPageReq = useRequest(service.addPage, {
     manual: true,
   });
   const editPageReq = useRequest(service.editPage, {
     manual: true,
   });
-  const [visible, {toggle}] = useBoolean(false);
+  const [visible, { toggle }] = useBoolean(false);
 
-  const onCaptureComponentOver = async function(fileName:string) {
-    pageSchema[0].cover = `https://static.lxzyl.cn/design/${fileName}`;
+  const onSave = async function() {
+    const selectPage = pageSchema[selectPageIndex];
+    const dataURL =  selectPage.coverSnapshot;
+    if (dataURL) {
+      const file = dataURLtoFile(dataURL, new Date().getTime().toString());
+      const fileName = `${uuidv4()}.png`;
+      await ossClient.put(`design/${fileName}`, file);
+      selectPage.cover = `https://static.lxzyl.cn/design/${fileName}`;
+    }
     if (pageId) {
       await editPageReq.run({
         _id: pageId,
@@ -29,18 +37,6 @@ export default function() {
         pageSchema,
       });
     }
-  };
-
-  useEffect(() => {
-    window.onCaptureComponentOver = onCaptureComponentOver;
-  }, [onCaptureComponentOver]);
-
-  const onSave = async function() {
-    syncState({
-      payload: {},
-      from: 'design',
-      type: IMessageType.capture,
-    });
     message.success('保存成功！');
   };
 
