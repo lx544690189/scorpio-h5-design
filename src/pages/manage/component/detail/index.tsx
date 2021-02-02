@@ -1,7 +1,7 @@
 import { Button, Space, Spin, Tabs } from 'antd';
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useModel, history } from 'umi';
-import { doChildrenReady, IMessage, IMessageType, onChildrenReady, syncState } from '@/utils/bridge';
+import { IMessageType, onChildrenReady, syncState } from '@/utils/bridge';
 import './index.less';
 import Form from './components/form';
 import Schema from './components/schema';
@@ -14,7 +14,7 @@ import MobileSimulator from '@/components/MobileSimulator';
 const { TabPane } = Tabs;
 
 const ComponentDetail = function() {
-  const { setStateByObjectKeys, pageSchema, selectComponent } = useModel('bridge');
+  const { setStateByObjectKeys, pageSchema, selectComponent, selectPage } = useModel('bridge');
   const { onSubmit, loading } = Model.useContainer();
   const SchemaRef = useRef<{ getValue: () => any }>(null);
 
@@ -36,6 +36,7 @@ const ComponentDetail = function() {
 
   async function handelSubmit() {
     selectComponent.generatorSchema = SchemaRef.current?.getValue();
+    selectComponent.cover = selectPage.coverSnapshot;
     onSubmit();
   }
 
