@@ -1,5 +1,5 @@
-import { Collapse, Descriptions, InputNumber, Radio, Select } from 'antd';
-import React, { useEffect, useState } from 'react';
+import { Collapse, Descriptions } from 'antd';
+import React from 'react';
 import './index.less';
 import MarginPadding from './components/MarginPadding';
 import Background from './components/Background';
@@ -16,9 +16,6 @@ export default function BaseConfig() {
       <Collapse defaultActiveKey={[1, 2, 3, 4, 5]}>
         <Panel header="布局" key={1}>
           <Descriptions column={1}>
-            {/* <Descriptions.Item label="宽高">
-              <WidthHeight />
-            </Descriptions.Item> */}
             <Descriptions.Item label="边距">
               <MarginPadding />
             </Descriptions.Item>

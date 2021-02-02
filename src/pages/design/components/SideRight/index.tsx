@@ -1,9 +1,9 @@
 import React from 'react';
 import { Tabs, Empty } from 'antd';
 import './index.less';
-import BaseConfig from './BaseConfig';
 import ComponentConfig from './ComponentConfig';
 import { useModel } from 'umi';
+import BaseLayoutConfig from '@/components/BaseLayoutConfig';
 
 const { TabPane } = Tabs;
 
@@ -16,7 +16,7 @@ export default function() {
   return (
     <Tabs defaultActiveKey="1" type="card" className="config-tabs">
       <TabPane tab="基础属性" key="1">
-        <BaseConfig />
+        <BaseLayoutConfig />
       </TabPane>
       <TabPane tab="组件配置" key="2">
         <ComponentConfig />
