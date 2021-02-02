@@ -18,34 +18,6 @@ const ComponentDetail = function() {
   const { onSubmit, loading } = Model.useContainer();
   const SchemaRef = useRef<{ getValue: () => any }>(null);
 
-  useEffect(() => {
-    // registerPostmessageEventListener();
-    window.onCaptureComponentOver = async function(fileName) {
-      if (SchemaRef.current) {
-        const generatorSchema = SchemaRef.current.getValue();
-        selectComponent.cover = `https://static.lxzyl.cn/design/${fileName}`;
-        await onSubmit(generatorSchema);
-      }
-    };
-  }, [pageSchema]);
-
-  /**
-   * 监听父页面message
-   */
-  // const registerPostmessageEventListener = function() {
-  //   window.addEventListener('message', (event) => {
-  //     if (event.data && event.data.from === '/mobile') {
-  //       const { payload, type } = event.data as IMessage;
-  //       if (type === IMessageType.syncState) {
-  //         setStateByObjectKeys(payload);
-  //       }
-  //       if (type === IMessageType.children_ready) {
-  //         doChildrenReady();
-  //       }
-  //     }
-  //   });
-  // };
-
   function onTabChange(key: string) {
     if (key === 'form') {
       selectComponent.generatorSchema = SchemaRef.current?.getValue();
@@ -63,10 +35,8 @@ const ComponentDetail = function() {
   }
 
   async function handelSubmit() {
-    syncState({
-      payload: {},
-      type: IMessageType.capture,
-    });
+    selectComponent.generatorSchema = SchemaRef.current?.getValue();
+    onSubmit();
   }
 
   const OperationsSlot = {

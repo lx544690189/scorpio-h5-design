@@ -28,7 +28,7 @@ const formSchema = {
       'editor': {
         'title': '富文本',
         'type': 'string',
-        'ui:widget': 'Editor',
+        'ui:widget': 'BraftEditor',
       },
     },
     'ui:displayType': 'row',
@@ -44,7 +44,7 @@ const Component = function() {
   const [componentDraw, setComponentDraw] = useState({
     category: {},
     component: {},
-    visible: true,
+    visible: false,
     data: {},
   });
   const addComponentReq = useRequest(service.addComponent, {

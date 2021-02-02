@@ -3,6 +3,7 @@ import React, { forwardRef } from 'react';
 import Generator, {defaultSettings, defaultCommonSettings} from 'fr-generator';
 import './index.less';
 import ImageUpload from '@/widgets/ImageUpload';
+import BraftEditor from '@/widgets/BraftEditor';
 import { useModel } from 'umi';
 
 const defaultValue = {
@@ -27,7 +28,7 @@ export default forwardRef((props: any, ref: any) => {
         defaultValue={selectComponent.generatorSchema || defaultValue}
         templates={[]}
         extraButtons={[false, false, false, false]}
-        widgets={{ ImageUpload }}
+        widgets={{ ImageUpload, BraftEditor }}
         settings={[
           ...defaultSettings,
           {
@@ -42,6 +43,23 @@ export default forwardRef((props: any, ref: any) => {
                   'ui:widget': 'ImageUpload',
                 },
                 'widget': 'ImageUpload',
+                setting: {
+                  $id: {
+                    description: '数据存储的名称/英文/必填',
+                    title: 'ID',
+                    type: 'string',
+                    'ui:widget': 'idInput',
+                  },
+                },
+              }, {
+                text: '富文本',
+                name: 'richText',
+                schema: {
+                  title: '富文本',
+                  type: 'string',
+                  'ui:widget': 'BraftEditor',
+                },
+                'widget': 'BraftEditor',
                 setting: {
                   $id: {
                     description: '数据存储的名称/英文/必填',

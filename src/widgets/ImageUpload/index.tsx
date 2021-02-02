@@ -1,5 +1,5 @@
 import { message, Upload } from 'antd';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ossClient } from '@/utils';
 import { PlusOutlined } from '@ant-design/icons';
 import './index.less';

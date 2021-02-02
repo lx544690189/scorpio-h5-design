@@ -2,6 +2,7 @@ import FormRender from 'form-render/lib/antd';
 import React, { useState } from 'react';
 import { useModel } from 'umi';
 import ImageUpload from '@/widgets/ImageUpload';
+import BraftEditor from '@/widgets/BraftEditor';
 import './index.less';
 
 export default function() {
@@ -34,7 +35,7 @@ export default function() {
         onChange={onChange}
         onValidate={setValid}
         showValidate={showValidate}
-        widgets={{ ImageUpload }}
+        widgets={{ ImageUpload, BraftEditor }}
         {...selectComponent.generatorSchema}
       />
     </div>

@@ -5,7 +5,7 @@ import { DrawerProps } from 'antd/lib/drawer';
 // @ts-expect-error
 import FormRender from 'form-render/lib/antd';
 import ImageUpload from '@/widgets/ImageUpload';
-import Editor from '@/widgets/Editor';
+import BraftEditor from '@/widgets/BraftEditor';
 
 interface IProps extends DrawerProps {
   type: 'add' | 'edit' | 'detail';
@@ -73,7 +73,7 @@ export default function(props: IProps) {
         onChange={onChange}
         onValidate={setValid}
         showValidate={showValidate}
-        widgets={{ ImageUpload, Editor }}
+        widgets={{ ImageUpload, BraftEditor }}
         {...formSchema}
       />
     </Drawer>

@@ -28,7 +28,16 @@ export default createContainer(() => {
             uuid: selectComponentId,
             name: data.name,
             cover: data.cover,
-            generatorSchema: data.generatorSchema ?? {},
+            generatorSchema: data.generatorSchema ?? {
+              schema: {
+                type: 'object',
+                properties: {
+                },
+              },
+              displayType: 'row',
+              showDescIcon: true,
+              labelWidth: 120,
+            },
             props: data.props ?? {},
             containerProps: data.containerProps ?? {
               margin: {},
@@ -64,16 +73,8 @@ export default createContainer(() => {
     manual: true,
   });
 
-  const onSubmit = async function(generatorSchema:any){
-    const {_id, name, cover, containerProps, props}  =selectComponent;
-    await editComponentDetailReq.run({
-      _id,
-      name,
-      cover,
-      generatorSchema,
-      props,
-      containerProps,
-    });
+  const onSubmit = async function(){
+    await editComponentDetailReq.run(selectComponent);
     history.goBack();
   };
 
