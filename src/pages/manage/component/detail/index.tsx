@@ -10,6 +10,7 @@ import Code from './components/Code';
 import { useDebounce } from 'ahooks';
 import Loading from '@/components/Loading';
 import MobileSimulator from '@/components/MobileSimulator';
+import BaseLayoutConfig from '@/components/BaseLayoutConfig';
 
 const { TabPane } = Tabs;
 
@@ -69,14 +70,17 @@ const ComponentDetail = function() {
             onChange={onTabChange}
             tabBarExtraContent={OperationsSlot}
           >
-            <TabPane tab="可视化配置" key="schema">
+            <TabPane tab="schema可视化配置" key="schema">
               <Schema ref={SchemaRef} />
             </TabPane>
-            <TabPane tab="编辑schema" key="code">
+            <TabPane tab="schema手动编辑" key="code">
               <Code />
             </TabPane>
-            <TabPane tab="表单项" key="form">
+            <TabPane tab="组件属性配置" key="form">
               <Form />
+            </TabPane>
+            <TabPane tab="容器属性配置" key="container">
+              <BaseLayoutConfig />
             </TabPane>
           </Tabs>
         </div>}

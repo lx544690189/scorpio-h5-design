@@ -1,5 +1,7 @@
 import FormRender from 'form-render/lib/antd';
 import ImageUpload from '@/widgets/ImageUpload';
+import BraftEditor from '@/widgets/BraftEditor';
+
 
 import React, { useState } from 'react';
 import { useModel } from 'umi';
@@ -31,7 +33,7 @@ const App = () => {
       onChange={onChange}
       onValidate={setValid}
       showValidate={showValidate}
-      widgets={{ ImageUpload }}
+      widgets={{ ImageUpload, BraftEditor }}
       {...generatorSchema}
     />
   );
