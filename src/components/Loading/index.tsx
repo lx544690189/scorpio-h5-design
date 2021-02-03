@@ -3,12 +3,12 @@ import './index.less';
 
 export default function() {
   return (
-    <figure>
+    <div className="figure-loading">
       <div className="dot white"></div>
       <div className="dot"></div>
       <div className="dot"></div>
       <div className="dot"></div>
       <div className="dot"></div>
-    </figure>
+    </div>
   );
 }
