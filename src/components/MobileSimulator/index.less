@@ -1,42 +1,71 @@
 @mobile-head-height: 22px / 718px * 330px;
 
-.mobile-simulator {
+.mobile-simulator-container {
   position: relative;
   margin: auto;
-  transition: width 0.3s ease 0s, height 0.3s ease 0s;
   height: 80vh;
-  width: 350px;
-  min-width: 350px;
-  box-shadow: 3px 3px 6px #bec8e4, -3px -3px 6px #fff;
-  border-radius: 24px;
-  background-color: rgba(163, 162, 162, 0.5);
-  background-image: url("https://www.transparenttextures.com/patterns/egg-shell.png");
-  border: 3px solid #999fa7;
-  overflow: hidden;
 
-  .mobile-head-bar {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    right: 10px;
-    height: @mobile-head-height;
-    background-size: 100% 100%;
-    background-image: url('../../assets/images/mobile_head_bar.png');
+  .mobile-simulator {
+    position: relative;
+    margin: auto;
+    transition: width 0.3s ease 0s, height 0.3s ease 0s;
+    height: 80vh;
+    width: 350px;
+    box-sizing: content-box;
+    min-width: 350px;
+    box-shadow: 3px 3px 6px #bec8e4, -3px -3px 6px #fff;
+    border-radius: 24px;
+    background-color: rgba(163, 162, 162, 0.5);
+    background-image: url("https://www.transparenttextures.com/patterns/egg-shell.png");
+    border: 3px solid #999fa7;
+
+    .mobile-head-bar {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      height: @mobile-head-height;
+      background-size: 100% 100%;
+      background-image: url('../../assets/images/mobile_head_bar.png');
+    }
+
+    .mobile-content {
+      position: absolute;
+      top: @mobile-head-height + 20px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow: hidden;
+      border-bottom-left-radius: 24px;
+      border-bottom-right-radius: 24px;
+
+      .mobile {
+        border: none;
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+    }
   }
 
-  .mobile-content {
+  .select-area {
     position: absolute;
-    top: @mobile-head-height + 20px;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: 0;
+    left: -30px;
+    right: -30px;
+    height: 100px;
+    margin-top: @mobile-head-height + 20px;
+    box-shadow: 3px 3px 12px #bec8e4, -3px -3px 12px #bec8e4;
+    transition: top .3s ease-in-out,height .1s linear;
+    &.isSelected {
+      border: 1px solid orange;
+    }
+  }
 
-    .mobile {
-      border: none;
-      width: 100%;
-      height: 100%;
-      overflow-y: auto;
-      overflow-x: hidden;
+  @keyframes linearGradientMove {
+    100% {
+      background-position: 4px 0, -4px 100%, 0 -4px, 100% 4px;
     }
   }
 }

@@ -26,6 +26,8 @@ export enum childrenModel {
   SYNC_STATE = 'syncState',
   /** 截图 */
   CAPTURE = 'capture',
+  /** 选中组件位置信息 */
+  DOM_REACT_CHANGE = 'domReactChange',
 }
 
 export function isMobile(){

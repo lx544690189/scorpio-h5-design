@@ -13,18 +13,18 @@ export default function bridge() {
   const [dragComponent, setDragComponent] = useState(undefined);
   /** 页面id */
   const [pageId, setPageId] = useState<string>();
-  console.log('pageId: ', pageId);
   /** 页面结构schema */
   const [pageSchema, setPageSchema] = useState<any[]>([]);
-
-  console.log('pageSchema: ', pageSchema);
-  /** 当前选中的页面 */
   const [selectPageIndex, setSelectPageIndex] = useState(-1);
   /** 当前选中的组件 */
   const [selectComponentId, setSelectComponentId] = useState<any>(undefined);
+  console.log('selectComponentId: ', selectComponentId);
   /** 当前拖拽元素即将插入的位置索引（从0开始，-1为初始值） */
   const [dragingComponentIndex, setDragingComponentIndex] = useState(-1);
+  /** 当前选中的组件的getBoundingClientRect值 */
+  const [selectComponentDomReact, setSelectComponentDomReact] = useState();
   const selectPage = pageSchema[selectPageIndex];
+  console.log('selectPageIndex: ', selectPageIndex);
   const selectComponent = (selectPage && selectComponentId) ? pageSchema[selectPageIndex].components.find((item: any) => item.uuid === selectComponentId) : undefined;
 
   /**
@@ -68,26 +68,36 @@ export default function bridge() {
         // @ts-expect-error
         setDragingComponentIndex(state.dragingComponentIndex);
       }
-      // iframe之间同步状态
-      if (isSyncState) {
-        syncState({
-          payload: state,
-          type: IMessageType.syncState,
-        });
-      }
-      // 同步移动端页面快照
-      if (!isMobile() && isSyncState && window.postmate_mobile) {
-        capture.run();
-      }
     });
+    // iframe之间同步状态
+    if (isSyncState) {
+      syncState({
+        payload: state,
+        type: IMessageType.syncState,
+      });
+    }
+    // 同步移动端页面快照\同步选中组件dom位置信息
+    if (!isMobile() && !isSyncState && window.postmate_mobile) {
+      // capture.run();
+      domReact.run();
+    }
   };
 
+  const domReact = useDebounceFn(() => {
+    window.postmate_mobile.get(childrenModel.DOM_REACT_CHANGE).then((data) => {
+      if(data){
+        setSelectComponentDomReact(data);
+      }
+    });
+  }, { wait: 100 });
+
+  // 截图
   const capture = useDebounceFn(() => {
     window.postmate_mobile.get(childrenModel.CAPTURE).then((data) => {
       pageSchema[selectPageIndex].coverSnapshot = data;
       setPageSchema([...pageSchema]);
     });
-  }, { wait: 1000 });
+  }, { wait: 300 });
 
   // 组件拖拽开始
   const onDragStart = function(component: any) {
@@ -194,5 +204,7 @@ export default function bridge() {
     selectPage,
     selectComponent,
     changeContainerPropsState,
+    selectComponentDomReact,
+    setSelectComponentDomReact,
   };
 }

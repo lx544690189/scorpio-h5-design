@@ -68,7 +68,12 @@ export default function() {
                       {...provided.dragHandleProps}
                       onClick={() => { onSelectComponent(item.uuid); }}
                     >
-                      <DynamicComponent id={item._id} componentProps={item.props} containerProps={item.containerProps}/>
+                      <DynamicComponent
+                        id={item._id}
+                        isSelected={selectComponentId === item.uuid}
+                        componentProps={item.props}
+                        containerProps={item.containerProps}
+                      />
                     </div>
                   </>
                 )}

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { history, useRequest } from 'umi';
 import * as service from '@/service';
 import './index.less';
@@ -15,6 +15,7 @@ import MobileSimulator from '@/components/MobileSimulator';
 import Postmate from 'Postmate';
 
 export default function() {
+  const { selectComponentDomReact, setSelectComponentDomReact } = useModel('bridge');
   // @ts-expect-error
   const { _id } = history.location.query;
   const { setStateByObjectKeys } = useModel('bridge');
@@ -25,7 +26,14 @@ export default function() {
 
   useEffect(() => {
     initData();
+    return ()=>{
+      window.postmate_mobile.destroy();
+    };
   }, []);
+
+  const setValue = useCallback(()=>{
+    console.log('selectComponentDomReact', selectComponentDomReact);
+  }, [selectComponentDomReact]);
 
   /**
    * 初始化数据、编辑页面初始数据
@@ -68,6 +76,11 @@ export default function() {
       child.on(childrenModel.SYNC_STATE, (message) => {
         setStateByObjectKeys(message, false);
       });
+      child.on(childrenModel.DOM_REACT_CHANGE, (message) => {
+        console.log('message: ', message, selectComponentDomReact);
+        // setSelectComponentDomReact(message);
+        setValue();
+      });
       setLoading.setFalse();
     });
   };
@@ -87,7 +100,7 @@ export default function() {
           {!loading && <SideRight />}
         </div>
         <div className="center">
-          <MobileSimulator />
+          <MobileSimulator domReact={selectComponentDomReact}/>
         </div>
       </div>
     </Spin>

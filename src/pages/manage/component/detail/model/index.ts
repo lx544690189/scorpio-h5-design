@@ -1,8 +1,9 @@
+import { useEffect } from 'react';
 import { useRequest, history, useModel } from 'umi';
 import { createContainer } from 'unstated-next';
 import * as service from '@/service';
 import { v4 as uuidv4 } from 'uuid';
-import { childrenModel, IMessageType, onChildrenReady, syncState } from '@/utils/bridge';
+import { childrenModel, IMessageType, syncState } from '@/utils/bridge';
 import { useBoolean } from 'ahooks';
 import { sleep } from '@/utils';
 import Postmate from 'Postmate';
@@ -72,6 +73,12 @@ export default createContainer(() => {
   const editComponentDetailReq = useRequest(service.editComponent, {
     manual: true,
   });
+
+  useEffect(()=>{
+    return ()=>{
+      window.postmate_mobile.destroy();
+    };
+  }, []);
 
   const onSubmit = async function(){
     await editComponentDetailReq.run(selectComponent);

@@ -1,15 +1,29 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import './index.less';
 import DragContainer from './components/DragContainer';
 import { useModel } from 'umi';
 import { childrenModel } from '@/utils/bridge';
 import Postmate from 'Postmate';
 import html2canvas from 'html2canvas';
+import { useDebounceFn, useScroll } from 'ahooks';
 
 export default function() {
   const { setStateByObjectKeys } = useModel('bridge');
   const canvasRef = useRef<HTMLDivElement>(null);
+  const scroll = useScroll(canvasRef);
+  const { run } = useDebounceFn(
+    () => {
+      window.postmate_parent.emit(childrenModel.DOM_REACT_CHANGE, scroll.top);
+    },
+    {
+      wait: 100,
+    },
+  );
+
+  useEffect(()=>{
+    run();
+  }, [scroll]);
 
   useEffect(()=>{
     const handshake = new Postmate.Model({
@@ -26,6 +40,13 @@ export default function() {
           return canvas.toDataURL('image/png');
         }
       },
+      [childrenModel.DOM_REACT_CHANGE]: ()=>{
+        const container = window.document.getElementsByName('component-container');
+        const element = Array.from(container).find((item:any)=>item.dataset.selected === 'true');
+        if(element){
+          return element.getBoundingClientRect().toJSON();
+        }
+      },
     });
     handshake.then((parent) => {
       window.postmate_parent = parent;
@@ -34,9 +55,10 @@ export default function() {
 
   return (
     <div
+      ref={canvasRef}
       className="h5-canvas"
     >
-      <div id="snapshot-container" ref={canvasRef}>
+      <div id="snapshot-container">
         <DragContainer />
       </div>
     </div>
