@@ -1,7 +1,7 @@
 import { message, Upload } from 'antd';
 import React, { useEffect } from 'react';
 import { ossClient } from '@/utils';
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, CloseOutlined } from '@ant-design/icons';
 import './index.less';
 
 interface IProps {
@@ -23,6 +23,10 @@ export default function ImageUpload(props: IProps) {
     }
   };
 
+  const handleDelete = function(){
+    onChange(name, '');
+  };
+
   const uploadButton = (
     <div>
       <PlusOutlined />
@@ -31,13 +35,22 @@ export default function ImageUpload(props: IProps) {
   );
 
   return (
-    <Upload
-      listType="picture-card"
-      className="avatar-uploader"
-      showUploadList={false}
-      onChange={handleChange}
-    >
-      {value ? <img src={value} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-    </Upload>
+    <div className="picture-uploader">
+      <Upload
+        listType="picture-card"
+        showUploadList={false}
+        onChange={handleChange}
+      >
+        {value ? (
+          <div className="picture-uploader-img-container">
+            <img src={value} alt="avatar" style={{ width: '100%' }} />
+          </div>
+        ) : uploadButton}
+      </Upload>
+      {
+        value && <div className="delete-img" onClick={handleDelete}><CloseOutlined /></div>
+      }
+    </div>
+
   );
 }
