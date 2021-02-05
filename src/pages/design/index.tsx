@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { history, useRequest } from 'umi';
 import * as service from '@/service';
 import './index.less';
@@ -16,6 +16,7 @@ import Postmate from 'Postmate';
 
 export default function() {
   const { selectComponentDomReact, setSelectComponentDomReact } = useModel('bridge');
+  const selectComponentDomReactRef = useRef();
   // @ts-expect-error
   const { _id } = history.location.query;
   const { setStateByObjectKeys } = useModel('bridge');
@@ -23,6 +24,8 @@ export default function() {
     manual: true,
   });
   const [loading, setLoading] = useBoolean(true);
+
+  selectComponentDomReactRef.current = selectComponentDomReact;
 
   useEffect(() => {
     initData();
@@ -32,7 +35,7 @@ export default function() {
   }, []);
 
   const setValue = useCallback(()=>{
-    console.log('selectComponentDomReact', selectComponentDomReact);
+    console.log('selectComponentDomReact.current', selectComponentDomReactRef.current);
   }, [selectComponentDomReact]);
 
   /**
@@ -77,9 +80,8 @@ export default function() {
         setStateByObjectKeys(message, false);
       });
       child.on(childrenModel.DOM_REACT_CHANGE, (message) => {
-        console.log('message: ', message, selectComponentDomReact);
-        // setSelectComponentDomReact(message);
-        setValue();
+        console.log('selectComponentDomReact.current', selectComponentDomReactRef.current);
+        setSelectComponentDomReact(message);
       });
       setLoading.setFalse();
     });

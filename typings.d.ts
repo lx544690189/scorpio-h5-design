@@ -23,39 +23,39 @@ declare global {
   }
 }
 
-declare module 'form-render/lib/antd' {
-  import React from 'react';
-  export interface FRProps {
-    schema: object;
-    formData: object;
-    onChange(data?: object): void;
-    onMount?(): void;
-    name?: string;
-    column?: number;
-    uiSchema?: object;
-    widgets?: any;
-    FieldUI?: any;
-    fields?: any;
-    mapping?: object;
-    showDescIcon?: boolean;
-    showValidate?: boolean;
-    displayType?: string;
-    onValidate?: any;
-    readOnly?: boolean;
-    labelWidth?: number | string;
-    useLogger?: boolean;
-  }
-  class FormRender extends React.Component<FRProps> { }
-  export default FormRender;
-}
+// declare module 'form-render/lib/antd' {
+//   import React from 'react';
+//   export interface FRProps {
+//     schema: object;
+//     formData: object;
+//     onChange(data?: object): void;
+//     onMount?(): void;
+//     name?: string;
+//     column?: number;
+//     uiSchema?: object;
+//     widgets?: any;
+//     FieldUI?: any;
+//     fields?: any;
+//     mapping?: object;
+//     showDescIcon?: boolean;
+//     showValidate?: boolean;
+//     displayType?: string;
+//     onValidate?: any;
+//     readOnly?: boolean;
+//     labelWidth?: number | string;
+//     useLogger?: boolean;
+//   }
+//   class FormRender extends React.Component<FRProps> { }
+//   export default FormRender;
+// }
 
-declare module 'fr-generator' {
-  interface Props {
-    defaultValue?: any;
-    templates?: any;
-    extraButtons?: Boolean[];
-    widgets?: any;
-    settings?: any[];
-  }
-  export default class Generator extends React.Component<Props> { }
-}
+// declare module 'fr-generator' {
+//   interface Props {
+//     defaultValue?: any;
+//     templates?: any;
+//     extraButtons?: Boolean[];
+//     widgets?: any;
+//     settings?: any[];
+//   }
+//   export default class Generator extends React.Component<Props> { }
+// }
