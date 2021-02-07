@@ -6,7 +6,7 @@ import { useModel } from 'umi';
 import { childrenModel } from '@/utils/bridge';
 import Postmate from 'Postmate';
 import html2canvas from 'html2canvas';
-import { useDebounceFn, useScroll } from 'ahooks';
+import { useDebounceFn, useScroll, useThrottleFn } from 'ahooks';
 
 export default function() {
   const { setStateByObjectKeys } = useModel('bridge');
@@ -14,7 +14,12 @@ export default function() {
   const scroll = useScroll(canvasRef);
   const { run } = useDebounceFn(
     () => {
-      window.postmate_parent.emit(childrenModel.DOM_REACT_CHANGE, scroll.top);
+      const container = window.document.getElementsByName('component-container');
+      const element = Array.from(container).find((item:any)=>item.dataset.selected === 'true');
+      if(element){
+        const data = element.getBoundingClientRect().toJSON();
+        window.postmate_parent.emit(childrenModel.DOM_REACT_CHANGE, data);
+      }
     },
     {
       wait: 100,

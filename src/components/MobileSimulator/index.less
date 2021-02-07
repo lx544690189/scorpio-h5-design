@@ -52,14 +52,30 @@
   .select-area {
     position: absolute;
     top: 0;
-    left: -30px;
-    right: -30px;
+    left: 0px;
+    right: 0px;
     height: 100px;
-    margin-top: @mobile-head-height + 20px;
+    margin-top: @mobile-head-height + 20px + 3px;
     box-shadow: 3px 3px 12px #bec8e4, -3px -3px 12px #bec8e4;
-    transition: top .3s ease-in-out,height .1s linear;
+    transition: top .2s ease-in-out,height .1s linear;
+    z-index: 1;
+    pointer-events: none;
     &.isSelected {
       border: 1px solid orange;
+      // border-right: 30px solid orange;
+      // border-top-right-radius: 10px;
+      // border-bottom-right-radius: 10px;
+    }
+    &-panel{
+      z-index: 0;
+      background-color: rgb(250, 187, 71);
+      position: absolute;
+      top: 0;
+      right: -31px;
+      width: 30px;
+      bottom: 0;
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
     }
   }
 
