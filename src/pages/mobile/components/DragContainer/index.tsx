@@ -66,10 +66,11 @@ export default function() {
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      onClick={() => { onSelectComponent(item.uuid); }}
+                      onClick={() => { onSelectComponent(item); }}
                     >
                       <DynamicComponent
                         id={item._id}
+                        uuid={item.uuid}
                         isSelected={selectComponentId === item.uuid}
                         componentProps={item.props}
                         containerProps={item.containerProps}

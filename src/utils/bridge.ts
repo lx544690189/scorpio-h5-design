@@ -28,6 +28,10 @@ export enum childrenModel {
   CAPTURE = 'capture',
   /** 选中组件位置信息 */
   DOM_REACT_CHANGE = 'domReactChange',
+  /** 滚动到指定位置 */
+  SCROLL_TO_POSITION = 'scrollToPosition',
+  /** 滚动事件 */
+  ON_SCROLL = 'onScroll',
 }
 
 export function isMobile(){

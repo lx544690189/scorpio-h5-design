@@ -6,29 +6,21 @@ import { useModel } from 'umi';
 import { childrenModel } from '@/utils/bridge';
 import Postmate from 'Postmate';
 import html2canvas from 'html2canvas';
-import { useDebounceFn, useScroll, useThrottleFn } from 'ahooks';
+import { useDebounceFn, useScroll, useThrottle, useThrottleFn } from 'ahooks';
 
 export default function() {
-  const { setStateByObjectKeys } = useModel('bridge');
+  const { setStateByObjectKeys, setScrollTop } = useModel('bridge');
   const canvasRef = useRef<HTMLDivElement>(null);
   const scroll = useScroll(canvasRef);
-  const { run } = useDebounceFn(
-    () => {
-      const container = window.document.getElementsByName('component-container');
-      const element = Array.from(container).find((item:any)=>item.dataset.selected === 'true');
-      if(element){
-        const data = element.getBoundingClientRect().toJSON();
-        window.postmate_parent.emit(childrenModel.DOM_REACT_CHANGE, data);
-      }
-    },
-    {
-      wait: 100,
-    },
-  );
+  const throttledScroll = useThrottle(scroll.top, { wait: 100 });
 
+  // 滚动事件，传递给parent
   useEffect(()=>{
-    run();
-  }, [scroll]);
+    if(window.postmate_parent){
+      setScrollTop(throttledScroll);
+      window.postmate_parent.emit(childrenModel.ON_SCROLL, throttledScroll);
+    }
+  }, [throttledScroll]);
 
   useEffect(()=>{
     const handshake = new Postmate.Model({
@@ -50,6 +42,16 @@ export default function() {
         const element = Array.from(container).find((item:any)=>item.dataset.selected === 'true');
         if(element){
           return element.getBoundingClientRect().toJSON();
+        }
+      },
+      [childrenModel.SCROLL_TO_POSITION]: (top: number)=>{
+        // 获得滚动的像素数
+        const container = canvasRef.current;
+        if(container){
+          container.scrollTo({
+            top,
+            behavior: 'smooth',
+          });
         }
       },
     });

@@ -15,8 +15,8 @@ import MobileSimulator from '@/components/MobileSimulator';
 import Postmate from 'Postmate';
 
 export default function() {
-  const { selectComponentDomReact, setSelectComponentDomReact } = useModel('bridge');
-  const selectComponentDomReactRef = useRef();
+  const { selectComponentDomReact, setSelectComponentDomReact, scrollTop, setScrollTop, selectComponentRect } = useModel('bridge');
+  const scrollTopRef = useRef<number>();
   // @ts-expect-error
   const { _id } = history.location.query;
   const { setStateByObjectKeys } = useModel('bridge');
@@ -25,7 +25,7 @@ export default function() {
   });
   const [loading, setLoading] = useBoolean(true);
 
-  selectComponentDomReactRef.current = selectComponentDomReact;
+  scrollTopRef.current = scrollTop;
 
   useEffect(() => {
     initData();
@@ -33,10 +33,6 @@ export default function() {
       window.postmate_mobile.destroy();
     };
   }, []);
-
-  const setValue = useCallback(()=>{
-    console.log('selectComponentDomReact.current', selectComponentDomReactRef.current);
-  }, [selectComponentDomReact]);
 
   /**
    * 初始化数据、编辑页面初始数据
@@ -76,12 +72,15 @@ export default function() {
         payload: state,
         type: IMessageType.syncState,
       });
+      // 注册事件
       child.on(childrenModel.SYNC_STATE, (message) => {
         setStateByObjectKeys(message, false);
       });
       child.on(childrenModel.DOM_REACT_CHANGE, (message) => {
-        console.log('selectComponentDomReact.current', selectComponentDomReactRef.current);
         setSelectComponentDomReact(message);
+      });
+      child.on(childrenModel.ON_SCROLL, (message) => {
+        setScrollTop(message);
       });
       setLoading.setFalse();
     });
@@ -102,7 +101,7 @@ export default function() {
           {!loading && <SideRight />}
         </div>
         <div className="center">
-          <MobileSimulator domReact={selectComponentDomReact}/>
+          <MobileSimulator/>
         </div>
       </div>
     </Spin>

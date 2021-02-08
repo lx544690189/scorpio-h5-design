@@ -16,7 +16,7 @@
     box-shadow: 3px 3px 6px #bec8e4, -3px -3px 6px #fff;
     border-radius: 24px;
     background-color: rgba(163, 162, 162, 0.5);
-    background-image: url("https://www.transparenttextures.com/patterns/egg-shell.png");
+    background-image: url("../../assets/images/egg-shell.png");
     border: 3px solid #999fa7;
 
     .mobile-head-bar {
@@ -56,17 +56,16 @@
     right: 0px;
     height: 100px;
     margin-top: @mobile-head-height + 20px + 3px;
-    box-shadow: 3px 3px 12px #bec8e4, -3px -3px 12px #bec8e4;
-    transition: top .2s ease-in-out,height .1s linear;
+    transition: top .2s linear, height .1s linear,border .2s linear;
     z-index: 1;
     pointer-events: none;
-    &.isSelected {
+    border: 1px solid rgba(0, 0, 0, 0);
+    &.border{
+      box-shadow: 3px 3px 12px #bec8e4, -3px -3px 12px #bec8e4;
       border: 1px solid orange;
-      // border-right: 30px solid orange;
-      // border-top-right-radius: 10px;
-      // border-bottom-right-radius: 10px;
     }
-    &-panel{
+
+    &-panel {
       z-index: 0;
       background-color: rgb(250, 187, 71);
       position: absolute;
@@ -76,6 +75,26 @@
       bottom: 0;
       border-top-right-radius: 10px;
       border-bottom-right-radius: 10px;
+      height: 90px;
+      box-shadow: 3px 3px 12px #bec8e4, -3px -3px 12px #bec8e4;
+      pointer-events: initial;
+
+      &-operation {
+        text-align: center;
+
+        .iconfont {
+          font-size: 18px;
+          height: 30px;
+          line-height: 30px;
+          cursor: pointer;
+
+          &:hover {
+            transition: all .3s ease;
+            font-weight: bold;
+            color: #1890ff;
+          }
+        }
+      }
     }
   }
 

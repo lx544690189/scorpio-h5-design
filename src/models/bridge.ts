@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { DropResult } from 'react-beautiful-dnd';
 import { v4 as uuidv4 } from 'uuid';
 import { useDebounceFn } from 'ahooks';
+import { any, number } from 'prop-types';
 /**
  * 这份状态会在父页面和iframe中实时同步
  */
@@ -15,17 +16,18 @@ export default function bridge() {
   const [pageId, setPageId] = useState<string>();
   /** 页面结构schema */
   const [pageSchema, setPageSchema] = useState<any[]>([]);
+  /** TODO: 使用索引不太好（若增加页面排序） */
   const [selectPageIndex, setSelectPageIndex] = useState(-1);
-  /** 当前选中的组件 */
-  const [selectComponentId, setSelectComponentId] = useState<any>(undefined);
-  console.log('selectComponentId: ', selectComponentId);
   /** 当前拖拽元素即将插入的位置索引（从0开始，-1为初始值） */
   const [dragingComponentIndex, setDragingComponentIndex] = useState(-1);
   /** 当前选中的组件的getBoundingClientRect值 */
   const [selectComponentDomReact, setSelectComponentDomReact] = useState();
-  const selectPage = pageSchema[selectPageIndex];
-  console.log('selectPageIndex: ', selectPageIndex);
-  const selectComponent = (selectPage && selectComponentId) ? pageSchema[selectPageIndex].components.find((item: any) => item.uuid === selectComponentId) : undefined;
+  /** iframe滚动距离顶部 */
+  const [scrollTop, setScrollTop] = useState(0);
+  /** 当前选中的组件 */
+  const [selectComponent, setSelectComponent] = useState<any>();
+  /** 当前选中的组件高度 */
+  const [selectComponentRect, setSelectComponentRect] = useState();
 
   /**
    * 根据对象更新state
@@ -38,7 +40,8 @@ export default function bridge() {
     pageId?: string;
     pageSchema?: any[];
     selectPageIndex?: number;
-    selectComponentId?: string;
+    selectComponent?: any;
+    selectComponentRect?: any;
     dragingComponentIndex?: number;
   }, isSyncState = true) {
     // 遍历key值set，可以避免不必要的渲染
@@ -61,8 +64,11 @@ export default function bridge() {
         // @ts-expect-error
         setSelectPageIndex(state.selectPageIndex);
       }
-      if (key === 'selectComponentId') {
-        setSelectComponentId(state.selectComponentId);
+      if (key === 'selectComponent') {
+        setSelectComponent(state.selectComponent);
+      }
+      if (key === 'selectComponentRect') {
+        setSelectComponentRect(state.selectComponentRect);
       }
       if (key === 'dragingComponentIndex') {
         // @ts-expect-error
@@ -71,6 +77,14 @@ export default function bridge() {
     });
     // iframe之间同步状态
     if (isSyncState) {
+      // 计算选中组件的getBoundingClientRect
+      if (isMobile()) {
+        const rect = computedComponentRect(state.selectComponent || selectComponent);
+        if(rect){
+          rect.scrollTopSnapshot = scrollTop;
+          state.selectComponentRect = rect;
+        }
+      }
       syncState({
         payload: state,
         type: IMessageType.syncState,
@@ -79,13 +93,23 @@ export default function bridge() {
     // 同步移动端页面快照\同步选中组件dom位置信息
     if (!isMobile() && !isSyncState && window.postmate_mobile) {
       // capture.run();
-      domReact.run();
+      // domReact.run();
+    }
+  };
+
+  const computedComponentRect = function(component: any) {
+    if (component) {
+      const element = window.document.querySelector(`[data-uuid="${component.uuid}"]`);
+      if (element) {
+        const rectJson = element.getBoundingClientRect().toJSON();
+        return rectJson;
+      }
     }
   };
 
   const domReact = useDebounceFn(() => {
     window.postmate_mobile.get(childrenModel.DOM_REACT_CHANGE).then((data) => {
-      if(data){
+      if (data) {
         setSelectComponentDomReact(data);
       }
     });
@@ -166,20 +190,20 @@ export default function bridge() {
   };
 
   /** 选中组件 */
-  const onSelectComponent = function(selectComponentId: string) {
+  const onSelectComponent = function(selectComponent: any) {
     setStateByObjectKeys({
-      selectComponentId,
+      selectComponent,
     });
   };
 
   const changeContainerPropsState = function(key: string, value: any) {
-    if (!selectComponent.containerProps) {
-      selectComponent.containerProps = {
-        margin: {},
-        padding: {},
-      };
-    }
-    selectComponent.containerProps[key] = value;
+    // if (!selectComponent.containerProps) {
+    //   selectComponent.containerProps = {
+    //     margin: {},
+    //     padding: {},
+    //   };
+    // }
+    // selectComponent.containerProps[key] = value;
     setStateByObjectKeys({
       pageSchema: [...pageSchema],
     });
@@ -191,7 +215,6 @@ export default function bridge() {
     pageId,
     pageSchema,
     selectPageIndex,
-    selectComponentId,
     dragingComponentIndex,
     setStateByObjectKeys,
     onDragStart,
@@ -201,10 +224,12 @@ export default function bridge() {
     onDrop,
     onSelectComponent,
     onSortEnd,
-    selectPage,
     selectComponent,
     changeContainerPropsState,
     selectComponentDomReact,
     setSelectComponentDomReact,
+    scrollTop,
+    setScrollTop,
+    selectComponentRect,
   };
 }

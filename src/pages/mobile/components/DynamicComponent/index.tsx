@@ -4,6 +4,7 @@ import React from 'react';
 
 interface Iprops {
   id: string;
+  uuid: string;
   isSelected: boolean;
   componentProps: any;
   containerProps: any;
@@ -14,7 +15,7 @@ function computedBorder({top, right, bottom, left}:any){
 }
 
 export default function(props: Iprops) {
-  const { id, isSelected, componentProps, containerProps } = props;
+  const { id, uuid, isSelected, componentProps, containerProps } = props;
   const Component = require(`@/h5Lib/${id}/index.tsx`).default;
   const {
     color, fontSize, fontWeight,
@@ -41,7 +42,7 @@ export default function(props: Iprops) {
   };
 
   return (
-    <div name="component-container" data-id={id} data-selected={isSelected} style={style}>
+    <div data-uuid={uuid} data-selected={isSelected} style={style}>
       <Component {...componentProps}/>
     </div>
   );
