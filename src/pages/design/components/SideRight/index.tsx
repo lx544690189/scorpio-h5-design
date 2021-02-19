@@ -8,9 +8,9 @@ import BaseLayoutConfig from '@/components/BaseLayoutConfig';
 const { TabPane } = Tabs;
 
 export default function() {
-  const { selectComponentId } = useModel('bridge');
+  const { selectComponent } = useModel('bridge');
 
-  if (!selectComponentId) {
+  if (!selectComponent) {
     return <Empty description="请选取组件后配置" />;
   }
   return (

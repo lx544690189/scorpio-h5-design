@@ -14,7 +14,7 @@ import { useBoolean } from 'ahooks';
 export default function() {
   const [isOrdering, setIsOrdering] = useBoolean(false);
   const {
-    isDraging, pageSchema, selectPageIndex, dragingComponentIndex, selectComponentId,
+    isDraging, pageSchema, selectPageIndex, dragingComponentIndex, selectComponent,
     onDragEnter, onDragLeave, onDrop, onSelectComponent, onSortEnd,
   } = useModel('bridge');
   let components:any[] = [];
@@ -60,7 +60,7 @@ export default function() {
                         'h5-canvas-block',
                         {
                           'blur': !snapshot.isDragging && isOrdering,
-                          'isSelected': selectComponentId === item.uuid,
+                          'isSelected': selectComponent?.uuid === item.uuid,
                         }
                       )}
                       ref={provided.innerRef}
@@ -71,7 +71,7 @@ export default function() {
                       <DynamicComponent
                         id={item._id}
                         uuid={item.uuid}
-                        isSelected={selectComponentId === item.uuid}
+                        isSelected={selectComponent?.uuid === item.uuid}
                         componentProps={item.props}
                         containerProps={item.containerProps}
                       />
