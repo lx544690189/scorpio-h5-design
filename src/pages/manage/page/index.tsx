@@ -10,12 +10,12 @@ export default function() {
   const queryPageListReq = useRequest(service.queryPageList);
 
   const onAddPage = function() {
-    const state = {
-      pageId: undefined,
-      pageSchema: [],
-      selectPageIndex: -1,
-    };
-    setStateByObjectKeys(state);
+    // const state = {
+    //   pageId: undefined,
+    //   pageSchema: [],
+    //   selectPageIndex: -1,
+    // };
+    // setStateByObjectKeys(state);
     history.push('/design');
   };
 

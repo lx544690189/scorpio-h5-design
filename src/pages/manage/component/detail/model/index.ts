@@ -22,32 +22,33 @@ export default createContainer(() => {
       setLoading.setTrue();
       await sleep(100);
       const selectComponentId = uuidv4();
-      const state = {
-        pageSchema: [{
-          components: [{
-            _id: data._id,
-            uuid: selectComponentId,
-            name: data.name,
-            cover: data.cover,
-            generatorSchema: data.generatorSchema ?? {
-              schema: {
-                type: 'object',
-                properties: {
-                },
+      const pageSchema = [{
+        components: [{
+          _id: data._id,
+          uuid: selectComponentId,
+          name: data.name,
+          cover: data.cover,
+          generatorSchema: data.generatorSchema ?? {
+            schema: {
+              type: 'object',
+              properties: {
               },
-              displayType: 'row',
-              showDescIcon: true,
-              labelWidth: 120,
             },
-            props: data.props ?? {},
-            containerProps: data.containerProps ?? {
-              margin: {},
-              padding: {},
-            },
-          }],
+            displayType: 'row',
+            showDescIcon: true,
+            labelWidth: 120,
+          },
+          props: data.props ?? {},
+          containerProps: data.containerProps ?? {
+            margin: {},
+            padding: {},
+          },
         }],
+      }];
+      const state = {
+        pageSchema,
         selectPageIndex: 0,
-        selectComponentId,
+        selectComponent: pageSchema[0].components[0],
       };
       setStateByObjectKeys(state, false);
       await sleep(100);

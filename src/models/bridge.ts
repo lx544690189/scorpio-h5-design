@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { DropResult } from 'react-beautiful-dnd';
 import { v4 as uuidv4 } from 'uuid';
 import { useDebounceFn } from 'ahooks';
-import { any, number } from 'prop-types';
+
 /**
  * 这份状态会在父页面和iframe中实时同步
  */
@@ -24,10 +24,12 @@ export default function bridge() {
   const [selectComponentDomReact, setSelectComponentDomReact] = useState();
   /** iframe滚动距离顶部 */
   const [scrollTop, setScrollTop] = useState(0);
-  /** 当前选中的组件 */
-  const [selectComponent, setSelectComponent] = useState<any>();
   /** 当前选中的组件高度 */
   const [selectComponentRect, setSelectComponentRect] = useState();
+  /** 当前选中的组件 */
+  const [selectComponentId, setSelectComponentId] = useState<any>(undefined);
+  const selectPage = pageSchema[selectPageIndex];
+  const selectComponent = (selectPage && selectComponentId) ? pageSchema[selectPageIndex].components.find((item: any) => item.uuid === selectComponentId) : undefined;
 
   /**
    * 根据对象更新state
@@ -40,7 +42,7 @@ export default function bridge() {
     pageId?: string;
     pageSchema?: any[];
     selectPageIndex?: number;
-    selectComponent?: any;
+    selectComponentId?: string;
     selectComponentRect?: any;
     dragingComponentIndex?: number;
   }, isSyncState = true) {
@@ -64,8 +66,8 @@ export default function bridge() {
         // @ts-expect-error
         setSelectPageIndex(state.selectPageIndex);
       }
-      if (key === 'selectComponent') {
-        setSelectComponent(state.selectComponent);
+      if (key === 'selectComponentId') {
+        setSelectComponentId(state.selectComponentId);
       }
       if (key === 'selectComponentRect') {
         setSelectComponentRect(state.selectComponentRect);
@@ -79,10 +81,14 @@ export default function bridge() {
     if (isSyncState) {
       // 计算选中组件的getBoundingClientRect
       if (isMobile()) {
-        const rect = computedComponentRect(state.selectComponent || selectComponent);
-        if(rect){
-          rect.scrollTopSnapshot = scrollTop;
-          state.selectComponentRect = rect;
+        const selectComponent = (selectPage && selectComponentId) ?
+          pageSchema[state.selectPageIndex ?? selectPageIndex].components.find((item: any) => item.uuid === state.selectComponentId ?? selectComponentId) : undefined;
+        if(selectComponent){
+          const rect = computedComponentRect(selectComponent);
+          if(rect){
+            rect.scrollTopSnapshot = scrollTop;
+            state.selectComponentRect = rect;
+          }
         }
       }
       syncState({
@@ -92,7 +98,7 @@ export default function bridge() {
     }
     // 同步移动端页面快照\同步选中组件dom位置信息
     if (!isMobile() && !isSyncState && window.postmate_mobile) {
-      // capture.run();
+      capture.run();
       // domReact.run();
     }
   };
@@ -190,20 +196,14 @@ export default function bridge() {
   };
 
   /** 选中组件 */
-  const onSelectComponent = function(selectComponent: any) {
+  const onSelectComponent = function(selectComponentId: any) {
     setStateByObjectKeys({
-      selectComponent,
+      selectComponentId,
     });
   };
 
   const changeContainerPropsState = function(key: string, value: any) {
-    // if (!selectComponent.containerProps) {
-    //   selectComponent.containerProps = {
-    //     margin: {},
-    //     padding: {},
-    //   };
-    // }
-    // selectComponent.containerProps[key] = value;
+    selectComponent.containerProps[key] = value;
     setStateByObjectKeys({
       pageSchema: [...pageSchema],
     });
@@ -231,5 +231,6 @@ export default function bridge() {
     scrollTop,
     setScrollTop,
     selectComponentRect,
+    selectComponentId,
   };
 }

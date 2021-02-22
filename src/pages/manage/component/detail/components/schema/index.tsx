@@ -19,7 +19,6 @@ const defaultValue = {
 
 export default forwardRef((props: any, ref: any) => {
   const { selectComponent } = useModel('bridge');
-  console.log('selectComponent: ', selectComponent);
 
   return (
     <div className="manage-component-detail-schema">

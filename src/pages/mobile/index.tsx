@@ -28,7 +28,7 @@ export default function() {
         setStateByObjectKeys(message, false);
       },
       [childrenModel.CAPTURE]: async()=>{
-        const captureDom = canvasRef.current;
+        const captureDom = window.document.getElementById('snapshot-container');
         if(captureDom){
           const canvas = await html2canvas(captureDom, {
             useCORS: true,

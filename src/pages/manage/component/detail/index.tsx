@@ -1,7 +1,7 @@
 import { Button, Space, Spin, Tabs } from 'antd';
 import React, { useRef } from 'react';
 import { useModel, history } from 'umi';
-import { IMessageType, onChildrenReady, syncState } from '@/utils/bridge';
+import { childrenModel, IMessageType, onChildrenReady, syncState } from '@/utils/bridge';
 import './index.less';
 import Form from './components/form';
 import Schema from './components/schema';
@@ -11,11 +11,13 @@ import { useDebounce } from 'ahooks';
 import Loading from '@/components/Loading';
 import MobileSimulator from '@/components/MobileSimulator';
 import BaseLayoutConfig from '@/components/BaseLayoutConfig';
+import { v4 as uuidv4 } from 'uuid';
+import { dataURLtoFile, ossClient } from '@/utils';
 
 const { TabPane } = Tabs;
 
 const ComponentDetail = function() {
-  const { setStateByObjectKeys, pageSchema, selectComponent, selectPage } = useModel('bridge');
+  const { setStateByObjectKeys, pageSchema, selectComponent } = useModel('bridge');
   const { onSubmit, loading } = Model.useContainer();
   const SchemaRef = useRef<{ getValue: () => any }>(null);
 
@@ -37,7 +39,13 @@ const ComponentDetail = function() {
 
   async function handelSubmit() {
     selectComponent.generatorSchema = SchemaRef.current?.getValue();
-    selectComponent.cover = selectPage.coverSnapshot;
+    const dataURL = await window.postmate_mobile.get(childrenModel.CAPTURE);
+    if (dataURL) {
+      const file = dataURLtoFile(dataURL, new Date().getTime().toString());
+      const fileName = `${uuidv4()}.png`;
+      await ossClient.put(`design/${fileName}`, file);
+      selectComponent.cover = `https://static.lxzyl.cn/design/${fileName}`;
+    }
     onSubmit();
   }
 

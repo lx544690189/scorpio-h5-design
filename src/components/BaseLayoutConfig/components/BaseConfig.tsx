@@ -5,8 +5,7 @@ import React, { useState } from 'react';
 import { useModel } from 'umi';
 
 const App = () => {
-  const { pageSchema, selectPageIndex, selectComponentId, setStateByObjectKeys } = useModel('bridge');
-  const component = pageSchema[selectPageIndex].components.find((item:any)=>item.uuid === selectComponentId);
+  const { pageSchema, selectComponent, setStateByObjectKeys } = useModel('bridge');
   const [valid, setValid] = useState([]);
   const [showValidate, setShowValidate] = useState(false);
 
@@ -18,7 +17,7 @@ const App = () => {
   };
 
   const onChange = (values: any) => {
-    component.containerProps = values;
+    selectComponent.containerProps = values;
     setStateByObjectKeys({
       pageSchema: [...pageSchema],
     });
@@ -27,7 +26,7 @@ const App = () => {
   return (
     <FormRender
       schema={componentBaseConfig}
-      formData={component.containerProps ?? {}}
+      formData={selectComponent.containerProps ?? {}}
       onChange={onChange}
       onValidate={setValid}
       showValidate={showValidate}

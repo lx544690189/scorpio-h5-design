@@ -66,7 +66,7 @@ export default function() {
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      onClick={() => { onSelectComponent(item); }}
+                      onClick={() => { onSelectComponent(item.uuid); }}
                     >
                       <DynamicComponent
                         id={item._id}
