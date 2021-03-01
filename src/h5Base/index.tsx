@@ -2,13 +2,22 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'babel-polyfill';
 import componentList from '../h5Lib';
+import Container from './Container';
 
+/**
+ * 拉取页面schema
+ */
 const fetchSchema =  async function() {
   const data = await window.fetch('http://localhost:7001/api/page/getSchema?id=603369e21ed1f229deec54b4');
   const res = await data.json();
   return res.data.pageSchema;
 };
 
+/**
+ * 异步加载组件
+ * - 不要用字符串模板去匹配组件路径，而是通过id做好映射，这样打包工具才知道如何拆分代码
+ * @param pageSchema
+ */
 const fetchComponents = async function(pageSchema:any[]){
   const tasks:any[] = [];
   pageSchema.forEach((page:any)=>{
@@ -37,14 +46,22 @@ const fetchComponents = async function(pageSchema:any[]){
   }
 };
 
+// 获取页面组件
 const renderComponent = function(pagesSchema: any, loadedComponents:any){
   const page = pagesSchema[0];
   return page.components.map((component: any)=>{
     const Cop = loadedComponents.find((item:any)=>item._id === component._id).component;
-    return <Cop key={component.uuid} {...component.props}/>;
+    return (
+      <Container
+        key={component.uuid}
+        containerProps={component.containerProps}
+        componentProps={component.props}
+      >
+        <Cop {...component.props}/>
+      </Container>
+    );
   });
 };
-
 
 (async function(){
   const pagesSchema = await fetchSchema();
