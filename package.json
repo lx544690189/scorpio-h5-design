@@ -34,6 +34,7 @@
     "ahooks": "^2.9.3",
     "ali-oss": "^6.13.1",
     "antd": "^4.7.2",
+    "antd-mobile": "^2.3.4",
     "axios": "^0.21.1",
     "babel-polyfill": "^6.26.0",
     "braft-editor": "^2.3.9",
@@ -64,6 +65,7 @@
     "uuid": "^8.3.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.13.8",
     "@typescript-eslint/eslint-plugin": "^4.5.0",
     "@typescript-eslint/parser": "^4.5.0",
     "@umijs/plugin-sass": "^1.1.1",
