@@ -13,6 +13,7 @@ import { Spin } from 'antd';
 import { sleep } from '@/utils';
 import MobileSimulator from '@/components/MobileSimulator';
 import Postmate from 'Postmate';
+import config from '@/config';
 
 export default function() {
   const { selectComponentDomReact, setSelectComponentDomReact, scrollTop, setScrollTop, selectComponentRect } = useModel('bridge');
@@ -62,7 +63,7 @@ export default function() {
     await sleep(100);
     const handshake = new Postmate({
       container: document.getElementById('mobile-content'),
-      url: '/#/mobile',
+      url: `${config.base}/#/mobile`,
       name: 'mobile',
       classListArray: ['mobile'],
     });
