@@ -6,6 +6,8 @@ import MonacoWebpackPlugin from 'monaco-editor-webpack-plugin';
 
 
 export default defineConfig({
+  base: "/scorpio-design",
+  publicPath: "./",
   history: {
     type: 'hash',
   },

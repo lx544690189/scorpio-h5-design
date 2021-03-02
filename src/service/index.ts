@@ -1,6 +1,7 @@
 import { request } from 'umi';
 
-const HOST = 'http://127.0.0.1:7001';
+// const HOST = 'http://127.0.0.1:7001';
+const HOST = 'https://design.lxzyl.cn';
 
 export async function getCategoryList(data: {
   current?: number;
