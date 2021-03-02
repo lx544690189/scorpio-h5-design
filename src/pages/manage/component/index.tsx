@@ -7,6 +7,8 @@ import './index.less';
 import FormRenderDrawer from '@/components/FormRenderDrawer';
 import * as service from '@/service';
 import { PlusOutlined, DownOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import h5Lib from '@/h5Lib';
+import { fetchH5LibComponents } from '@/utils';
 
 const { TabPane } = Tabs;
 const { Paragraph } = Typography;
@@ -40,7 +42,7 @@ const formSchema = {
 };
 
 const Component = function() {
-  const { queryAllWithComponent } = Model.useContainer();
+  const { queryAllWithComponent, getH5LibComponents } = Model.useContainer();
   const [componentDraw, setComponentDraw] = useState({
     category: {},
     component: {},
@@ -105,14 +107,12 @@ const Component = function() {
     //
   };
 
-  const dev = function(component: any) {
-    console.log('component: ', component);
-    try {
-      require(`@/h5Lib/${component._id}/index.tsx`).default;
-      history.push(`/manage/component/detail?componentId=${component._id}`);
-    } catch (error) {
-      message.error('组件不存在，请检查本地h5lib目录');
+  const dev = async function(component: any) {
+    // @ts-expect-error
+    if(!h5Lib[component._id]){
+      return message.error('组件不存在，请检查本地h5lib目录');
     }
+    history.push(`/manage/component/detail?componentId=${component._id}`);
   };
 
   const onEditComponent = function(component: any, category: any){
