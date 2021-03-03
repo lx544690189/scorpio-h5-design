@@ -4,7 +4,7 @@ import './index.less';
 export default function() {
   return (
     <div className="construct">
-      Construct
+      敬请期待
     </div>
   );
 }

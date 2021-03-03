@@ -1,11 +1,9 @@
 @header-height: 60px;
 @side-left-width: 500px;
-@side-right-width: 400px;
-
+@side-right-width: 450px;
 .design {
   position: relative;
   height: 100vh;
-  background-color: rgb(239 242 245);
 
   ::-webkit-scrollbar {
     width: 6px
@@ -26,7 +24,7 @@
     left: 0;
     right: 0;
     height: @header-height;
-    background: #ececec;
+    background: #eaedf0;
     z-index: 10;
 
 
@@ -37,8 +35,9 @@
       bottom: 0;
       left: 0;
       right: 0;
-      height: 4px;
-      box-shadow: inset -1px -1px 3px #fff,inset 1px 1px 3px #bec8e4;
+      height: 1px;
+      transform: translateY(0.5);
+      background: #bfbfbf;
     }
   }
 

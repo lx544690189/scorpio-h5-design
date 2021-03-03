@@ -8,7 +8,6 @@ import { useModel } from 'umi';
 
 const App = () => {
   const { pageSchema, selectComponent, setStateByObjectKeys } = useModel('bridge');
-  console.log('selectComponent: ', selectComponent);
   const {generatorSchema, props} = selectComponent;
   const [valid, setValid] = useState([]);
   const [showValidate, setShowValidate] = useState(false);

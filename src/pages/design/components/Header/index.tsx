@@ -7,6 +7,7 @@ import { useBoolean } from 'ahooks';
 import * as QRCode from 'qrcode';
 import { dataURLtoFile, ossClient } from '@/utils';
 import { v4 as uuidv4 } from 'uuid';
+import { childrenModel } from '@/utils/bridge';
 
 export default function() {
   const { pageId, pageSchema, selectPageIndex } = useModel('bridge');
@@ -20,13 +21,12 @@ export default function() {
 
   const onSave = async function() {
     const selectPage = pageSchema[selectPageIndex];
-    const dataURL =  selectPage.coverSnapshot;
+    const dataURL = await window.postmate_mobile.get(childrenModel.CAPTURE);
     if (dataURL) {
       const file = dataURLtoFile(dataURL, new Date().getTime().toString());
       const fileName = `${uuidv4()}.png`;
       await ossClient.put(`design/${fileName}`, file);
       selectPage.cover = `https://static.lxzyl.cn/design/${fileName}`;
-      delete selectPage.coverSnapshot;
     }
     if (pageId) {
       await editPageReq.run({

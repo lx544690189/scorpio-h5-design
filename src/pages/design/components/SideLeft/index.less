@@ -5,7 +5,6 @@
   left: 0;
   bottom: 0;
   width: @side-left-width;
-  // border-right: 1px solid #858484;
   display: flex;
   z-index: 1;
   &:after {
@@ -14,8 +13,9 @@
     bottom: 0;
     right: 0;
     top: 0;
-    width: 4px;
-    box-shadow: inset -1px -1px 3px #fff, inset 1px 1px 3px #bec8e4;
+    width: 1px;
+    transform: translateY(0.5);
+    background: #bfbfbf;
   }
 
   &-nav {
