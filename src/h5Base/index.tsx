@@ -8,7 +8,7 @@ import Container from './Container';
  * 拉取页面schema
  */
 const fetchSchema =  async function() {
-  const data = await window.fetch('http://localhost:7001/api/page/getSchema?id=603369e21ed1f229deec54b4');
+  const data = await window.fetch('http://localhost:7001/api/page/getSchema?id=603f2eed515dd73a0bb34f4e');
   const res = await data.json();
   return res.data.pageSchema;
 };

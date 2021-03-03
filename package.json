@@ -2,9 +2,9 @@
   "private": true,
   "scripts": {
     "dev:design": "cross-env PORT=9001 umi dev",
-    "dev:mobile": "parcel ./src/h5Base/index.html -p 9002",
+    "dev:mobile": "parcel ./src/h5Base/index.html -p 9002 -d parcelDev",
     "build:design": "umi build",
-    "build:mobile": "parcel build ./src/h5Base/index.html",
+    "build:mobile": "parcel build ./src/h5Base/index.html -d parcelBuld",
     "postinstall": "umi generate tmp",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
     "test": "umi-test",

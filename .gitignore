@@ -10,6 +10,8 @@
 # production
 /dist
 /.cache
+/parcelBuld
+/parcelDev
 
 # misc
 .DS_Store

@@ -1,4 +1,4 @@
 export default {
-  base: '/scorpio-design',
+  base: '',
   api: 'https://design.lxzyl.cn',
 };
