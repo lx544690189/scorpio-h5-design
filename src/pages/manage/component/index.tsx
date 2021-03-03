@@ -21,16 +21,6 @@ const formSchema = {
         'title': '组件名称',
         'type': 'string',
       },
-      'cover': {
-        'title': '封面',
-        'type': 'string',
-        'ui:widget': 'ImageUpload',
-      },
-      'editor': {
-        'title': '富文本',
-        'type': 'string',
-        'ui:widget': 'BraftEditor',
-      },
     },
     'ui:displayType': 'row',
     'ui:showDescIcon': true,
