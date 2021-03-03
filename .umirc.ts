@@ -31,7 +31,7 @@ export default defineConfig({
       ],
     },
   ],
-  dynamicImport: false,
+  dynamicImport: {},
   ignoreMomentLocale: true,
   inlineLimit: false,
   title: '搭建',

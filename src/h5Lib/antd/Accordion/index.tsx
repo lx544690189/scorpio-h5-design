@@ -1,6 +1,6 @@
 import React from 'react';
 import { Accordion } from 'antd-mobile';
-import _601912a902574daf68578e48 from '../../601912a902574daf68578e48';
+import RichText from '../../base/RichText';
 
 export default function(props: any) {
   const { accordion, defaultActiveKey, list = [] } = props;
@@ -10,7 +10,7 @@ export default function(props: any) {
         {
           list.map((item:any, index: number)=>(
             <Accordion.Panel header={item.header} key={index}>
-              <_601912a902574daf68578e48 html={item.content}/>
+              <RichText html={item.content}/>
             </Accordion.Panel>
           ))
         }

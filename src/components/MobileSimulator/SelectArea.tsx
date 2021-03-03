@@ -9,12 +9,13 @@ interface IProps {
   size: {
     width: number;
     height: number;
-  }
+  };
+  selectComponent:any;
 }
 
 export default function(props: IProps) {
   const [borderVisible, setBorderVisible] = useState(() => window.localStorage.getItem('selectArea_borderVisible') !== 'false');
-  const { selectComponentRect, scrollTop } = useModel('bridge');
+  const { selectComponentRect, scrollTop, selectComponent, pageSchema, setStateByObjectKeys } = useModel('bridge');
   const { top, height, scrollTopSnapshot } = selectComponentRect as any;
   const diffScrollHeight = scrollTopSnapshot - scrollTop;
   const computedTop = top + diffScrollHeight;
@@ -38,7 +39,13 @@ export default function(props: IProps) {
   };
   // 删除组件
   const deleteComponent = function() {
-    //
+    if(selectComponent){
+      pageSchema[0].components = pageSchema[0].components.filter((item:any)=>item.uuid !== selectComponent.uuid);
+      console.log('pageSchema: ', pageSchema);
+      setStateByObjectKeys({
+        pageSchema: [...pageSchema],
+      });
+    }
   };
 
   return (

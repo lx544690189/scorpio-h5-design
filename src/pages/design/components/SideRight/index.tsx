@@ -15,11 +15,11 @@ export default function() {
   }
   return (
     <Tabs defaultActiveKey="1" type="card" className="config-tabs">
-      <TabPane tab="基础属性" key="1">
-        <BaseLayoutConfig />
-      </TabPane>
-      <TabPane tab="组件配置" key="2">
+      <TabPane tab="组件配置" key="componentConfig">
         <ComponentConfig />
+      </TabPane>
+      <TabPane tab="外层容器配置" key="containerConfig">
+        <BaseLayoutConfig />
       </TabPane>
       <TabPane tab="事件" key="3">
         Content of Tab Pane 3

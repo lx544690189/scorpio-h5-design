@@ -11,7 +11,7 @@ export default function() {
 
   return (
     <div className="mobile-simulator-container">
-      {selectComponentRect && <SelectArea size={size} />}
+      {selectComponentRect && <SelectArea size={size}/>}
       <div className="mobile-simulator">
         <div className="mobile-head-bar"></div>
         <div className="mobile-content" id="mobile-content" ref={ref} />

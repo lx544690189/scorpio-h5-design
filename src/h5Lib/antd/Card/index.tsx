@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card } from 'antd-mobile';
-import _601912a902574daf68578e48 from '../../601912a902574daf68578e48';
+import RichText from '../../base/RichText';
 
 export default function(props:any) {
   const {full, header, content, footer} = props;
@@ -13,7 +13,7 @@ export default function(props:any) {
       />
       <Card.Body>
         {
-          <_601912a902574daf68578e48 html={content}/>
+          <RichText html={content}/>
         }
       </Card.Body>
       <Card.Footer content={footer?.leftContent} extra={<div>{footer?.rightContent}</div>} />

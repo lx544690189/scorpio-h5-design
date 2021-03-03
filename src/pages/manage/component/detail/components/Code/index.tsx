@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
-import MonacoEditor from 'react-monaco-editor';
+// import MonacoEditor from 'react-monaco-editor';
 import parseJson from 'json-parse-better-errors';
 import { useModel } from 'umi';
+import Loadable from 'react-loadable';
 
 import './index.less';
 import { message } from 'antd';
+import Loading from '@/components/Loading';
+
+const LoadableComponent = Loadable({
+  loader: ()=>import('react-monaco-editor'),
+  loading: Loading,
+});
 
 export default function Code() {
   const { selectComponent } = useModel('bridge');
@@ -30,7 +37,7 @@ export default function Code() {
   console.log('code: ', code);
   return (
     <div className="code-editor">
-      <MonacoEditor
+      <LoadableComponent
         language="json"
         theme="vs-light"
         value={code}
