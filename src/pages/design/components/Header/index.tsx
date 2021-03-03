@@ -26,6 +26,7 @@ export default function() {
       const fileName = `${uuidv4()}.png`;
       await ossClient.put(`design/${fileName}`, file);
       selectPage.cover = `https://static.lxzyl.cn/design/${fileName}`;
+      delete selectPage.coverSnapshot;
     }
     if (pageId) {
       await editPageReq.run({

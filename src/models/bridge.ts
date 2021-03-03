@@ -98,7 +98,7 @@ export default function bridge() {
     }
     // 同步移动端页面快照\同步选中组件dom位置信息
     if (!isMobile() && !isSyncState && window.postmate_mobile) {
-      capture.run();
+      // capture.run();
       // domReact.run();
     }
   };

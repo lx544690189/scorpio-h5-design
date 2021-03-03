@@ -8,7 +8,6 @@ import FormRenderDrawer from '@/components/FormRenderDrawer';
 import * as service from '@/service';
 import { PlusOutlined, DownOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import h5Lib from '@/h5Lib';
-import { fetchH5LibComponents } from '@/utils';
 
 const { TabPane } = Tabs;
 const { Paragraph } = Typography;
@@ -42,7 +41,7 @@ const formSchema = {
 };
 
 const Component = function() {
-  const { queryAllWithComponent, getH5LibComponents } = Model.useContainer();
+  const { queryAllWithComponent } = Model.useContainer();
   const [componentDraw, setComponentDraw] = useState({
     category: {},
     component: {},
