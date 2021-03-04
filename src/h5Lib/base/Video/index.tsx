@@ -1,22 +1,18 @@
 import React from 'react';
 // @ts-expect-error
-import QierPlayer from 'qier-player';
+import { Player } from 'video-react';
+import 'video-react/dist/video-react.css';
 import style from './index.less';
-import { pxToVw } from '@/utils';
+
+const pxToVw = function(px:number){
+  return px ? px / 750* 100 : 0;
+};
 
 export default function(props:any) {
-  const {srcOrigin, width, height, themeColor} = props;
+  const {srcOrigin, width, height, poster} = props;
   return (
     <div className={style.videoContainer}>
-      <QierPlayer
-        key={`${width}-${height}`}
-        width={`${pxToVw(width)}vw`}
-        height={`${pxToVw(height)}vw`}
-        language="zh"
-        showVideoQuality={false}
-        themeColor={themeColor}
-        srcOrigin={srcOrigin}
-      />
+      <Player width={width} height={height} src={srcOrigin} poster={poster}/>
     </div>
   );
 }

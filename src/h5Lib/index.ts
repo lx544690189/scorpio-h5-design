@@ -6,5 +6,5 @@ export default {
   /** 基础组件 */
   '600fd4f8607ea614fc3c894c': import('../h5Lib/base/Image'),
   '601912a902574daf68578e48': import('../h5Lib/base/RichText'),
-  '6019260802574daf68578e49': import('../h5Lib/base/RichText'),
+  '6019260802574daf68578e49': import('../h5Lib/base/Video'),
 };
