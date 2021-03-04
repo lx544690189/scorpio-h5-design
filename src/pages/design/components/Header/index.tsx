@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useModel, useRequest } from 'umi';
 import * as service from '@/service';
 import './index.less';
@@ -8,6 +8,7 @@ import * as QRCode from 'qrcode';
 import { dataURLtoFile, ossClient } from '@/utils';
 import { v4 as uuidv4 } from 'uuid';
 import { childrenModel } from '@/utils/bridge';
+import config from '@/config';
 
 export default function() {
   const { pageId, pageSchema, selectPageIndex } = useModel('bridge');
@@ -18,8 +19,9 @@ export default function() {
     manual: true,
   });
   const [visible, { toggle }] = useBoolean(false);
+  const [qrcodeUrl, setQrcodeUrl] = useState('');
 
-  const onSave = async function() {
+  const save = async function() {
     const selectPage = pageSchema[selectPageIndex];
     const dataURL = await window.postmate_mobile.get(childrenModel.CAPTURE);
     if (dataURL) {
@@ -38,20 +40,26 @@ export default function() {
         pageSchema,
       });
     }
+  };
+
+  const onSave = async function() {
+    await save();
     message.success('保存成功！');
   };
 
-  const onOverview = function() {
-    const canvas = document.getElementById('canvas');
-    QRCode.toCanvas(canvas, 'sample text', function(error) {
-      if (error) console.error(error);
-      console.log('success!');
+  const onVisibleChange = async function() {
+    toggle();
+    await save();
+    const dataUrl = await QRCode.toDataURL(`${config.h5Base}?id=${pageId}`, {
+      margin: 0,
     });
+    console.log('dataUrl: ', dataUrl);
+    setQrcodeUrl(dataUrl);
   };
 
   const overviewContent = (
     <div className="overview-qrcode">
-
+      <img className="overview-qrcode-img" src={qrcodeUrl}/>
     </div>
   );
 
@@ -65,16 +73,17 @@ export default function() {
           </Spin>
         </div>
         <Popover
-          title="Title"
+          title="真机预览"
           trigger="click"
           visible={visible}
-          onVisibleChange={toggle}
+          onVisibleChange={onVisibleChange}
           content={overviewContent}
+          overlayClassName="overview-qrcode-popover"
         >
 
           <div className="item">
             <i className="iconfont icon-shouji" />
-            <div className="text" onClick={onOverview}>预览</div>
+            <div className="text">预览</div>
           </div>
         </Popover>
         <div className="item">
