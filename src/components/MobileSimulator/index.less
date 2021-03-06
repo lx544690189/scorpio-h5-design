@@ -60,23 +60,23 @@
     z-index: 1;
     pointer-events: none;
     border: 1px solid rgba(0, 0, 0, 0);
-    &.border{
-      // box-shadow: 3px 3px 12px #bec8e4, -3px -3px 12px #bec8e4;
-      // border: 1px solid orange;
-                  animation: linearGradientMove .6s infinite linear;
-      background:
-        linear-gradient(90deg, rgba(0, 0, 0, 1) 50%, transparent 0) repeat-x,
-        linear-gradient(90deg, rgba(0, 0, 0, 1) 50%, transparent 0) repeat-x,
-        linear-gradient(0deg, rgba(0, 0, 0, 1) 50%, transparent 0) repeat-y,
-        linear-gradient(0deg,rgba(0, 0, 0, 1) 50%, transparent 0) repeat-y;
-      background-size: 4px 1px, 4px 1px, 1px 4px, 1px 4px;
-      background-position: 0 0, 0 100%, 0 0, 100% 0;
-      padding: 1px;
-    }
+    // &.border{
+    //   // box-shadow: 3px 3px 12px #bec8e4, -3px -3px 12px #bec8e4;
+    //   // border: 1px solid orange;
+    //               animation: linearGradientMove .6s infinite linear;
+    //   background:
+    //     linear-gradient(90deg, rgba(0, 0, 0, 1) 50%, transparent 0) repeat-x,
+    //     linear-gradient(90deg, rgba(0, 0, 0, 1) 50%, transparent 0) repeat-x,
+    //     linear-gradient(0deg, rgba(0, 0, 0, 1) 50%, transparent 0) repeat-y,
+    //     linear-gradient(0deg,rgba(0, 0, 0, 1) 50%, transparent 0) repeat-y;
+    //   background-size: 4px 1px, 4px 1px, 1px 4px, 1px 4px;
+    //   background-position: 0 0, 0 100%, 0 0, 100% 0;
+    //   padding: 1px;
+    // }
 
     &-panel {
       z-index: 0;
-      background-color: rgb(250, 187, 71);
+      background-color: #babcbe;
       position: absolute;
       top: 0;
       right: -31px;
@@ -96,6 +96,8 @@
           height: 30px;
           line-height: 30px;
           cursor: pointer;
+          color: #2f3330;
+          font-weight: normal;
 
           &:hover {
             transition: all .3s ease;

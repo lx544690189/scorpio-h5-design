@@ -10,6 +10,7 @@
     position: relative;
     cursor: inherit;
     zoom: 1;
+    padding: 1px;
 
     &:hover {
       animation: linearGradientMove .3s infinite linear;
@@ -22,17 +23,16 @@
       filter: blur(1px);
     }
 
-    // &.isSelected {
-    //   animation: linearGradientMove .2s infinite linear;
-    //   background:
-    //     linear-gradient(90deg, red 50%, transparent 0) repeat-x,
-    //     linear-gradient(90deg, red 50%, transparent 0) repeat-x,
-    //     linear-gradient(0deg, red 50%, transparent 0) repeat-y,
-    //     linear-gradient(0deg,red 50%, transparent 0) repeat-y;
-    //   background-size: 4px 1px, 4px 1px, 1px 4px, 1px 4px;
-    //   background-position: 0 0, 0 100%, 0 0, 100% 0;
-    //   padding: 1px;
-    // }
+    &.border {
+      animation: linearGradientMove .2s infinite linear;
+      background:
+        linear-gradient(90deg, red 50%, transparent 0) repeat-x,
+        linear-gradient(90deg, red 50%, transparent 0) repeat-x,
+        linear-gradient(0deg, red 50%, transparent 0) repeat-y,
+        linear-gradient(0deg,red 50%, transparent 0) repeat-y;
+      background-size: 4px 1px, 4px 1px, 1px 4px, 1px 4px;
+      background-position: 0 0, 0 100%, 0 0, 100% 0;
+    }
   }
 
   &-empty-block {

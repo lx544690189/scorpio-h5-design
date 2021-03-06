@@ -16,7 +16,7 @@ import Postmate from 'Postmate';
 import config from '@/config';
 
 export default function() {
-  const { selectComponentDomReact, setSelectComponentDomReact, scrollTop, setScrollTop, selectComponentRect } = useModel('bridge');
+  const { setSelectComponentDomReact, scrollTop, setScrollTop } = useModel('bridge');
   const scrollTopRef = useRef<number>();
   // @ts-expect-error
   const { _id } = history.location.query;
@@ -102,7 +102,7 @@ export default function() {
           {!loading && <SideRight />}
         </div>
         <div className="center">
-          <MobileSimulator/>
+          <MobileSimulator loading={loading}/>
         </div>
       </div>
     </Spin>

@@ -15,7 +15,7 @@ export default function() {
   const [isOrdering, setIsOrdering] = useBoolean(false);
   const {
     isDraging, pageSchema, selectPageIndex, dragingComponentIndex, selectComponent,
-    onDragEnter, onDragLeave, onDrop, onSelectComponent, onSortEnd,
+    onDragEnter, onDragLeave, onDrop, onSelectComponent, onSortEnd, showSelectComponentBorder,
   } = useModel('bridge');
   let components:any[] = [];
   if (pageSchema.length > 0 && selectPageIndex !== -1) {
@@ -61,6 +61,7 @@ export default function() {
                         {
                           'blur': !snapshot.isDragging && isOrdering,
                           'isSelected': selectComponent?.uuid === item.uuid,
+                          'border': selectComponent?.uuid === item.uuid && showSelectComponentBorder,
                         }
                       )}
                       ref={provided.innerRef}

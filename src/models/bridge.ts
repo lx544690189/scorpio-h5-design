@@ -1,8 +1,7 @@
-import { childrenModel, IMessageType, isMobile, syncState } from '@/utils/bridge';
+import { IMessageType, isMobile, syncState } from '@/utils/bridge';
 import { useState } from 'react';
 import { DropResult } from 'react-beautiful-dnd';
 import { v4 as uuidv4 } from 'uuid';
-import { useDebounceFn } from 'ahooks';
 
 /**
  * 这份状态会在父页面和iframe中实时同步
@@ -28,6 +27,8 @@ export default function bridge() {
   const [selectComponentRect, setSelectComponentRect] = useState();
   /** 当前选中的组件 */
   const [selectComponentId, setSelectComponentId] = useState<any>(undefined);
+  /** 是否显示选中组件边界 */
+  const [showSelectComponentBorder, setShowSelectComponentBorder] = useState(() => window.localStorage.getItem('selectArea_borderVisible') !== 'false');
   const selectPage = pageSchema[selectPageIndex];
   const selectComponent = (selectPage && selectComponentId) ? pageSchema[selectPageIndex].components.find((item: any) => item.uuid === selectComponentId) : undefined;
 
@@ -45,7 +46,9 @@ export default function bridge() {
     selectComponentId?: string;
     selectComponentRect?: any;
     dragingComponentIndex?: number;
+    showSelectComponentBorder?: boolean;
   }, isSyncState = true) {
+    console.log('state: ', state);
     // 遍历key值set，可以避免不必要的渲染
     Object.keys(state).forEach((key) => {
       if (key === 'isDraging') {
@@ -76,58 +79,23 @@ export default function bridge() {
         // @ts-expect-error
         setDragingComponentIndex(state.dragingComponentIndex);
       }
+      if (key === 'showSelectComponentBorder') {
+        // @ts-expect-error
+        setShowSelectComponentBorder(state.showSelectComponentBorder);
+      }
     });
     // iframe之间同步状态
     if (isSyncState) {
-      // 计算选中组件的getBoundingClientRect
-      if (isMobile()) {
-        const selectComponent = (selectPage && selectComponentId) ?
-          pageSchema[state.selectPageIndex ?? selectPageIndex].components.find((item: any) => item.uuid === state.selectComponentId ?? selectComponentId) : undefined;
-        if(selectComponent){
-          const rect = computedComponentRect(selectComponent);
-          if(rect){
-            rect.scrollTopSnapshot = scrollTop;
-            state.selectComponentRect = rect;
-          }
-        }
-      }
       syncState({
         payload: state,
         type: IMessageType.syncState,
       });
     }
-    // 同步移动端页面快照\同步选中组件dom位置信息
+    // TODO:同步移动端页面快照(性能问题暂不使用)
     if (!isMobile() && !isSyncState && window.postmate_mobile) {
       // capture.run();
-      // domReact.run();
     }
   };
-
-  const computedComponentRect = function(component: any) {
-    if (component) {
-      const element = window.document.querySelector(`[data-uuid="${component.uuid}"]`);
-      if (element) {
-        const rectJson = element.getBoundingClientRect().toJSON();
-        return rectJson;
-      }
-    }
-  };
-
-  const domReact = useDebounceFn(() => {
-    window.postmate_mobile.get(childrenModel.DOM_REACT_CHANGE).then((data) => {
-      if (data) {
-        setSelectComponentDomReact(data);
-      }
-    });
-  }, { wait: 100 });
-
-  // 截图
-  const capture = useDebounceFn(() => {
-    window.postmate_mobile.get(childrenModel.CAPTURE).then((data) => {
-      pageSchema[selectPageIndex].coverSnapshot = data;
-      setPageSchema([...pageSchema]);
-    });
-  }, { wait: 300 });
 
   // 组件拖拽开始
   const onDragStart = function(component: any) {
@@ -232,5 +200,6 @@ export default function bridge() {
     setScrollTop,
     selectComponentRect,
     selectComponentId,
+    showSelectComponentBorder,
   };
 }

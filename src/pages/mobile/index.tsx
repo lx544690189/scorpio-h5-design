@@ -11,16 +11,16 @@ import { useDebounceFn, useScroll, useThrottle, useThrottleFn } from 'ahooks';
 export default function() {
   const { setStateByObjectKeys, setScrollTop } = useModel('bridge');
   const canvasRef = useRef<HTMLDivElement>(null);
-  const scroll = useScroll(canvasRef);
-  const throttledScroll = useThrottle(scroll.top, { wait: 100 });
+  // const scroll = useScroll(canvasRef);
+  // const throttledScroll = useThrottle(scroll.top, { wait: 100 });
 
   // 滚动事件，传递给parent
-  useEffect(()=>{
-    if(window.postmate_parent){
-      setScrollTop(throttledScroll);
-      window.postmate_parent.emit(childrenModel.ON_SCROLL, throttledScroll);
-    }
-  }, [throttledScroll]);
+  // useEffect(()=>{
+  //   if(window.postmate_parent){
+  //     setScrollTop(throttledScroll);
+  //     window.postmate_parent.emit(childrenModel.ON_SCROLL, throttledScroll);
+  //   }
+  // }, [throttledScroll]);
 
   useEffect(()=>{
     const handshake = new Postmate.Model({
