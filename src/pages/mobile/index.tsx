@@ -1,28 +1,18 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './index.less';
 import DragContainer from './components/DragContainer';
 import { useModel } from 'umi';
 import { childrenModel } from '@/utils/bridge';
 import Postmate from 'Postmate';
 import html2canvas from 'html2canvas';
-import { useDebounceFn, useScroll, useThrottle, useThrottleFn } from 'ahooks';
 
 export default function() {
-  const { setStateByObjectKeys, setScrollTop } = useModel('bridge');
+  const { setStateByObjectKeys } = useModel('bridge');
   const canvasRef = useRef<HTMLDivElement>(null);
-  // const scroll = useScroll(canvasRef);
-  // const throttledScroll = useThrottle(scroll.top, { wait: 100 });
-
-  // 滚动事件，传递给parent
-  // useEffect(()=>{
-  //   if(window.postmate_parent){
-  //     setScrollTop(throttledScroll);
-  //     window.postmate_parent.emit(childrenModel.ON_SCROLL, throttledScroll);
-  //   }
-  // }, [throttledScroll]);
 
   useEffect(()=>{
+    console.log(window.frames['mobile']);
     const handshake = new Postmate.Model({
       [childrenModel.SYNC_STATE]: (message: any)=>{
         setStateByObjectKeys(message, false);

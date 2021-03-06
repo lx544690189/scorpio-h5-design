@@ -12,16 +12,18 @@ import {
   Input,
 } from '@formily/antd-components'; // 或者@formily/next-components
 import { v4 as uuidv4 } from 'uuid';
+import { page_generatorSchema } from '@/constant';
 
 const actions = createAsyncFormActions();
-let pageNumber = 1;
+const pageNumber = 1;
 
 export default function() {
+  const { pageSchema } = useModel('bridge');
   const { page, closeConfigPageDrawer, onCreatePage } = useModel('page');
   useEffect(() => {
     if(page.configModalVisible){
       actions.setFieldState('title', (state) => {
-        state.value = `页面-${pageNumber++}`;
+        state.value = `页面-${pageSchema.length + 1}`;
       });
       actions.setFieldState('path', (state) => {
         state.value = uuidv4();
@@ -36,6 +38,13 @@ export default function() {
       config: {
         title,
         path,
+      },
+      generatorSchema: page_generatorSchema,
+      props: {
+        title,
+        path,
+        isHome: true,
+        backgroundColor: '#fff',
       },
       components: [],
     });

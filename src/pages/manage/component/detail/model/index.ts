@@ -7,6 +7,7 @@ import { childrenModel, IMessageType, syncState } from '@/utils/bridge';
 import { useBoolean } from 'ahooks';
 import { sleep } from '@/utils';
 import Postmate from 'Postmate';
+import config from '@/config';
 
 export default createContainer(() => {
   const { setStateByObjectKeys, selectComponent } = useModel('bridge');
@@ -54,7 +55,7 @@ export default createContainer(() => {
       await sleep(100);
       const handshake = new Postmate({
         container: document.getElementById('mobile-content'),
-        url: '/#/mobile',
+        url: `${config.base}/#/mobile`,
         name: 'mobile',
         classListArray: ['mobile'],
       });

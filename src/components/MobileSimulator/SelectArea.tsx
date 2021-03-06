@@ -1,4 +1,4 @@
-import { Tooltip } from 'antd';
+import { message, Tooltip } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useModel } from 'umi';
 import classnames from 'classnames';
@@ -20,11 +20,11 @@ export default function(props: IProps) {
     top: scrollTop < 0 ? 0 : (scrollTop > maxHight ? maxHight : scrollTop),
   };
   useEffect(()=>{
-    if(props.loading === false){
+    if(props.loading === false && window.frames['mobile']){
       // @ts-expect-error
       const childWindow = window.frames['mobile'];
       const h5Canvas = childWindow.document.querySelector('.h5-canvas');
-      h5Canvas.onscroll = function(e:any){
+      const onscroll = function(e:any){
         // setScrollTop(e.target.scrollTop);
         const selectElement = childWindow.document.querySelector('.h5-canvas-block.isSelected');
         if(selectElement){
@@ -32,9 +32,16 @@ export default function(props: IProps) {
           setScrollTop(rect.top);
         }
       };
+      h5Canvas.addEventListener('scroll', onscroll);
+      return function(){
+        h5Canvas.removeEventListener('scroll', onscroll);
+      };
     }
   }, [props.loading]);
   useEffect(()=>{
+    if(!selectComponentId){
+      return setScrollTop(0);
+    }
     // @ts-expect-error
     const childWindow = window.frames['mobile'];
     const selectElement = childWindow.document.querySelector('.h5-canvas-block.isSelected');
@@ -48,12 +55,18 @@ export default function(props: IProps) {
 
   // 定位元素
   const findPosition = function() {
+    if(!selectComponentId){
+      return message.info('请选选取一个组件');
+    }
     // @ts-expect-error
     const childWindow = window.frames['mobile'];
     childWindow.document.querySelector('.h5-canvas-block.isSelected').scrollIntoView();
   };
   // 显示隐藏边界
   const borderVisibleChange = function() {
+    if(!selectComponentId){
+      return message.info('请选选取一个组件');
+    }
     window.localStorage.setItem('selectArea_borderVisible', !showSelectComponentBorder ? 'true' : 'false');
     setStateByObjectKeys({
       showSelectComponentBorder: !showSelectComponentBorder,
@@ -61,13 +74,15 @@ export default function(props: IProps) {
   };
   // 删除组件
   const deleteComponent = function() {
-    if(selectComponentId){
-      pageSchema[0].components = pageSchema[0].components.filter((item:any)=>item.uuid !== selectComponentId);
-      console.log('pageSchema: ', pageSchema);
-      setStateByObjectKeys({
-        pageSchema: [...pageSchema],
-      });
+    if(!selectComponentId){
+      return message.info('请选选取一个组件');
     }
+    pageSchema[0].components = pageSchema[0].components.filter((item:any)=>item.uuid !== selectComponentId);
+    console.log('pageSchema: ', pageSchema);
+    setStateByObjectKeys({
+      pageSchema: [...pageSchema],
+      selectComponentId: undefined,
+    });
   };
 
   return (

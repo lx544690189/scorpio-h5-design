@@ -201,5 +201,6 @@ export default function bridge() {
     selectComponentRect,
     selectComponentId,
     showSelectComponentBorder,
+    selectPage,
   };
 }

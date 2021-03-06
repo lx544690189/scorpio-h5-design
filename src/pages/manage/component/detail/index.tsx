@@ -69,7 +69,7 @@ const ComponentDetail = function() {
     >
       <div className="manage-component-detail">
         <div className="left">
-          <MobileSimulator/>
+          <MobileSimulator loading={loading}/>
         </div>
         {selectComponent && <div className="right">
           <Tabs

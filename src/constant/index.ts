@@ -170,3 +170,38 @@ export const pageSchema = [{
   },
   components: [componentSchema_1, componentSchema_2],
 }];
+
+export const page_generatorSchema = {
+  'schema': {
+    'type': 'object',
+    'properties': {
+      'isHome': {
+        'title': '设为主页面',
+        'type': 'boolean',
+        'ui:widget': 'switch',
+        'default': true,
+      },
+      'title': {
+        'title': '页面名称',
+        'type': 'string',
+        'ui:options': {},
+      },
+      'path': {
+        'title': '路径',
+        'type': 'string',
+        'ui:options': {},
+      },
+      'backgroundColor': {
+        'title': '背景色',
+        'type': 'string',
+        'format': 'color',
+      },
+    },
+    'ui:column': 1,
+    'ui:displayType': 'row',
+    'ui:showDescIcon': true,
+  },
+  'displayType': 'row',
+  'showDescIcon': true,
+  'column': 1,
+};
