@@ -34,7 +34,7 @@
     "@umijs/test": "^3.3.3",
     "ahooks": "^2.9.3",
     "ali-oss": "^6.13.1",
-    "antd": "^4.7.2",
+    "antd": "^4.13.1",
     "antd-mobile": "^2.3.4",
     "axios": "^0.21.1",
     "babel-polyfill": "^6.26.0",
