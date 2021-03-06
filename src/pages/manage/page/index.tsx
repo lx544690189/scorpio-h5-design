@@ -55,7 +55,7 @@ export default function() {
                 }
                 onClick={()=>{onEditPage(item);}}
               >
-                <div className="title">输入手机号领券</div>
+                <div className="title">{item.pageSchema[0].config.title}</div>
               </Card>
             </div>
           ))

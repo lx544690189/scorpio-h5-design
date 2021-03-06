@@ -43,11 +43,17 @@ export default function() {
   };
 
   const onSave = async function() {
+    if(pageSchema.length === 0){
+      return message.error('请新建页面后再保存！');
+    }
     await save();
     message.success('保存成功！');
   };
 
   const onVisibleChange = async function() {
+    if(pageSchema.length === 0){
+      return message.error('请新建页面后再操作！');
+    }
     toggle();
     await save();
     const dataUrl = await QRCode.toDataURL(`${config.h5Base}?id=${pageId}`, {
