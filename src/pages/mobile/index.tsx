@@ -8,7 +8,7 @@ import Postmate from 'Postmate';
 import html2canvas from 'html2canvas';
 
 export default function() {
-  const { setStateByObjectKeys } = useModel('bridge');
+  const { setStateByObjectKeys, selectPage } = useModel('bridge');
 
   useEffect(()=>{
     const handshake = new Postmate.Model({
@@ -34,6 +34,7 @@ export default function() {
   return (
     <div
       className="h5-canvas"
+      style={{backgroundColor: selectPage?.props?.backgroundColor}}
     >
       <div id="snapshot-container">
         <DragContainer />

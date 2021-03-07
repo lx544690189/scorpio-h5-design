@@ -46,7 +46,6 @@ export default function bridge() {
     dragingComponentIndex?: number;
     showSelectComponentBorder?: boolean;
   }, isSyncState = true) {
-    console.log('state: ', state);
     // 遍历key值set，可以避免不必要的渲染
     Object.keys(state).forEach((key) => {
       if (key === 'isDraging') {
@@ -162,10 +161,12 @@ export default function bridge() {
   };
 
   /** 选中组件 */
-  const onSelectComponent = function(selectComponentId: any) {
-    setStateByObjectKeys({
-      selectComponentId,
-    });
+  const onSelectComponent = function(id: string) {
+    if(selectComponentId !== id){
+      setStateByObjectKeys({
+        selectComponentId: id,
+      });
+    }
   };
 
   const changeContainerPropsState = function(key: string, value: any) {
