@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useModel, useRequest } from 'umi';
+import { useModel, useRequest, history } from 'umi';
 import * as service from '@/service';
 import './index.less';
 import { message, Popover, Spin } from 'antd';
@@ -72,6 +72,10 @@ export default function() {
   return (
     <div className="design-header">
       <div className="design-header-operations">
+        <div className="item" onClick={()=>{history.push('/manage/page');}}>
+          <i className="iconfont icon-shouye" />
+          <div className="text" >首页</div>
+        </div>
         <div className="item" onClick={onSave}>
           <i className="iconfont icon-baocun" />
           <div className="text" >保存</div>

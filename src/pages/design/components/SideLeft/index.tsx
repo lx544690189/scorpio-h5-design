@@ -18,15 +18,15 @@ const SlideLeft = function()  {
     component: Pages,
     icon: 'icon-yemian1',
   }, {
-    title: '结构',
-    menuType: SIDES_MENU.structure,
-    component: Construct,
-    icon: 'icon-shuxingjiegou',
-  }, {
     title: '组件',
     menuType: SIDES_MENU.component,
     component: Components,
     icon: 'icon-zujian',
+  }, {
+    title: '结构',
+    menuType: SIDES_MENU.structure,
+    component: Construct,
+    icon: 'icon-shuxingjiegou',
   }];
 
   const currentMenu = menus.find((item)=>item.menuType === side.menu);

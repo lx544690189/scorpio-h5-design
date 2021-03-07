@@ -35,10 +35,61 @@
           border-top: 1px solid rgba(100, 99, 99, 0.16);
   
           padding: 10px;
+          background-color: #f8f8f8;
   
           .title {
-            text-align: center;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+          }
+
+          .time{
             font-size: 12px;
+            text-align: left;
+            color: #b8b9be;
+            .version{
+              float: right;
+              color: rgb(61, 80, 248);
+            }
+          }
+        }
+
+        &-main{
+          position: relative;
+          overflow: hidden;
+          z-index: 1;
+          height: 100%;
+        }
+
+        &-pop{
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 250px;
+          transition: all .3s ease;
+          &:hover{
+            background-color: rgba(100, 99, 99, 0.7);
+            .page-card-pop-qrcode,.page-card-pop-btn{
+              opacity: .8;
+            }
+          }
+          &-qrcode{
+            width: 100px;
+            height: 100px;
+            margin-left: 50px;
+            margin-top: 50px;
+            border-radius: 6px;
+            opacity: 0;
+            transition: all .2s ease;
+          }
+          &-btn{
+            // background: none;
+            margin-left: 50px;
+            margin-top: 10px;
+            width: 100px;
+            opacity: 0;
+            transition: all .2s ease;
           }
         }
   
