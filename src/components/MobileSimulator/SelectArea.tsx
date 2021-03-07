@@ -20,6 +20,7 @@ export default function(props: IProps) {
     top: scrollTop < 0 ? 0 : (scrollTop > maxHight ? maxHight : scrollTop),
   };
   useEffect(()=>{
+    // @ts-expect-error
     if(props.loading === false && window.frames['mobile']){
       // @ts-expect-error
       const childWindow = window.frames['mobile'];

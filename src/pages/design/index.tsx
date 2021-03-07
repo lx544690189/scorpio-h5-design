@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { history, useRequest } from 'umi';
 import * as service from '@/service';
 import './index.less';
@@ -16,8 +16,6 @@ import Postmate from 'Postmate';
 import config from '@/config';
 
 export default function() {
-  const { setSelectComponentDomReact, scrollTop, setScrollTop } = useModel('bridge');
-  const scrollTopRef = useRef<number>();
   // @ts-expect-error
   const { _id } = history.location.query;
   const { setStateByObjectKeys } = useModel('bridge');
@@ -25,8 +23,6 @@ export default function() {
     manual: true,
   });
   const [loading, setLoading] = useBoolean(true);
-
-  scrollTopRef.current = scrollTop;
 
   useEffect(() => {
     initData();
@@ -76,12 +72,6 @@ export default function() {
       // 注册事件
       child.on(childrenModel.SYNC_STATE, (message) => {
         setStateByObjectKeys(message, false);
-      });
-      child.on(childrenModel.DOM_REACT_CHANGE, (message) => {
-        setSelectComponentDomReact(message);
-      });
-      child.on(childrenModel.ON_SCROLL, (message) => {
-        setScrollTop(message);
       });
       setLoading.setFalse();
     });

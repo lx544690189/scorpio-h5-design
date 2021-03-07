@@ -21,8 +21,6 @@ export default function bridge() {
   const [dragingComponentIndex, setDragingComponentIndex] = useState(-1);
   /** 当前选中的组件的getBoundingClientRect值 */
   const [selectComponentDomReact, setSelectComponentDomReact] = useState();
-  /** iframe滚动距离顶部 */
-  const [scrollTop, setScrollTop] = useState(0);
   /** 当前选中的组件高度 */
   const [selectComponentRect, setSelectComponentRect] = useState();
   /** 当前选中的组件 */
@@ -196,8 +194,6 @@ export default function bridge() {
     changeContainerPropsState,
     selectComponentDomReact,
     setSelectComponentDomReact,
-    scrollTop,
-    setScrollTop,
     selectComponentRect,
     selectComponentId,
     showSelectComponentBorder,
