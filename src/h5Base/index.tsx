@@ -67,13 +67,14 @@ const renderComponent = function(pagesSchema: any, loadedComponents:any){
 
 (async function(){
   const pagesSchema = await fetchSchema();
+  console.log('pagesSchema: ', pagesSchema);
   const loadedComponents = await fetchComponents(pagesSchema);
-  ReactDOM.render(
-    <div>
-      {
-        renderComponent(pagesSchema, loadedComponents)
-      }
-    </div>,
+  ReactDOM.render(<div className="container">{renderComponent(pagesSchema, loadedComponents)}</div>,
     document.getElementById('root')
   );
+  // @ts-expect-error
+  window.document.querySelector('.loader-container').style.display = 'none';
+  const {title, backgroundColor} = pagesSchema[0].props;
+  window.document.title = title;
+  window.document.body.style.backgroundColor = backgroundColor;
 })();
