@@ -51,7 +51,7 @@ export default function(props: IProps) {
         setScrollTop(rect.top);
       });
     }
-  }, [selectComponentId]);
+  }, [selectComponentId, pageSchema]);
 
   // 定位元素
   const findPosition = function() {
