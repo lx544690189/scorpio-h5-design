@@ -44,7 +44,7 @@ const ComponentDetail = function() {
       const file = dataURLtoFile(dataURL, new Date().getTime().toString());
       const fileName = `${uuidv4()}.png`;
       await ossClient.put(`design/${fileName}`, file);
-      selectComponent.cover = `https://static.lxzyl.cn/design/${fileName}`;
+      selectComponent.cover = `https://scorpio-design.lxzyl.cn/design/${fileName}`;
     }
     onSubmit();
   }

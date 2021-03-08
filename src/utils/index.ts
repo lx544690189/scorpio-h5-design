@@ -9,8 +9,10 @@ export const ossClient = new OSS({
   region: 'oss-cn-hangzhou',
   accessKeyId: 'LTAI4GF5CXLoMx84LrAK4oGx',
   accessKeySecret: 'h1TDFYqF88odRg5KsALDUszTjAQz5b',
-  bucket: 'oss-lx',
+  bucket: 'design-html',
   secure: true,
+  cname: true,
+  endpoint: 'design-html.oss-cn-hangzhou.aliyuncs.com',
 });
 
 export const dataURLtoFile = function(dataUrl:string, fileName:string){

@@ -27,7 +27,7 @@ export default function() {
       const file = dataURLtoFile(dataURL, new Date().getTime().toString());
       const fileName = `${uuidv4()}.png`;
       await ossClient.put(`design/${fileName}`, file);
-      selectPage.cover = `https://static.lxzyl.cn/design/${fileName}`;
+      selectPage.cover = `https://scorpio-design.lxzyl.cn/design/${fileName}`;
     }
     let res;
     if (pageId) {
