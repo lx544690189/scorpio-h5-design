@@ -28,10 +28,13 @@ const fetchComponents = async function(pageSchema:any[]){
         // @ts-expect-error
         const asyncComponent = componentList[component._id];
         if(asyncComponent){
+          const timeStemp = new Date().getTime();
           const loadedComponent = (await asyncComponent).default;
           resolve({
             _id: component._id,
+            name: component.name,
             component: loadedComponent,
+            takeUp: new Date().getTime() - timeStemp,
           });
         }else{
           reject(`组件: ${component._id}加载失败`);
@@ -67,8 +70,10 @@ const renderComponent = function(pagesSchema: any, loadedComponents:any){
 
 (async function(){
   const pagesSchema = await fetchSchema();
-  console.log('pagesSchema: ', pagesSchema);
   const loadedComponents = await fetchComponents(pagesSchema);
+  console.log('-----异步组件加载耗时统计-----');
+  console.log(loadedComponents.map((item:any)=>`<${item.name}> ${item.takeUp} ms`).join('\n'));
+  console.log('-----异步组件加载耗时统计-----');
   ReactDOM.render(<div className="container">{renderComponent(pagesSchema, loadedComponents)}</div>,
     document.getElementById('root')
   );

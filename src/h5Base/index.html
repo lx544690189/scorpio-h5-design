@@ -1,10 +1,97 @@
 <html>
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport"
     content="width=device-width, initial-scale=1, user-scalable=no, shrink-to-fit=no,viewport-fit=cover" />
   <title></title>
-  <link rel="stylesheet" href="./global.less">
+  <!-- <link rel="stylesheet" href="./global.less"> -->
+  <style>
+    :global {
+
+      .html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      #root {
+        height: 100%;
+
+        .container :local {
+          height: 100%;
+          animation: fadeIn .3s infinite linear;
+          animation-iteration-count: 1;
+        }
+
+        .am-card-body {
+          flex: initial;
+        }
+      }
+
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+        }
+
+        100% {
+          opacity: 1;
+        }
+      }
+
+      .loader-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 100vh;
+        text-align: center;
+        padding-top: calc(50vh - 25px);
+
+        .loader {
+          position: relative;
+          display: inline-block;
+          width: 50px;
+          height: 50px;
+          color: inherit;
+          pointer-events: none;
+        }
+
+        .loader:before :local,
+        .loader:after :local {
+          content: '';
+          width: inherit;
+          height: inherit;
+          border-radius: 50%;
+          background-color: rgba(68, 130, 245, 0.5);
+          opacity: 0.6;
+          position: absolute;
+          top: 0;
+          left: 0;
+          animation: loader 2.0s infinite ease-in-out;
+        }
+
+        .loader:after {
+          animation-delay: -1.0s;
+        }
+
+        @keyframes loader {
+
+          0%,
+          100% {
+            -webkit-transform: scale(0);
+            transform: scale(0);
+          }
+
+          50% {
+            -webkit-transform: scale(1);
+            transform: scale(1);
+          }
+        }
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -13,6 +100,10 @@
     <div class="loader"></div>
   </div>
   <div id="root"></div>
+  <script src="https://cdn.bootcdn.net/ajax/libs/vConsole/3.3.4/vconsole.min.js"></script>
+  <script>
+    new VConsole();
+  </script>
   <script src="./index.tsx"></script>
 </body>
 
