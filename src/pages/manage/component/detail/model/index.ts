@@ -49,7 +49,7 @@ export default createContainer(() => {
       const state = {
         pageSchema,
         selectPageIndex: 0,
-        selectComponent: pageSchema[0].components[0],
+        selectComponentId,
       };
       setStateByObjectKeys(state, false);
       await sleep(100);

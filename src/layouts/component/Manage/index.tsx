@@ -21,13 +21,16 @@ export default function(props: any) {
           onSelect={onMenuClick}
         >
           <Menu.Item key="/manage/page" icon={<PieChartOutlined />}>
-            页面
+            页面搭建
           </Menu.Item>
+          {/* <Menu.Item key="/manage/pageTemplate" icon={<PieChartOutlined />}>
+            页面模板
+          </Menu.Item> */}
           <Menu.Item key="/manage/category" icon={<PieChartOutlined />}>
-            组件分类管理
+            组件分类
           </Menu.Item>
           <Menu.Item key="/manage/component" icon={<PieChartOutlined />}>
-            组件开发
+            组件开发（dev）
           </Menu.Item>
         </Menu>
       </div>

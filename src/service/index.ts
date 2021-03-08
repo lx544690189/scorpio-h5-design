@@ -53,7 +53,7 @@ export async function queryAllWithComponent() {
 }
 
 export async function addComponent(data: {
-  categoryId:string;
+  categoryId: string;
   name: string;
   cover?: string;
 }) {
@@ -105,7 +105,7 @@ export async function addPage(data: {
 }
 
 export async function editPage(data: {
-  _id:string;
+  _id: string;
   pageSchema: any[];
 }) {
   return request(`${HOST}/page/edit`, {
@@ -124,7 +124,8 @@ export async function queryPageDetail(data: {
 }
 
 export async function queryPageList(data: {
-  _id: string;
+  _id?: string;
+  isTemplate?: boolean;
 }) {
   return request(`${HOST}/page/list`, {
     method: 'post',
@@ -140,3 +141,14 @@ export async function deletePage(data: {
     data,
   });
 }
+
+export async function togglePageTemplate(data: {
+  _id: string;
+  isTemplate: boolean;
+}) {
+  return request(`${HOST}/page/togglePageTemplate`, {
+    method: 'post',
+    data,
+  });
+}
+

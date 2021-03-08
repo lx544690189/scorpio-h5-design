@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { history, useRequest } from 'umi';
 import * as service from '@/service';
-import { PageHeader, Card, Pagination, Button, Spin } from 'antd';
+import { PageHeader, Card, Pagination, Button, Spin, message } from 'antd';
 import * as QRCode from 'qrcode';
 import config from '@/config';
 
@@ -11,6 +11,9 @@ import moment from 'moment';
 export default function() {
   const [qrcodeUrl, setQrcodeUrl] = useState('');
   const queryPageListReq = useRequest(service.queryPageList);
+  const togglePageTemplateReq = useRequest(service.togglePageTemplate, {
+    manual: true,
+  });
 
   const onAddPage = function() {
     history.push('/design');
@@ -31,6 +34,15 @@ export default function() {
       margin: 2,
     });
     setQrcodeUrl(dataUrl);
+  };
+
+  const toggleTemplate = async function(item:any) {
+    await togglePageTemplateReq.run({
+      _id: item._id,
+      isTemplate: !item.isTemplate,
+    });
+    message.info('操作成功！');
+    queryPageListReq.refresh();
   };
 
 
@@ -65,11 +77,12 @@ export default function() {
                       >
                         <img className="page-card-pop-qrcode" src={qrcodeUrl}/>
                         <Button className="page-card-pop-btn" type="dashed" onClick={()=>{onEditPage(item);}}>编辑</Button>
+                        <Button className="page-card-pop-btn" type="dashed" onClick={()=>{toggleTemplate(item);}}>{item.isTemplate ? '取消模板' : '设为模板'}</Button>
                       </div>
                     </div>
                   }
                 >
-                  <div className="title">{item.pageSchema[0].config.title}</div>
+                  <div className="title">{item.pageSchema[0].props.title}</div>
                   <div className="time">
                     <span className="version">V1.0</span>
                     {moment(item.createdAt).format('YYYY-MM-DD HH:mm:ss')}

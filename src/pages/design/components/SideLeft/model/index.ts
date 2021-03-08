@@ -9,14 +9,19 @@ export default createContainer(() => {
   const queryAllWithComponent = useRequest(service.queryAllWithComponent, {
     manual: true,
   });
+  const queryPageListReq = useRequest(service.queryPageList, {
+    manual: true,
+  });
 
   useEffect(()=>{
     if(side.menu === SIDES_MENU.component && !queryAllWithComponent.data){
       queryAllWithComponent.run();
     }
+    queryPageListReq.run({isTemplate: true});
   }, [side.menu]);
 
   return {
     queryAllWithComponent,
+    queryPageListReq,
   };
 });
