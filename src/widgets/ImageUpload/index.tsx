@@ -1,6 +1,7 @@
 import { message, Upload } from 'antd';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { ossClient } from '@/utils';
+import { v4 as uuidv4 } from 'uuid';
 import { PlusOutlined, CloseOutlined } from '@ant-design/icons';
 import './index.less';
 
@@ -16,8 +17,9 @@ export default function ImageUpload(props: IProps) {
   const handleChange = async(info: any) => {
     if (info.file.status === 'done') {
       message.success(`${info.file.name} file uploaded successfully`);
-      await ossClient.put(`design/${info.file.name}`, info.file.originFileObj);
-      onChange(name, `https://static.lxzyl.cn/design/${info.file.name}`);
+      const fileName = `${uuidv4()}.png`;
+      await ossClient.put(`design/${fileName}`, info.file.originFileObj);
+      onChange(name, `https://static.lxzyl.cn/design/${fileName}`);
     } else if (info.file.status === 'error') {
       message.error(`${info.file.name} file upload failed.`);
     }

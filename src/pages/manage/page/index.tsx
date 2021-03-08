@@ -92,9 +92,9 @@ export default function() {
             ))
           }
         </div>
-        <div className="manage-page-pagination">
+        {/* <div className="manage-page-pagination">
           <Pagination defaultCurrent={1} total={50} />
-        </div>
+        </div> */}
       </Spin>
     </PageHeader>
   );

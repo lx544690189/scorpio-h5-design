@@ -11,7 +11,7 @@ import { childrenModel } from '@/utils/bridge';
 import config from '@/config';
 
 export default function() {
-  const { pageId, pageSchema, selectPageIndex } = useModel('bridge');
+  const { pageId, pageSchema, selectPage, setStateByObjectKeys } = useModel('bridge');
   const addPageReq = useRequest(service.addPage, {
     manual: true,
   });
@@ -22,7 +22,6 @@ export default function() {
   const [qrcodeUrl, setQrcodeUrl] = useState('');
 
   const save = async function() {
-    const selectPage = pageSchema[selectPageIndex];
     const dataURL = await window.postmate_mobile.get(childrenModel.CAPTURE);
     if (dataURL) {
       const file = dataURLtoFile(dataURL, new Date().getTime().toString());
@@ -30,23 +29,32 @@ export default function() {
       await ossClient.put(`design/${fileName}`, file);
       selectPage.cover = `https://static.lxzyl.cn/design/${fileName}`;
     }
+    let res;
     if (pageId) {
-      await editPageReq.run({
+      res = await editPageReq.run({
         _id: pageId,
         pageSchema,
       });
     } else {
-      await addPageReq.run({
+      res = await addPageReq.run({
         pageSchema,
       });
     }
+    return res;
   };
 
   const onSave = async function() {
     if(pageSchema.length === 0){
       return message.error('请新建页面后再保存！');
     }
-    await save();
+    if(selectPage.components.length === 0){
+      return message.error('至少添加一个组件后再保存！');
+    }
+    const res = await save();
+    const state = {
+      pageId: res._id,
+    };
+    setStateByObjectKeys(state);
     message.success('保存成功！');
   };
 
@@ -82,7 +90,7 @@ export default function() {
           <Spin spinning={addPageReq.loading || editPageReq.loading}>
           </Spin>
         </div>
-        <Popover
+        {/* <Popover
           title="真机预览"
           trigger="click"
           visible={visible}
@@ -95,10 +103,14 @@ export default function() {
             <i className="iconfont icon-shouji" />
             <div className="text">预览</div>
           </div>
-        </Popover>
+        </Popover> */}
         <div className="item">
           <i className="iconfont icon-json" />
           <div className="text">导出</div>
+        </div>
+        <div className="item" onClick={()=>{window.open('https://github.com/lx544690189/scorpio-h5-design');}}>
+          <i className="iconfont icon-github-fill" />
+          <div className="text">GITHUB</div>
         </div>
       </div>
     </div>
