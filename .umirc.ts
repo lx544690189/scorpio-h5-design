@@ -6,8 +6,6 @@ import MonacoWebpackPlugin from 'monaco-editor-webpack-plugin';
 
 
 export default defineConfig({
-  base: "/scorpio-design",
-  publicPath: "./",
   history: {
     type: 'hash',
   },
@@ -16,8 +14,7 @@ export default defineConfig({
       path: '/',
       component: '@/layouts/index',
       routes: [
-        { path: '/', component: '@/pages/index' },
-        { path: '/quickStart', component: '@/pages/quickStart' },
+        { path: '/', redirect:'/manage/page' },
         { path: '/design', component: '@/pages/design' },
         { path: '/mobile', component: '@/pages/mobile' },
         {
