@@ -12,6 +12,12 @@ export default function() {
         padding: {},
       };
     }
+    if(!selectComponent.containerProps.margin){
+      selectComponent.containerProps.margin = {};
+    }
+    if(!selectComponent.containerProps.padding){
+      selectComponent.containerProps.padding = {};
+    }
     selectComponent.containerProps[key1][key2] = value;
     setStateByObjectKeys({
       pageSchema: [...pageSchema],

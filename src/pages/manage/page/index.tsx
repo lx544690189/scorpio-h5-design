@@ -53,7 +53,7 @@ export default function() {
       title="页面搭建"
       extra={[
         <Button key="1" type="primary" onClick={onAddPage}>
-          新增
+          创建新页面
         </Button>,
       ]}
     >

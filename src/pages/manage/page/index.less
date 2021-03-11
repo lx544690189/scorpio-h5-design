@@ -10,7 +10,7 @@
 
     .manage-page-item {
       width: 1000px / 4;
-      height: 300px;
+      display: inline-block;
 
       .page-card {
         border-radius: 10px;
@@ -20,61 +20,66 @@
         transition: all .3s ease;
         box-shadow: 6px 6px 12px #b8b9be, -6px -6px 12px #fff !important;
         border: 1px solid rgba(243, 247, 250, .05);
-  
+
         .ant-empty {
           margin-top: 80px;
         }
-  
+
         .ant-card-cover {
           height: 250px;
           overflow: hidden;
         }
-  
+
         .ant-card-body {
           z-index: 1;
           border-top: 1px solid rgba(100, 99, 99, 0.16);
-  
+
           padding: 10px;
           background-color: #f8f8f8;
-  
+
           .title {
             text-align: left;
             font-size: 13px;
             font-weight: 600;
           }
 
-          .time{
+          .time {
             font-size: 12px;
             text-align: left;
             color: #b8b9be;
-            .version{
+
+            .version {
               float: right;
               color: rgb(61, 80, 248);
             }
           }
         }
 
-        &-main{
+        &-main {
           position: relative;
           overflow: hidden;
           z-index: 1;
           height: 100%;
         }
 
-        &-pop{
+        &-pop {
           position: absolute;
           top: 0;
           left: 0;
           right: 0;
           height: 250px;
           transition: all .3s ease;
-          &:hover{
+
+          &:hover {
             background-color: rgba(100, 99, 99, 0.7);
-            .page-card-pop-qrcode,.page-card-pop-btn{
+
+            .page-card-pop-qrcode,
+            .page-card-pop-btn {
               opacity: .8;
             }
           }
-          &-qrcode{
+
+          &-qrcode {
             width: 100px;
             height: 100px;
             margin-left: 50px;
@@ -83,7 +88,8 @@
             opacity: 0;
             transition: all .2s ease;
           }
-          &-btn{
+
+          &-btn {
             // background: none;
             margin-left: 50px;
             margin-top: 10px;
@@ -92,11 +98,11 @@
             transition: all .2s ease;
           }
         }
-  
+
         &-img {
           width: 100%;
           display: block;
-  
+
           &:hover {
             animation: scrollToBottom 1s linear;
             animation-iteration-count: 1;
@@ -106,9 +112,10 @@
       }
     }
   }
-  &-pagination{
+
+  &-pagination {
     text-align: center;
     padding: 20px 0;
   }
-  
+
 }
