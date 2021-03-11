@@ -28,9 +28,9 @@ export default defineConfig({
       ],
     },
   ],
-  dynamicImport: {
-    loading: '@/components/DynamicLoading',
-  },
+  // dynamicImport: {
+  //   loading: '@/components/DynamicLoading',
+  // },
   ignoreMomentLocale: true,
   inlineLimit: false,
   title: '搭建',

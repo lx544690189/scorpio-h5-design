@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import './index.less';
 import DragContainer from './components/DragContainer';
 import { useModel } from 'umi';
