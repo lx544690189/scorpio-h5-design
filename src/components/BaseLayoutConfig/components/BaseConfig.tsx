@@ -1,5 +1,5 @@
 import { componentBaseConfig } from '@/constant';
-import FormRender from 'form-render/lib/antd';
+import FormRender, { useForm } from 'form-render';
 
 import React, { useState } from 'react';
 import { useModel } from 'umi';
@@ -23,15 +23,18 @@ const App = () => {
     });
   };
 
+  const form = useForm(selectComponent.containerProps ?? {});
+
   return (
     <FormRender
+      form={form}
       schema={componentBaseConfig}
-      formData={selectComponent.containerProps ?? {}}
-      onChange={onChange}
-      onValidate={setValid}
-      showValidate={showValidate}
+      // onChange={onChange}
+      // onValidate={setValid}
+      // showValidate={showValidate}
       displayType="row"
-      useLogger
+      onFinish={()=>{console.log();}}
+      // useLogger
     />
   );
 };

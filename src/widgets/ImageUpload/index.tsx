@@ -8,27 +8,13 @@ import './index.less';
 interface IProps {
   name?: string;
   value: string;
-  onChange: (name: string | undefined, value: string) => void
+  onChange: (value: string) => void
 }
 
 export default function ImageUpload(props: IProps) {
-  const { value, onChange, name } = props;
-
-  const handleChange = async(info: any) => {
-    console.log('info.file.status: ', info.file.status);
-    // if (info.file.status === 'done') {
-    //   message.success(`${info.file.name} file uploaded successfully`);
-    //   const fileName = `${uuidv4()}.png`;
-    //   console.log('info.file.originFileObj: ', info.file.originFileObj);
-    //   await ossClient.put(`design/${fileName}`, info.file.originFileObj);
-    //   onChange(name, `https://scorpio-design.lxzyl.cn/design/${fileName}`);
-    // } else if (info.file.status === 'error') {
-    //   message.error(`${info.file.name} file upload failed.`);
-    // }
-  };
-
+  const { value, onChange } = props;
   const handleDelete = function(){
-    onChange(name, '');
+    onChange('');
   };
 
   const uploadButton = (
@@ -41,7 +27,7 @@ export default function ImageUpload(props: IProps) {
   const customRequest = async function(options:any){
     const fileName = `${uuidv4()}.png`;
     await ossClient.put(`design/${fileName}`, options.file);
-    onChange(name, `https://scorpio-design.lxzyl.cn/design/${fileName}`);
+    onChange(`https://scorpio-design.lxzyl.cn/design/${fileName}`);
     options.onSuccess(null, options.file);
   };
 

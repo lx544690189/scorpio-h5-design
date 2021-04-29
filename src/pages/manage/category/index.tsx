@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Col, Form, Input, Row, Table, Select, PageHeader, Space, Divider, Typography, Popconfirm } from 'antd';
+import { Button, Col, Form, Input, Row, Table, PageHeader, Space, Divider, Typography, Popconfirm } from 'antd';
 import { useAntdTable } from 'ahooks';
 import * as service from '@/service';
 import './index.less';
@@ -24,12 +24,13 @@ const formSchema = {
   'showDescIcon': true,
 };
 
+
 export default function() {
   const [form] = Form.useForm();
   const [edit, setEdit] = useState<{
     visible: boolean,
-    data: any,
-    type: string,
+    data: Record<string, unknown>,
+    type: 'add' | 'edit' | 'detail',
   }>({
     visible: false,
     data: {},
@@ -43,8 +44,8 @@ export default function() {
         sort: { createdAt: -1 },
       },
     ],
-    formatResult(res){
-      res.data.list.forEach((item:any)=>delete item.children);
+    formatResult(res) {
+      res.data.list.forEach((item: any) => delete item.children);
       return res.data;
     },
   });
@@ -59,27 +60,27 @@ export default function() {
   });
   const { submit, reset } = search;
 
-  const add = function(){
+  const add = function() {
     setEdit({
       visible: true,
       data: {},
       type: 'add',
     });
   };
-  const cancel = function(){
+  const cancel = function() {
     setEdit({
       visible: false,
       data: {},
       type: 'add',
     });
   };
-  const confirm =async function(values: any){
-    if(edit.type === 'add'){
+  const confirm = async function(values: any) {
+    if (edit.type === 'add') {
       await addCategoryReq.run(values);
     }
-    if(edit.type === 'edit'){
+    if (edit.type === 'edit') {
       await editCategoryReq.run({
-        _id: edit.data._id,
+        _id: edit.data._id as string,
         name: values.name,
       });
     }
@@ -90,14 +91,14 @@ export default function() {
     });
     await refresh();
   };
-  const onEdit = function(data:any){
+  const onEdit = function(data: any) {
     setEdit({
       visible: true,
       data,
       type: 'edit',
     });
   };
-  const onDelelte = async function(data:any){
+  const onDelelte = async function(data: any) {
     await deleteCategoryReq.run({
       _id: data._id,
     });
@@ -116,13 +117,13 @@ export default function() {
     {
       title: '操作',
       width: 180,
-      render(data:any){
+      render(data: any) {
         return (
           <Space split={<Divider type="vertical" />}>
-            <Typography.Link onClick={()=>{onEdit(data);}}>修改</Typography.Link>
+            <Typography.Link onClick={() => { onEdit(data); }}>修改</Typography.Link>
             <Popconfirm
               title="确认此操作？"
-              onConfirm={()=>{onDelelte(data);}}
+              onConfirm={() => { onDelelte(data); }}
               okText="确认"
               cancelText="取消"
             >
@@ -171,7 +172,6 @@ export default function() {
       {SearchForm}
       <Table columns={columns} rowKey="_id" {...tableProps} />
       <FormRenderDrawer
-        // @ts-expect-error
         type={edit.type}
         visible={edit.visible}
         onCancel={cancel}

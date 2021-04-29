@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Drawer, Button } from 'antd';
 import './index.less';
 import { DrawerProps } from 'antd/lib/drawer';
-// @ts-expect-error
-import FormRender from 'form-render/lib/antd';
+import FormRender, { useForm } from 'form-render';
 import ImageUpload from '@/widgets/ImageUpload';
 import BraftEditor from '@/widgets/BraftEditor';
 
 interface IProps extends DrawerProps {
   type: 'add' | 'edit' | 'detail';
   onCancel: () => void;
-  onSubmit: (values:any) => void;
+  onSubmit: (values: any) => void;
   formSchema: any;
   formData: any;
   loading?: boolean;
@@ -24,25 +23,22 @@ const TITLE_MAP = {
 export default function(props: IProps) {
   const { type, onCancel, onSubmit, formSchema, formData, visible, loading } = props;
   const title = TITLE_MAP[type];
-  const [valid, setValid] = useState([]);
-  const [value, setValue] = useState({});
-  const [showValidate, setShowValidate] = useState(false);
+  const form = useForm();
 
-  useEffect(()=>{
-    if(visible){
-      setValue(formData || {});
+  useEffect(() => {
+    if (visible) {
+      if (formData) {
+        form.setValues(formData);
+      } else {
+        form.resetFields();
+      }
     }
   }, [visible]);
 
-  const beforeSubmit = () => {
-    setShowValidate(true);
+  const onFinish = (formData: Record<string, unknown>, valid: Error[]) => {
     if (valid.length === 0) {
-      onSubmit(value);
+      onSubmit(formData);
     }
-  };
-
-  const onChange = (values: any) => {
-    setValue(values);
   };
 
   return (
@@ -62,17 +58,15 @@ export default function(props: IProps) {
           <Button style={{ marginRight: 8 }} onClick={onCancel}>
             取消
           </Button>
-          <Button type="primary" onClick={beforeSubmit} loading={loading}>
+          <Button type="primary" onClick={form.submit} loading={loading}>
             确定
           </Button>
         </div>
       }
     >
       <FormRender
-        formData={value}
-        onChange={onChange}
-        onValidate={setValid}
-        showValidate={showValidate}
+        form={form}
+        onFinish={onFinish}
         widgets={{ ImageUpload, BraftEditor }}
         {...formSchema}
       />

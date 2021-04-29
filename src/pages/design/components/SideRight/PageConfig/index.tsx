@@ -6,7 +6,7 @@ export default function() {
 
   return (
     <div className="design-config-page">
-      <PageConfig />
+      {/* <PageConfig /> */}
     </div>
   );
 }
