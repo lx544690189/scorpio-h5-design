@@ -7,6 +7,7 @@ import Loadable from 'react-loadable';
 import './index.less';
 import { message } from 'antd';
 import Loading from '@/components/Loading';
+import { useThrottleFn } from 'ahooks';
 
 const LoadableComponent = Loadable({
   loader: ()=>import('react-monaco-editor'),
@@ -14,23 +15,31 @@ const LoadableComponent = Loadable({
 });
 
 export default function Code() {
-  const { selectComponent } = useModel('bridge');
+  const { selectComponent, pageSchema, setStateByObjectKeys } = useModel('bridge');
+  const jsonError = useThrottleFn(()=>{
+    message.error('json格式错误');
+  }, {
+    wait: 3000,
+  });
 
   const options = {
     selectOnLineNumbers: true,
     strike: true,
   };
   function editorDidMount(editor:any, monaco:any) {
-    console.log('editorDidMount', editor);
     editor.focus();
   }
   function onChange(newValue:string, e:any) {
     try {
       const jsonValue = parseJson(newValue);
-      console.log('jsonValue: ', jsonValue);
+      pageSchema[0].components[0].generatorSchema = jsonValue;
+      setStateByObjectKeys({
+        pageSchema: [...pageSchema],
+      });
     } catch (error) {
-      message.error('json格式错误');
+      // message.error('json格式错误');
       console.log('error: ', error);
+      jsonError.run();
     }
   }
   const code = JSON.stringify(selectComponent.generatorSchema, null, 2);

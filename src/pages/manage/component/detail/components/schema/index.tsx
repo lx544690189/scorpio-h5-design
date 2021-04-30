@@ -25,7 +25,7 @@ export default forwardRef((props: any, ref: any) => {
       <Generator
         ref={ref}
         defaultValue={selectComponent.generatorSchema || defaultValue}
-        templates={[]}
+        // templates={[]}
         extraButtons={[false, false, false, false]}
         widgets={{ ImageUpload, BraftEditor }}
         settings={[
