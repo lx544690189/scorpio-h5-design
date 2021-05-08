@@ -17,7 +17,9 @@ export default createContainer(() => {
     if(side.menu === SIDES_MENU.component && !queryAllWithComponent.data){
       queryAllWithComponent.run();
     }
-    queryPageListReq.run({isTemplate: true});
+    if(side.menu === SIDES_MENU.page && !queryPageListReq.data){
+      queryPageListReq.run({isTemplate: true});
+    }
   }, [side.menu]);
 
   return {
