@@ -1,9 +1,19 @@
 import React from 'react';
-import style from './index.less';
-import 'braft-editor/dist/output.css';
 
-export default function(props:any) {
+export default function(props: any) {
+  console.log('props: ', props);
+  const { height, html } = props;
+  const style: any = {};
+  if(height && height > 0){
+    style.overflowY = 'auto';
+    style.height = height;
+  }
+
   return (
-    <div className={style.braftOutputContent} dangerouslySetInnerHTML={{__html: props.html}}></div>
+    <div
+      className="rich-text-content"
+      dangerouslySetInnerHTML={{ __html: html }}
+      style={style}
+    />
   );
 }
