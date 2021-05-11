@@ -9,6 +9,7 @@ import { dataURLtoFile, ossClient } from '@/utils';
 import { v4 as uuidv4 } from 'uuid';
 import { childrenModel } from '@/utils/bridge';
 import config from '@/config';
+import FileSaver from 'file-saver';
 
 export default function() {
   const { pageId, pageSchema, selectPage, setStateByObjectKeys } = useModel('bridge');
@@ -44,10 +45,10 @@ export default function() {
   };
 
   const onSave = async function() {
-    if(pageSchema.length === 0){
+    if (pageSchema.length === 0) {
       return message.error('请新建页面后再保存！');
     }
-    if(selectPage.components.length === 0){
+    if (selectPage.components.length === 0) {
       return message.error('至少添加一个组件后再保存！');
     }
     const res = await save();
@@ -59,7 +60,7 @@ export default function() {
   };
 
   const onVisibleChange = async function() {
-    if(pageSchema.length === 0){
+    if (pageSchema.length === 0) {
       return message.error('请新建页面后再操作！');
     }
     toggle();
@@ -73,14 +74,20 @@ export default function() {
 
   const overviewContent = (
     <div className="overview-qrcode">
-      <img className="overview-qrcode-img" src={qrcodeUrl}/>
+      <img className="overview-qrcode-img" src={qrcodeUrl} />
     </div>
   );
+
+  const exportJson = function() {
+    const blob = new Blob([JSON.stringify(pageSchema)], { type: 'application/json' });
+    console.log('pageSchema: ', pageSchema);
+    FileSaver.saveAs(blob, `${pageSchema[0].props.title}.json`);
+  };
 
   return (
     <div className="design-header">
       <div className="design-header-operations">
-        <div className="item" onClick={()=>{history.push('/manage/page');}}>
+        <div className="item" onClick={() => { history.push('/manage/page'); }}>
           <i className="iconfont icon-shouye" />
           <div className="text" >首页</div>
         </div>
@@ -104,11 +111,16 @@ export default function() {
             <div className="text">预览</div>
           </div>
         </Popover> */}
-        <div className="item">
+        <div className="item" onClick={exportJson}>
           <i className="iconfont icon-json" />
           <div className="text">导出</div>
         </div>
-        <div className="item" onClick={()=>{window.open('https://github.com/lx544690189/scorpio-h5-design');}}>
+        {/* <div className="item">
+          <i className="iconfont icon-html" />
+          <div className="text">下载</div>
+          <i className="iconfont icon-new" style={{position: 'absolute', color: 'red', right: 0, top: 0}}/>
+        </div> */}
+        <div className="item" onClick={() => { window.open('https://github.com/lx544690189/scorpio-h5-design'); }}>
           <i className="iconfont icon-github-fill" />
           <div className="text">GITHUB</div>
         </div>
