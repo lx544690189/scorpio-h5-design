@@ -25,14 +25,14 @@ export default function() {
         ) : (
           pageSchema.map((item, index)=>(
             <div
-              key={item.config.path}
+              key={item.props.path}
               className={classnames('page-card', {select: selectPageIndex === index})}
             >
               <img
                 className="page-card-cover"
                 src={item.coverSnapshot ?? item.cover ?? 'https://carpooling-1256959311.cos.ap-chengdu.myqcloud.com/d6bc039b-04ea-49ca-8ee9-a006aec7c443.png'}
               />
-              <div className="title">{item.config.title}</div>
+              <div className="title">{item.props.title}</div>
             </div>
           ))
         )

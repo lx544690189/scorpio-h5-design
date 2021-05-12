@@ -5,15 +5,14 @@ import ColorPicker from '../ColorPicker';
 
 export default function Border() {
   const { selectComponent, changeContainerPropsState } = useModel('bridge');
-  const { containerProps } = selectComponent;
-  const { borderColor, borderWidth, borderStyle, borderRadius } = containerProps ?? {};
+  const { borderColor, borderWidth, borderStyle, borderRadius } = selectComponent?.containerProps ?? {};
 
   return (
     <Descriptions column={1}>
       <Descriptions.Item label="圆角">
         <InputNumber
           formatter={(value) => `${value}px`}
-          parser={(value) => (value ?? '').replace('px', '')}
+          parser={(value) => Number((value ?? '').replace('px', ''))}
           value={borderRadius ?? 0}
           onChange={(value) => { changeContainerPropsState('borderRadius', value); }}
         />

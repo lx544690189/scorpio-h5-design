@@ -13,17 +13,19 @@ import MobileSimulator from '@/components/MobileSimulator';
 import BaseLayoutConfig from '@/components/BaseLayoutConfig';
 import { v4 as uuidv4 } from 'uuid';
 import { dataURLtoFile, ossClient } from '@/utils';
+import { IComponentSchema } from '@/types/schema';
 
 const { TabPane } = Tabs;
 
 const ComponentDetail = function() {
   const { setStateByObjectKeys, pageSchema, selectComponent } = useModel('bridge');
+  const component = selectComponent as IComponentSchema;
   const { onSubmit, loading } = Model.useContainer();
   const SchemaRef = useRef<{ getValue: () => any }>(null);
 
   function onTabChange(key: string) {
     if (key === 'form') {
-      selectComponent.generatorSchema = SchemaRef.current?.getValue();
+      component.generatorSchema = SchemaRef.current?.getValue();
       const state = {
         pageSchema: [...pageSchema],
       };
@@ -38,13 +40,13 @@ const ComponentDetail = function() {
   }
 
   async function handelSubmit() {
-    selectComponent.generatorSchema = SchemaRef.current?.getValue();
+    component.generatorSchema = SchemaRef.current?.getValue();
     const dataURL = await window.postmate_mobile.get(childrenModel.CAPTURE);
     if (dataURL) {
       const file = dataURLtoFile(dataURL, new Date().getTime().toString());
       const fileName = `${uuidv4()}.png`;
       await ossClient.put(`design/${fileName}`, file);
-      selectComponent.cover = `https://scorpio-design.lxzyl.cn/design/${fileName}`;
+      component.cover = `https://scorpio-design.lxzyl.cn/design/${fileName}`;
     }
     onSubmit();
   }
@@ -71,7 +73,7 @@ const ComponentDetail = function() {
         <div className="left">
           <MobileSimulator loading={loading}/>
         </div>
-        {selectComponent && <div className="right">
+        <div className="right">
           <Tabs
             className="manage-component-detail-tabs"
             defaultActiveKey="1"
@@ -91,7 +93,7 @@ const ComponentDetail = function() {
               <BaseLayoutConfig />
             </TabPane>
           </Tabs>
-        </div>}
+        </div>
       </div>
     </Spin>
   );

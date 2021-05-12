@@ -4,7 +4,14 @@ import { Player } from 'video-react';
 import 'video-react/dist/video-react.css';
 import style from './index.less';
 
-export default function(props:any) {
+interface IProps {
+  width?: number;
+  height?: number;
+  srcOrigin: string;
+  poster: string;
+}
+
+export default function(props:IProps) {
   const {srcOrigin, width, height, poster} = props;
   return (
     <div className={style.videoContainer}>

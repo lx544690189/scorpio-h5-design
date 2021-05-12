@@ -1,5 +1,6 @@
 import { request } from 'umi';
 import config from '@/config';
+import { IComponentSchema } from '@/types/schema';
 
 const HOST = config.api;
 
@@ -72,14 +73,7 @@ export async function queryComponentDetail(data: {
   });
 }
 
-export async function editComponent(data: {
-  _id: string;
-  name: string;
-  cover: string;
-  generatorSchema?: string;
-  props?: string;
-  containerProps?: string;
-}) {
+export async function editComponent(data: IComponentSchema) {
   return request(`${HOST}/component/edit`, {
     method: 'post',
     data,

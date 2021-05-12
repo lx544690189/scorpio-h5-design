@@ -11,8 +11,7 @@ enum FILL_TYPE {
 
 export default function Background() {
   const { selectComponent, changeContainerPropsState } = useModel('bridge');
-  const { containerProps } = selectComponent;
-  const { backgroundImage, backgroundColor, backgroundSize, backgroundRepeat } = containerProps ?? {};
+  const { backgroundImage, backgroundColor, backgroundSize, backgroundRepeat } = selectComponent?.containerProps ?? {};
 
   const [backgroundFillType, setBackgroundFillType] = useState(FILL_TYPE.color);
 
@@ -47,7 +46,7 @@ export default function Background() {
           <Descriptions.Item label="图片">
             <ImageUpload
               value={backgroundImage}
-              onChange={(name, value) => { changeContainerPropsState('backgroundImage', value); }}
+              onChange={(value) => { changeContainerPropsState('backgroundImage', value); }}
             />
           </Descriptions.Item>
           <Descriptions.Item label="尺寸">

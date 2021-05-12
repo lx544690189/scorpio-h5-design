@@ -8,6 +8,7 @@ import { useBoolean } from 'ahooks';
 import { sleep } from '@/utils';
 import Postmate from 'Postmate';
 import config from '@/config';
+import { IComponentSchema } from '@/types/schema';
 
 export default createContainer(() => {
   const { setStateByObjectKeys, selectComponent } = useModel('bridge');
@@ -51,6 +52,7 @@ export default createContainer(() => {
         selectPageIndex: 0,
         selectComponentId,
       };
+      // @ts-expect-error
       setStateByObjectKeys(state, false);
       await sleep(100);
       const handshake = new Postmate({
@@ -83,7 +85,7 @@ export default createContainer(() => {
   }, []);
 
   const onSubmit = async function(){
-    await editComponentDetailReq.run(selectComponent);
+    await editComponentDetailReq.run(<IComponentSchema>selectComponent);
     history.goBack();
   };
 

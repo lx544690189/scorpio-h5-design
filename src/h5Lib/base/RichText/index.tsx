@@ -1,9 +1,13 @@
 import React from 'react';
 
-export default function(props: any) {
-  console.log('props: ', props);
+interface IProps {
+  height?: number;
+  html: string;
+}
+
+export default function(props: IProps) {
   const { height, html } = props;
-  const style: any = {};
+  const style:any = {};
   if(height && height > 0){
     style.overflowY = 'auto';
     style.height = height;

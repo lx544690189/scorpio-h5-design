@@ -2,10 +2,12 @@ import React, { useEffect } from 'react';
 import { useForm } from 'form-render';
 import { useModel } from 'umi';
 import FormRenderWithWidgets from '@/components/FormRenderWithWidgets';
+import { IComponentSchema } from '@/types/schema';
 
 const App = () => {
   const { pageSchema, selectComponent, setStateByObjectKeys } = useModel('bridge');
-  const { generatorSchema, props } = selectComponent;
+  const component = selectComponent as IComponentSchema;
+  const { generatorSchema, props } = component;
   const form = useForm();
 
   useEffect(() => {
@@ -14,7 +16,7 @@ const App = () => {
 
   const watch = {
     '#': (values: any) => {
-      selectComponent.props = values;
+      component.props = values;
       setStateByObjectKeys({
         pageSchema: [...pageSchema],
       });
@@ -22,6 +24,7 @@ const App = () => {
   };
 
   return (
+    // @ts-expect-error
     <FormRenderWithWidgets
       form={form}
       watch={watch}

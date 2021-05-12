@@ -10,15 +10,15 @@ enum BOX_SHADOW_TYPE {
 
 export default function Shadow() {
   const { selectComponent, changeContainerPropsState } = useModel('bridge');
-  const { containerProps } = selectComponent;
+  const { containerProps } = selectComponent || {};
   const { boxShadow } = containerProps ?? {};
 
-  let computedBoxShadow = boxShadow;
+  let computedBoxShadow = boxShadow as string;
   if (!boxShadow) {
     computedBoxShadow = 'rgba(255,255,255,0) 0px 0px 0px 0px';
   }
-  const arrayBoxShadow = computedBoxShadow.split(' ');
-  const boxShadowType = /inset/.test(boxShadow) ? BOX_SHADOW_TYPE.inset : BOX_SHADOW_TYPE.outside;
+  const arrayBoxShadow = computedBoxShadow.split(' ') as string[];
+  const boxShadowType = /inset/.test(boxShadow as string) ? BOX_SHADOW_TYPE.inset : BOX_SHADOW_TYPE.outside;
   const [color, boxShadowX, boxShadowY, boxShadowRadius] = arrayBoxShadow;
 
   const onBoxShadowTypeChange = function(type: BOX_SHADOW_TYPE) {
@@ -33,7 +33,8 @@ export default function Shadow() {
   };
 
   const changeShadowState = function(index: number, value: string | number | undefined) {
-    arrayBoxShadow[index] =index === 0 ? value : `${value ?? 0}px`;
+    // @ts-expect-error
+    arrayBoxShadow[index] = index === 0 ? value : `${value ?? 0}px`;
     changeContainerPropsState('boxShadow', arrayBoxShadow.join(' '));
   };
 

@@ -4,8 +4,9 @@ import './index.less';
 
 export default function() {
   const { selectComponent, pageSchema, setStateByObjectKeys} = useModel('bridge');
-  const {containerProps} = selectComponent;
+  const { containerProps } = selectComponent || {};
   const handleChange = function(value: string, key1: 'margin' | 'padding', key2: 'top' | 'right' | 'bottom' | 'left') {
+    if(!selectComponent)return;
     if(!selectComponent.containerProps){
       selectComponent.containerProps = {
         margin: {},
@@ -18,6 +19,7 @@ export default function() {
     if(!selectComponent.containerProps.padding){
       selectComponent.containerProps.padding = {};
     }
+    // @ts-expect-error
     selectComponent.containerProps[key1][key2] = value;
     setStateByObjectKeys({
       pageSchema: [...pageSchema],

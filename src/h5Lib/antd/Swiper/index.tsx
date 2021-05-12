@@ -1,7 +1,20 @@
 import React from 'react';
 import { Carousel } from 'antd-mobile';
 
-export default function(props: any) {
+interface IProps {
+  imgList: {
+    href: string;
+    imgUrl: string;
+  }[];
+  autoplay: boolean | undefined;
+  dots: boolean | undefined;
+  vertical: boolean | undefined;
+  infinite: boolean | undefined;
+  swipeSpeed: number | undefined;
+  height: number;
+}
+
+export default function(props: IProps) {
   const { imgList = [], autoplay, dots, vertical, infinite, swipeSpeed, height } = props;
   return (
     <Carousel
@@ -11,7 +24,7 @@ export default function(props: any) {
       infinite={infinite}
       swipeSpeed={swipeSpeed}
     >
-      {imgList.map((item:any, index:number) => (
+      {imgList.map((item, index) => (
         <a
           key={index}
           href={item.href}

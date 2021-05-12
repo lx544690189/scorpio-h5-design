@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 // import MonacoEditor from 'react-monaco-editor';
+// @ts-expect-error
 import parseJson from 'json-parse-better-errors';
 import { useModel } from 'umi';
 import Loadable from 'react-loadable';

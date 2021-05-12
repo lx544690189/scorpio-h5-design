@@ -45,6 +45,10 @@ export default function() {
     queryPageListReq.refresh();
   };
 
+  const downloadHtml = function(item:any){
+    //
+  };
+
 
   return (
     <PageHeader
@@ -76,8 +80,11 @@ export default function() {
                         onMouseEnter={()=>{onMouseEnter(item._id);}}
                       >
                         <img className="page-card-pop-qrcode" src={qrcodeUrl}/>
-                        <Button className="page-card-pop-btn" type="dashed" onClick={()=>{onEditPage(item);}}>编辑</Button>
-                        <Button className="page-card-pop-btn" type="dashed" onClick={()=>{toggleTemplate(item);}}>{item.isTemplate ? '取消模板' : '设为模板'}</Button>
+                        <Button className="page-card-pop-btn" type="dashed" size="small" onClick={()=>{onEditPage(item);}}>编辑</Button>
+                        <Button className="page-card-pop-btn" type="dashed" size="small" onClick={()=>{toggleTemplate(item);}}>{item.isTemplate ? '取消模板' : '设为模板'}</Button>
+                        <Button className="page-card-pop-btn" type="dashed" size="small" onClick={()=>{downloadHtml(item);}}>
+                          下载到本地
+                        </Button>
                       </div>
                     </div>
                   }

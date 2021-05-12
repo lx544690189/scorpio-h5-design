@@ -13,7 +13,7 @@ interface IProps {
 }
 
 export default function(props: IProps) {
-  const [scrollTop, setScrollTop] = useState<any>(0);
+  const [scrollTop, setScrollTop] = useState<number>(0);
   const { selectComponentId, pageSchema, setStateByObjectKeys, showSelectComponentBorder } = useModel('bridge');
   const maxHight = props.size.height - 90;
   const style = {
@@ -24,8 +24,8 @@ export default function(props: IProps) {
     if(props.loading === false && window.frames['mobile']){
       // @ts-expect-error
       const childWindow = window.frames['mobile'];
-      const h5Canvas = childWindow.document.querySelector('.h5-canvas');
-      const onscroll = function(e:any){
+      const h5Canvas: Element = childWindow.document.querySelector('.h5-canvas');
+      const onscroll = function(){
         // setScrollTop(e.target.scrollTop);
         const selectElement = childWindow.document.querySelector('.h5-canvas-block.isSelected');
         if(selectElement){
@@ -78,7 +78,7 @@ export default function(props: IProps) {
     if(!selectComponentId){
       return message.info('请选选取一个组件');
     }
-    pageSchema[0].components = pageSchema[0].components.filter((item:any)=>item.uuid !== selectComponentId);
+    pageSchema[0].components = pageSchema[0].components.filter((item)=>item.uuid !== selectComponentId);
     console.log('pageSchema: ', pageSchema);
     setStateByObjectKeys({
       pageSchema: [...pageSchema],

@@ -1,8 +1,13 @@
 import { Toast } from 'antd-mobile';
 import React from 'react';
 import style from './index.less';
+interface IProps {
+  mainColor: string;
+  fontColor: string;
+  imgUrl: string;
+}
 
-export default function(props:any) {
+export default function(props:IProps) {
   const {mainColor, fontColor, imgUrl} = props;
   return (
     <div className={style.loginContainer}>

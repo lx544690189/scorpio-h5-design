@@ -1,3 +1,4 @@
+import { IComponentSchema, IPageSchema } from '@/types/schema';
 import { IMessageType, isMobile, syncState } from '@/utils/bridge';
 import { useState } from 'react';
 import { DropResult } from 'react-beautiful-dnd';
@@ -10,25 +11,21 @@ export default function bridge() {
   /** 是否拖拽中 */
   const [isDraging, setIsDraging] = useState(false);
   /** 当前拖拽的组件 */
-  const [dragComponent, setDragComponent] = useState(undefined);
+  const [dragComponent, setDragComponent] = useState<IComponentSchema | undefined>(undefined);
   /** 页面id */
   const [pageId, setPageId] = useState<string>();
   /** 页面结构schema */
-  const [pageSchema, setPageSchema] = useState<any[]>([]);
+  const [pageSchema, setPageSchema] = useState<IPageSchema[]>([]);
   /** TODO: 使用索引不太好（若增加页面排序） */
   const [selectPageIndex, setSelectPageIndex] = useState(-1);
   /** 当前拖拽元素即将插入的位置索引（从0开始，-1为初始值） */
   const [dragingComponentIndex, setDragingComponentIndex] = useState(-1);
-  /** 当前选中的组件的getBoundingClientRect值 */
-  const [selectComponentDomReact, setSelectComponentDomReact] = useState();
-  /** 当前选中的组件高度 */
-  const [selectComponentRect, setSelectComponentRect] = useState();
   /** 当前选中的组件 */
-  const [selectComponentId, setSelectComponentId] = useState<any>(undefined);
+  const [selectComponentId, setSelectComponentId] = useState<string | undefined>(undefined);
   /** 是否显示选中组件边界 */
   const [showSelectComponentBorder, setShowSelectComponentBorder] = useState(() => window.localStorage.getItem('selectArea_borderVisible') !== 'false');
   const selectPage = pageSchema[selectPageIndex];
-  const selectComponent = (selectPage && selectComponentId) ? pageSchema[selectPageIndex].components.find((item: any) => item.uuid === selectComponentId) : undefined;
+  const selectComponent = (selectPage && selectComponentId) ? pageSchema[selectPageIndex].components.find((item) => item.uuid === selectComponentId) : undefined;
 
   /**
    * 根据对象更新state
@@ -37,12 +34,11 @@ export default function bridge() {
    */
   const setStateByObjectKeys = function(state: {
     isDraging?: boolean;
-    dragComponent?: any;
+    dragComponent?: IComponentSchema;
     pageId?: string;
-    pageSchema?: any[];
+    pageSchema?: IPageSchema[];
     selectPageIndex?: number;
     selectComponentId?: string;
-    selectComponentRect?: any;
     dragingComponentIndex?: number;
     showSelectComponentBorder?: boolean;
   }, isSyncState = true) {
@@ -69,9 +65,6 @@ export default function bridge() {
       if (key === 'selectComponentId') {
         setSelectComponentId(state.selectComponentId);
       }
-      if (key === 'selectComponentRect') {
-        setSelectComponentRect(state.selectComponentRect);
-      }
       if (key === 'dragingComponentIndex') {
         // @ts-expect-error
         setDragingComponentIndex(state.dragingComponentIndex);
@@ -95,7 +88,7 @@ export default function bridge() {
   };
 
   // 组件拖拽开始
-  const onDragStart = function(component: any) {
+  const onDragStart = function(component: IComponentSchema) {
     // 组件增加唯一标识
     component.uuid = uuidv4();
     setStateByObjectKeys({
@@ -128,8 +121,8 @@ export default function bridge() {
   /** 拖拽-放置 */
   const onDrop = function(ev: React.DragEvent<HTMLDivElement>, index: number) {
     ev.preventDefault();
-    const components: any[] = pageSchema[selectPageIndex].components;
-    components.splice(index, 0, dragComponent);
+    const components = pageSchema[selectPageIndex].components;
+    components.splice(index, 0, dragComponent as IComponentSchema);
     setStateByObjectKeys({
       dragingComponentIndex: -1,
       dragComponent: undefined,
@@ -138,7 +131,7 @@ export default function bridge() {
   };
 
   /** 重排 */
-  const reorder = (components: any, startIndex: number, endIndex: number) => {
+  const reorder = (components: IComponentSchema[], startIndex: number, endIndex: number) => {
     const result = Array.from(components);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
@@ -149,7 +142,7 @@ export default function bridge() {
    * 排序拖拽-放置
    * @TODO 视图会闪烁
   */
-  const onSortEnd = function(result: DropResult, currentPageComponents: any[]) {
+  const onSortEnd = function(result: DropResult, currentPageComponents: IComponentSchema[]) {
     if (!result.destination) {
       return;
     }
@@ -162,14 +155,15 @@ export default function bridge() {
 
   /** 选中组件 */
   const onSelectComponent = function(id: string) {
-    if(selectComponentId !== id){
+    if (selectComponentId !== id) {
       setStateByObjectKeys({
         selectComponentId: id,
       });
     }
   };
 
-  const changeContainerPropsState = function(key: string, value: any) {
+  const changeContainerPropsState = function(key: string, value: unknown) {
+    // @ts-expect-error
     selectComponent.containerProps[key] = value;
     setStateByObjectKeys({
       pageSchema: [...pageSchema],
@@ -193,9 +187,6 @@ export default function bridge() {
     onSortEnd,
     selectComponent,
     changeContainerPropsState,
-    selectComponentDomReact,
-    setSelectComponentDomReact,
-    selectComponentRect,
     selectComponentId,
     showSelectComponentBorder,
     selectPage,

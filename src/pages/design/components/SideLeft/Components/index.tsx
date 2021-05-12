@@ -3,6 +3,7 @@ import { Tabs, notification, Row, Col } from 'antd';
 import './index.less';
 import { useModel } from 'umi';
 import Model from '../model';
+import { IComponentSchema } from '@/types/schema';
 
 const { TabPane } = Tabs;
 
@@ -11,7 +12,7 @@ const Components = function() {
   const { onDragStart, onDragEnd, pageSchema } = useModel('bridge');
   const { queryAllWithComponent } = Model.useContainer();
 
-  const dragStart = function(item: any) {
+  const dragStart = function(item: IComponentSchema) {
     if (pageSchema.length === 0) {
       notification.error({
         message: '请先创建一个页面',

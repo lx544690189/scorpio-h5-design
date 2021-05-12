@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import 'babel-polyfill';
 import componentList from '../h5Lib';
 import Container from './Container';
-import { IPageSchema } from './typings';
+import { IPageSchema } from '@/types/schema';
 
 /**
  * 通过url携带的schema标识，获取schema
@@ -27,16 +27,23 @@ const getSchemaByHtmlConstant = function() {
   return window.__pageSchema;
 };
 
+type ITask={
+  _id: string;
+  name: string;
+  component: JSX.Element;
+  takeUp: number;
+};
+
 /**
  * 异步加载组件
  * - 不要用字符串模板去匹配组件路径，而是通过id做好映射，这样打包工具才知道如何拆分代码
  * @param pageSchema
  */
 const fetchComponents = async function(pageSchema: IPageSchema[]) {
-  const tasks: any[] = [];
-  pageSchema.forEach((page: any) => {
-    page.components.forEach((component: any) => {
-      const load = new Promise(async(resolve, reject) => {
+  const tasks: Promise<ITask>[] = [];
+  pageSchema.forEach((page) => {
+    page.components.forEach((component) => {
+      const load:Promise<ITask> = new Promise(async(resolve, reject) => {
         // @ts-expect-error
         const asyncComponent = componentList[component._id];
         if (asyncComponent) {
@@ -64,19 +71,22 @@ const fetchComponents = async function(pageSchema: IPageSchema[]) {
 };
 
 // 获取页面组件
-const renderComponent = function(pagesSchema: any, loadedComponents: any) {
+const renderComponent = function(pagesSchema: IPageSchema[], loadedComponents: ITask[]) {
   const page = pagesSchema[0];
-  return page.components.map((component: any) => {
-    const Cop = loadedComponents.find((item: any) => item._id === component._id).component;
-    return (
-      <Container
-        key={component.uuid}
-        containerProps={component.containerProps}
-        componentProps={component.props}
-      >
-        <Cop {...component.props} />
-      </Container>
-    );
+  return page.components.map((component) => {
+    const Cop = loadedComponents.find((item) => item._id === component._id)?.component;
+    if(Cop){
+      return (
+        <Container
+          key={component.uuid}
+          containerProps={component.containerProps}
+          componentProps={component.props}
+        >
+          <Cop {...component.props} />
+        </Container>
+      );
+    }
+    return null;
   });
 };
 
@@ -90,7 +100,7 @@ const renderComponent = function(pagesSchema: any, loadedComponents: any) {
   }
   const loadedComponents = await fetchComponents(pagesSchema);
   console.log('-----异步组件加载耗时统计-----');
-  console.log(loadedComponents.map((item: any) => `<${item.name}> ${item.takeUp} ms`).join('\n'));
+  console.log(loadedComponents.map((item) => `<${item.name}> ${item.takeUp} ms`).join('\n'));
   console.log('-----异步组件加载耗时统计-----');
   ReactDOM.render(<div className="container">{renderComponent(pagesSchema, loadedComponents)}</div>,
     document.getElementById('root')

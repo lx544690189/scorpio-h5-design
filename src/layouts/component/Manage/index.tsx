@@ -1,13 +1,14 @@
 import { Menu, PageHeader } from 'antd';
-import { history, useModel } from 'umi';
-import { AppstoreOutlined, MailOutlined, SettingOutlined, PieChartOutlined } from '@ant-design/icons';
+import { history } from 'umi';
+import { PieChartOutlined } from '@ant-design/icons';
 import React from 'react';
 import './index.less';
 
-export default function(props: any) {
-  const { SubMenu } = Menu;
+export default function(props: {
+  children: React.ReactChild;
+}) {
 
-  const onMenuClick = function({key}:any) {
+  const onMenuClick = function(key: string) {
     history.push(key);
   };
 
@@ -18,7 +19,7 @@ export default function(props: any) {
           defaultSelectedKeys={['1']}
           defaultOpenKeys={['sub1']}
           mode="inline"
-          onSelect={onMenuClick}
+          onSelect={(info) => { onMenuClick(info.key as string); }}
         >
           <Menu.Item key="/manage/page" icon={<PieChartOutlined />}>
             页面搭建

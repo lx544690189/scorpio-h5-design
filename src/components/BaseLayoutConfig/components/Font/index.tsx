@@ -5,8 +5,7 @@ import ColorPicker from '../ColorPicker';
 
 export default function Font() {
   const { selectComponent, changeContainerPropsState } = useModel('bridge');
-  const { containerProps } = selectComponent;
-  const { color, fontSize, fontWeight } = containerProps ?? {};
+  const { color, fontSize, fontWeight } = selectComponent?.containerProps ?? {};
 
   return (
     <Descriptions column={1}>
@@ -27,7 +26,7 @@ export default function Font() {
           </Select>
           <InputNumber
             formatter={(value) => `${value}px`}
-            parser={(value) => (value ?? '').replace('px', '')}
+            parser={(value) => Number((value ?? '').replace('px', ''))}
             value={fontSize ?? 30}
             onChange={(value) => { changeContainerPropsState('fontSize', value); }}
           />

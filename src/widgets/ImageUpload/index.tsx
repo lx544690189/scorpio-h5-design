@@ -7,7 +7,7 @@ import './index.less';
 
 interface IProps {
   name?: string;
-  value: string;
+  value?: string;
   onChange: (value: string) => void
 }
 
